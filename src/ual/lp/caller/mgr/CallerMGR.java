@@ -17,11 +17,13 @@ public class CallerMGR implements CallerInf{
 
     @Override
     public void callTicket() {
+        //Aceder a um método do servidor para chamar uma senha e imprimi-la na aplicação.
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void knowNextCallTicket() {
+        //Thread(?) para saber qual será a próxima senha a ser chamada?
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -32,6 +34,11 @@ public class CallerMGR implements CallerInf{
 
     @Override
     public void departmentTransfer(Department[] departments) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void numberPeopleWaiting(int qtd) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
