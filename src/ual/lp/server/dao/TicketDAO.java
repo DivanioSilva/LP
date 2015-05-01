@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ual.lp.caller.gui;
+package ual.lp.server.dao;
 
 /**
  *
- * @author dsilva
+ * @author Divanio Silva, Pedro Almeida e Pedro Tomás
  */
-public class NewClass {
+public class TicketDAO {
     
 }

@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ual.lp.caller.objects;
+package ual.lp.server.objects;
 
 import java.sql.Time;
 import java.util.Date;
 
 /**
  *
- * @author Divanio Silva
+ * @author Divanio Silva, Pedro Almeida e Pedro Tomás
  */
 public class Ticket {
     private int idTicket;
@@ -91,5 +91,4 @@ public class Ticket {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
-    
 }

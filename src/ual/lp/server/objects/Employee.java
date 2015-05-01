@@ -3,33 +3,32 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ual.lp.caller.objects;
+package ual.lp.server.objects;
 
 /**
  *
- * @author Divanio Silva
+ * @author Divanio Silva, Pedro Almeida e Pedro Tomás
  */
 public class Employee {
     private int empNumber;
     private String name;
-    private String department;
+    private Department department;
 
     public Employee() {
     }
 
-    public Employee(int empNumber, String name, String department) {
+    public Employee(int empNumber, String name, Department department) {
         this.empNumber = empNumber;
         this.name = name;
         this.department = department;
     }
+
 
     @Override
     public String toString() {
         String out = "That´s magic!!! Sou um objecto do tipo Employee :-)";
         return out;
     }
-    
-    
 
     /**
      * @return the empNumber
@@ -59,17 +58,4 @@ public class Employee {
         this.name = name;
     }
 
-    /**
-     * @return the department
-     */
-    public String getDepartment() {
-        return department;
-    }
-
-    /**
-     * @param department the department to set
-     */
-    public void setDepartment(String department) {
-        this.department = department;
-    }
 }
