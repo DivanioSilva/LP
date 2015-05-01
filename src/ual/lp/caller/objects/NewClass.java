@@ -9,6 +9,6 @@ package ual.lp.caller.objects;
  *
  * @author Divanio Silva
  */
-public class Pessoa {
+public class NewClass {
     
 }
