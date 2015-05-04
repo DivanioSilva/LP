@@ -10,5 +10,7 @@ package newpackage_Teste_Pedro;
  * @author Pedro
  */
 public class NewClass {
-    
+    public static void main(String[] args) {
+        System.out.println("Testando a nova classe do PT");
+    }
 }
