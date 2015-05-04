@@ -12,17 +12,17 @@ package ual.lp.server.objects;
 public class Employee {
     private int empNumber;
     private String name;
-    private Department department;
+    private String department;
+//    private Department department;
 
     public Employee() {
     }
 
-    public Employee(int empNumber, String name, Department department) {
+    public Employee(int empNumber, String name, String department) {
         this.empNumber = empNumber;
         this.name = name;
         this.department = department;
     }
-
 
     @Override
     public String toString() {
@@ -56,6 +56,20 @@ public class Employee {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * @return the department
+     */
+    public String getDepartment() {
+        return department;
+    }
+
+    /**
+     * @param department the department to set
+     */
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
 }
