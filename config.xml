@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<beans>
+   <bean id="employeeData" class="ual.lp.server.objects">
+        <property name="config"><!--Ver o método da classe que receberá os dados, constructor??? -->
+            <props>
+                <prop key="adminUsers">proflory,profdivanio,pcabrita,lfpinto,pguimaraes,jhgoncalves,peesteves,acalmeida</prop>
+                <prop key="maxPagePrint">2</prop>
+            </props>
+        </property>
+    </bean>
+</beans>
