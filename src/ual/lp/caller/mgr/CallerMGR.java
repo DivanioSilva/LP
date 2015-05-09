@@ -6,7 +6,6 @@
 package ual.lp.caller.mgr;
 
 import ual.lp.caller.inf.CallerInf;
-import ual.lp.server.objects.Department;
 import ual.lp.server.objects.Employee;
 
 /**
@@ -21,24 +20,29 @@ public class CallerMGR implements CallerInf{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void knowNextCallTicket() {
-        //Thread(?) para saber qual será a próxima senha a ser chamada?
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    @Override
+//    public void knowNextCallTicket() {
+//        //Thread(?) para saber qual será a próxima senha a ser chamada?
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 
     @Override
     public void colleagueTransfer(Employee[] employees) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void departmentTransfer(Department[] departments) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    @Override
+//    public void departmentTransfer(Department[] departments) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+
+//    @Override
+//    public void numberPeopleWaiting(int qtd) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 
     @Override
-    public void numberPeopleWaiting(int qtd) {
+    public void showNextCallTicket() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
