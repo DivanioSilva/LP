@@ -91,4 +91,18 @@ public class Ticket {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
+
+    /**
+     * @param idTicket the idTicket to set
+     */
+    public void setIdTicket(int idTicket) {
+        this.idTicket = idTicket;
+    }
+
+    /**
+     * @param numberTicket the numberTicket to set
+     */
+    public void setNumberTicket(String numberTicket) {
+        this.numberTicket = numberTicket;
+    }
 }

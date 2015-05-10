@@ -5,17 +5,28 @@
  */
 package ual.lp.caller.mgr;
 
+import javax.swing.JOptionPane;
+import ual.lp.caller.dataSource.EmployeeSource;
+import ual.lp.caller.dataSource.TicketSource;
 import ual.lp.caller.inf.CallerInf;
-import ual.lp.server.objects.Employee;
 
 /**
  *
  * @author Divanio Silva, Pedro Almeida e Pedro Tomás
  */
-public class CallerMGR implements CallerInf{
+public class CallerMGR implements CallerInf {
+    private EmployeeSource empData;
+    private TicketSource ticketSource;
 
+    public CallerMGR() {
+        empData = new EmployeeSource();
+        ticketSource = new TicketSource();
+    }
+    
+    
+    
     @Override
-    public void callTicket() {
+    public String callTicket() {
         //Aceder a um método do servidor para chamar uma senha e imprimi-la na aplicação.
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -25,25 +36,68 @@ public class CallerMGR implements CallerInf{
 //        //Thread(?) para saber qual será a próxima senha a ser chamada?
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
-
+    
+    //Devolvo o ArrayList???
     @Override
-    public void colleagueTransfer(Employee[] employees) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public EmployeeSource colleagueList() {
+        //Testando a estrutura que irei receber do server.
+//        empData = new EmployeeSource();
+        
+        
+        int qtd = empData.getData().size();
+
+        System.out.println("MGR imprime: ");
+        for (int i = 0; i < qtd; i++) {
+            System.out.println("Nome: " + empData.getData().get(i).getName() + ", dpt " + empData.getData().get(i).getDepartment());
+        }
+        return empData;
     }
 
 //    @Override
 //    public void departmentTransfer(Department[] departments) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
-
 //    @Override
 //    public void numberPeopleWaiting(int qtd) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
-
+    //devolve o próximo a ser chamado. Será impresso no caller e actualizado pelo server.
     @Override
-    public void showNextCallTicket() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String showNextCallTicket() {
+//        ticketSource = new TicketSource();
+        int qtd = ticketSource.getTickets().size();
+        String next;
+
+        try {
+            for (int i = 0; i < qtd; i++) {
+            next = ticketSource.getTickets().get(i+1).getNumberTicket();
+//                System.out.println(ticketSource.getTickets().get(i).getNumberTicket());
+            
+            return next;
+        }
+            
+        } catch (Exception e) {
+            System.err.println("Erro no método showNextCallTicket" +e.getMessage());
+        }
+        return null;
     }
     
+    public String showActualTicket(){
+        int qtd = ticketSource.getTickets().size();
+        String next;
+        
+        try {
+            for (int i = 0; i < qtd; i++) {
+            next = ticketSource.getTickets().get(i).getNumberTicket();
+//                System.out.println(ticketSource.getTickets().get(i).getNumberTicket());
+            //artifícil para simular a actualização da lista pelo server.
+            ticketSource.getTickets().remove(i);
+            return next;
+        }
+            
+        } catch (Exception e) {
+            System.err.println("Erro no método showActualTicket" +e.getMessage());
+        }
+        return null;
+    }
 }

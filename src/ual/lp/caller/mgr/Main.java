@@ -3,14 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package newpackage_Teste_Pedro;
+package ual.lp.caller.mgr;
 
 /**
  *
- * @author Pedro
+ * @author Divanio Silva
  */
-public class NewClass {
+public class Main {
     public static void main(String[] args) {
-        System.out.println("Testando a nova classe do PT");
+        
+        CallerMGR mg = new CallerMGR();
+        mg.showNextCallTicket();
+                
     }
 }
