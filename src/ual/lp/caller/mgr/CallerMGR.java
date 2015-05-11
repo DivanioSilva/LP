@@ -17,10 +17,12 @@ import ual.lp.caller.inf.CallerInf;
 public class CallerMGR implements CallerInf {
     private EmployeeSource empData;
     private TicketSource ticketSource;
+    int qtd = 0;
 
     public CallerMGR() {
         empData = new EmployeeSource();
         ticketSource = new TicketSource();
+        qtd = empData.getData().size();
     }
     
     
@@ -43,14 +45,31 @@ public class CallerMGR implements CallerInf {
         //Testando a estrutura que irei receber do server.
 //        empData = new EmployeeSource();
         
-        
-        int qtd = empData.getData().size();
-
+//        int qtd = empData.getData().size();
         System.out.println("MGR imprime: ");
+        
         for (int i = 0; i < qtd; i++) {
             System.out.println("Nome: " + empData.getData().get(i).getName() + ", dpt " + empData.getData().get(i).getDepartment());
         }
         return empData;
+    }
+    
+    public String[] employeesList(){
+//        int qtd = empData.getData().size();
+        String[] list = new String[qtd];
+        for (int i = 0; i < qtd; i++) {
+            list[i] = empData.getData().get(i).getName();
+        }
+        return list;
+    }
+    
+    public String[] deptmentList(){
+//        int qtd = empData.getData().size();
+        String[] list = new String[qtd];
+        for (int i = 0; i < qtd; i++) {
+            list[i] = empData.getData().get(i).getDepartment();
+        }
+        return list;
     }
 
 //    @Override
