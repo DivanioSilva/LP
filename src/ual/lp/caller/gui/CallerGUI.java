@@ -173,7 +173,7 @@ public class CallerGUI extends javax.swing.JFrame {
             jLabelActualTicket.setText(callerMGR.showActualTicket());
         }else{
 //            System.out.println("Valor do colega: "+ jComboBoxColegasList.getSelectedItem()+"\nValor do dept:"+jComboBoxDeptList.getSelectedItem());
-            JOptionPane.showMessageDialog(this, "Será feita a transferência para:\nValor do colega: "+ jComboBoxColegasList.getSelectedItem()+"\nValor do dept:"+jComboBoxDeptList.getSelectedItem());
+            JOptionPane.showMessageDialog(this, "Será feita a transferência para:\nColega "+ jComboBoxColegasList.getSelectedItem()+".\nDepartamento "+jComboBoxDeptList.getSelectedItem()+".");
             jComboBoxColegasList.setSelectedIndex(0);
             jComboBoxDeptList.setSelectedIndex(0);
             jLabelNextTicket.setText(callerMGR.showNextCallTicket());
