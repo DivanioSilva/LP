@@ -70,7 +70,8 @@ public class CallerGUI extends javax.swing.JFrame {
         setTitle("UAL");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setName("iSenhas - Caller"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(375, 310));
+        setPreferredSize(new java.awt.Dimension(355, 300));
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Próxima", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
@@ -107,9 +108,12 @@ public class CallerGUI extends javax.swing.JFrame {
         jLabel3.setText("Colegas");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 17, -1, -1));
 
+        jComboBoxColegasList.setMaximumRowCount(20);
         jComboBoxColegasList.setModel(new DefaultComboBoxModel(callerMGR.employeesList()));
+        jComboBoxColegasList.setToolTipText("");
         jPanel2.add(jComboBoxColegasList, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 38, 135, -1));
 
+        jComboBoxDeptList.setMaximumRowCount(20);
         jComboBoxDeptList.setModel(new DefaultComboBoxModel(callerMGR.deptmentList())
         );
         jComboBoxDeptList.addActionListener(new java.awt.event.ActionListener() {
