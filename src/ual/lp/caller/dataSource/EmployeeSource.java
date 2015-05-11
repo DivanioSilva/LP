@@ -18,6 +18,10 @@ public class EmployeeSource {
     
     public ArrayList<Employee> getData(){
         emp = new Employee();
+        emp.setName("");
+        emp.setDepartment("");
+        empList.add(emp);
+        emp = new Employee();
         emp.setName("Divanio Silva");
         emp.setDepartment("Secretaria");
         empList.add(emp);
