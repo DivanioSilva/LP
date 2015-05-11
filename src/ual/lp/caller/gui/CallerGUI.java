@@ -34,7 +34,7 @@ public class CallerGUI extends javax.swing.JFrame {
         jLabelNextTicket.setText(callerMGR.showNextCallTicket());
         jLabelActualTicket.setText(callerMGR.showActualTicket());
         //add o array todo dentro da list.
-        jComboBoxDeptList.addItem(this.callerMGR.colleagueList().getData().get(0).getName());
+        jComboBoxColegasList.addItem(this.callerMGR.colleagueList().getData().get(0).getName());
     }
 
     /**
@@ -99,7 +99,7 @@ public class CallerGUI extends javax.swing.JFrame {
         jLabel3.setText("Colegas");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 17, -1, -1));
 
-        jComboBoxColegasList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxColegasList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
         jPanel2.add(jComboBoxColegasList, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 38, 135, -1));
 
         jComboBoxDeptList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -132,13 +132,15 @@ public class CallerGUI extends javax.swing.JFrame {
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, -1, -1));
 
-        jButton1.setText("Play");
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/Play-icon120x120.png"))); // NOI18N
+        jButton1.setToolTipText("Teste do botão chamar");
+        jButton1.setContentAreaFilled(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 140, 110));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 120, 120));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
