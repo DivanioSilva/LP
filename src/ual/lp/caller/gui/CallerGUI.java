@@ -5,6 +5,7 @@
  */
 package ual.lp.caller.gui;
 
+import javax.swing.DefaultComboBoxModel;
 import ual.lp.caller.mgr.CallerMGR;
 
 /**
@@ -34,8 +35,18 @@ public class CallerGUI extends javax.swing.JFrame {
         jLabelNextTicket.setText(callerMGR.showNextCallTicket());
         jLabelActualTicket.setText(callerMGR.showActualTicket());
         //add o array todo dentro da list.
-        jComboBoxColegasList.addItem(this.callerMGR.colleagueList().getData().get(0).getName());
+        //callerMGR.colleagueList().getData().toArray())
+
+//        jComboBoxColegasList.setModel(new DefaultComboBoxModel(callerMGR.employeesList()));
+        jComboBoxColegasList.setModel(new DefaultComboBoxModel(callerMGR.employeesList()));
+        jComboBoxDeptList.setModel(new DefaultComboBoxModel(callerMGR.deptmentList()));
+//        jComboBoxColegasList.addItem(this.callerMGR.colleagueList().getData().get(0).getName());
+        
+        
+        
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
