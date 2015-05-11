@@ -6,6 +6,7 @@
 package ual.lp.caller.gui;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import ual.lp.caller.mgr.CallerMGR;
 
 /**
@@ -14,8 +15,9 @@ import ual.lp.caller.mgr.CallerMGR;
  */
 public class CallerGUI extends javax.swing.JFrame {
     //colocar um botão bonitinho do call. Imagem Play????
-    
+
     private CallerMGR callerMGR;
+
     /**
      * Creates new form CallerPanel
      */
@@ -23,30 +25,25 @@ public class CallerGUI extends javax.swing.JFrame {
         initComponents();
         initData();
     }
-    
-    public CallerGUI(CallerMGR callerMGR){
-        this.callerMGR=callerMGR;
+
+    public CallerGUI(CallerMGR callerMGR) {
+        this.callerMGR = callerMGR;
         initComponents();
         this.setLocationRelativeTo(null);
         initData();
     }
-    
-    public void initData(){
+
+    public void initData() {
         jLabelNextTicket.setText(callerMGR.showNextCallTicket());
         jLabelActualTicket.setText(callerMGR.showActualTicket());
         //add o array todo dentro da list.
         //callerMGR.colleagueList().getData().toArray())
 
 //        jComboBoxColegasList.setModel(new DefaultComboBoxModel(callerMGR.employeesList()));
-        jComboBoxColegasList.setModel(new DefaultComboBoxModel(callerMGR.employeesList()));
-        jComboBoxDeptList.setModel(new DefaultComboBoxModel(callerMGR.deptmentList()));
+////        jComboBoxColegasList.setModel(new DefaultComboBoxModel(callerMGR.employeesList()));
+//        jComboBoxDeptList.setModel(new DefaultComboBoxModel(callerMGR.deptmentList()));
 //        jComboBoxColegasList.addItem(this.callerMGR.colleagueList().getData().get(0).getName());
-        
-        
-        
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -110,10 +107,16 @@ public class CallerGUI extends javax.swing.JFrame {
         jLabel3.setText("Colegas");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 17, -1, -1));
 
-        jComboBoxColegasList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
+        jComboBoxColegasList.setModel(new DefaultComboBoxModel(callerMGR.employeesList()));
         jPanel2.add(jComboBoxColegasList, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 38, 135, -1));
 
-        jComboBoxDeptList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxDeptList.setModel(new DefaultComboBoxModel(callerMGR.deptmentList())
+        );
+        jComboBoxDeptList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxDeptListActionPerformed(evt);
+            }
+        });
         jPanel2.add(jComboBoxDeptList, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 89, 135, -1));
 
         jLabel4.setText("Departamentos");
@@ -146,6 +149,7 @@ public class CallerGUI extends javax.swing.JFrame {
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/Play-icon120x120.png"))); // NOI18N
         jButton1.setToolTipText("Teste do botão chamar");
         jButton1.setContentAreaFilled(false);
+        jButton1.setFocusCycleRoot(true);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -157,17 +161,38 @@ public class CallerGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //Testando o callerMGR para ser se funciona.
+
+        if(jComboBoxDeptList.getSelectedItem()!=""&&jComboBoxColegasList.getSelectedItem()!=""){
+//            System.out.println("Tenho os dois selecionados.");
+            JOptionPane.showMessageDialog(this, "Você não pode transferir para um colega e\n para um departamento ao mesmo tempo");
+            jComboBoxColegasList.setSelectedIndex(0);
+            jComboBoxDeptList.setSelectedIndex(0);
+        }else if(jComboBoxDeptList.getSelectedItem()==""&&jComboBoxColegasList.getSelectedItem()==""){
+//            System.out.println("Não tenho nenhum selecionado");
+            jLabelNextTicket.setText(callerMGR.showNextCallTicket());
+            jLabelActualTicket.setText(callerMGR.showActualTicket());
+        }else{
+//            System.out.println("Valor do colega: "+ jComboBoxColegasList.getSelectedItem()+"\nValor do dept:"+jComboBoxDeptList.getSelectedItem());
+            JOptionPane.showMessageDialog(this, "Será feita a transferência para:\nValor do colega: "+ jComboBoxColegasList.getSelectedItem()+"\nValor do dept:"+jComboBoxDeptList.getSelectedItem());
+            jComboBoxColegasList.setSelectedIndex(0);
+            jComboBoxDeptList.setSelectedIndex(0);
+            jLabelNextTicket.setText(callerMGR.showNextCallTicket());
+            jLabelActualTicket.setText(callerMGR.showActualTicket());
+        }
+        
+          //Testando o callerMGR para ser se funciona.
 //        callerMGR.colleagueList();
 //        jComboBoxColegasList.add(callerMGR.colleagueList());
-        jLabelNextTicket.setText(callerMGR.showNextCallTicket());
-        jLabelActualTicket.setText(callerMGR.showActualTicket());
+        
 //        System.out.println(callerMGR.showNextCallTicket());
-        
-        
+
 //        System.out.println(jComboBoxColegasList.getSelectedItem());//Faz o get do item selecionado na jList
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jComboBoxDeptListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDeptListActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxDeptListActionPerformed
 
     /**
      * @param args the command line arguments
