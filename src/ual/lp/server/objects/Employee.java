@@ -26,7 +26,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        String out = "That´s magic!!! Sou um objecto do tipo Employee :-)";
+        String out = getName();
         return out;
     }
 
