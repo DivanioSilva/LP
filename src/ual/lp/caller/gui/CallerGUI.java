@@ -64,7 +64,7 @@ public class CallerGUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabelActualTicket = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jButtonCallNext = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("UAL");
@@ -150,21 +150,21 @@ public class CallerGUI extends javax.swing.JFrame {
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, -1, -1));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/Play-icon120x120.png"))); // NOI18N
-        jButton1.setToolTipText("Teste do botão chamar");
-        jButton1.setContentAreaFilled(false);
-        jButton1.setFocusCycleRoot(true);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonCallNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/Play-icon120x120.png"))); // NOI18N
+        jButtonCallNext.setToolTipText("Teste do botão chamar");
+        jButtonCallNext.setContentAreaFilled(false);
+        jButtonCallNext.setFocusCycleRoot(true);
+        jButtonCallNext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonCallNextActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 120, 120));
+        getContentPane().add(jButtonCallNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 120, 120));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonCallNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCallNextActionPerformed
 
         if(jComboBoxDeptList.getSelectedItem()!=""&&jComboBoxColegasList.getSelectedItem()!=""){
 //            System.out.println("Tenho os dois selecionados.");
@@ -192,7 +192,7 @@ public class CallerGUI extends javax.swing.JFrame {
 
 //        System.out.println(jComboBoxColegasList.getSelectedItem());//Faz o get do item selecionado na jList
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonCallNextActionPerformed
 
     private void jComboBoxDeptListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDeptListActionPerformed
         // TODO add your handling code here:
@@ -235,7 +235,7 @@ public class CallerGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonCallNext;
     private javax.swing.JComboBox jComboBoxColegasList;
     private javax.swing.JComboBox jComboBoxDeptList;
     private javax.swing.JLabel jLabel2;
