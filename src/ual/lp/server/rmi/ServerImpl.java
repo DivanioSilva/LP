@@ -12,7 +12,7 @@ import java.rmi.server.UnicastRemoteObject;
  *
  * @author Divanio Silva
  */
-public class ServerImpl extends UnicastRemoteObject implements ServerInf{
+public class ServerImpl implements ServerInf{
 
     public ServerImpl() throws RemoteException {
     }

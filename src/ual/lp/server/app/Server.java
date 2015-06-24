@@ -7,6 +7,7 @@ package ual.lp.server.app;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import ual.lp.server.rmi.ServerImpl;
 import ual.lp.server.rmi.ServerInf;
 
@@ -19,14 +20,16 @@ public class Server {
     
     public static void main(String[] args) {
         try {
+            System.setProperty("java.rmi.server.hostname", "172.16.214.237");
             Registry registry = LocateRegistry.createRegistry(port);
             Thread.sleep(2000);
             System.out.println("O server arrancou!");
             ServerInf serverImpl = new ServerImpl();
+            UnicastRemoteObject.exportObject(serverImpl, 2500);
             registry.rebind("response", serverImpl);
 
         } catch (Exception e) {
-            System.err.println("Deu merda no server!");
+            System.err.println("Deu merda no server!" +e.getMessage());
         }
     }
 }
