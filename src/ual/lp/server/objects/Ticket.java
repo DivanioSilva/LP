@@ -30,11 +30,18 @@ public class Ticket {
         this.employee = employee;
     }
 
+    public Ticket(int idTicket, String numberTicket, Date hour) {
+        this.idTicket = idTicket;
+        this.numberTicket = numberTicket;
+        this.hour = hour;
+    }
+
     @Override
     public String toString() {
-        String out = "Cool bro! I'm an ticket!!! :-)";
-        return out;
+        return idTicket+" "+numberTicket+" "+hour; //To change body of generated methods, choose Tools | Templates.
     }
+
+    
 
     /**
      * @return the idTicket
@@ -105,4 +112,5 @@ public class Ticket {
     public void setNumberTicket(String numberTicket) {
         this.numberTicket = numberTicket;
     }
+
 }

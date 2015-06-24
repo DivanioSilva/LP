@@ -35,8 +35,8 @@ public class EmployeeDAO {
     }
     
     public Employee getEmployee(Employee employee){
-        String sql = "select * from employees where idemployees=?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{employee.getEmpNumber()}, new EmployeeMapper());
+        String sql = "select * from employees where name=?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{employee.getName()}, new EmployeeMapper());
     }
     
     private static final class EmployeeMapper implements RowMapper<Employee>{

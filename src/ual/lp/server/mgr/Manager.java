@@ -5,10 +5,13 @@
  */
 package ual.lp.server.mgr;
 
+import java.util.List;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ual.lp.server.dao.EmployeeDAO;
+import ual.lp.server.dao.TicketDAO;
 import ual.lp.server.objects.Employee;
+import ual.lp.server.objects.Ticket;
 
 /**
  *
@@ -17,11 +20,13 @@ import ual.lp.server.objects.Employee;
 public class Manager {
    
     private EmployeeDAO employeeDAO;
+    private TicketDAO ticketDAO;
     ApplicationContext context;
     
     public Manager(){
         this.context = new ClassPathXmlApplicationContext("ual/lp/spring/bean.xml");
         employeeDAO = (EmployeeDAO) context.getBean("employeeDAO");
+        ticketDAO = (TicketDAO) context.getBean("ticketDAO");
     }
    
     public void insertEmployee(Employee employee){
@@ -33,6 +38,14 @@ public class Manager {
         return employeeDAO.getEmployee(employee);
     }
     
+    public List <Ticket> getTickets(){
+        return ticketDAO.getTicket();
+    }
+    
+    
+    public void insertTicket(Ticket ticket){
+        ticketDAO.insertTicket(ticket);
+    }
     /**
      * @return the context
      */
