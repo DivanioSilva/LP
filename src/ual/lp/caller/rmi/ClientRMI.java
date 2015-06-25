@@ -15,13 +15,18 @@ import ual.lp.server.rmi.ServerInf;
  * @author Divanio Silva
  */
 public class ClientRMI {
-
+    //172.16.214.237
     public static final String HOST = "172.16.214.237";
     public static final int PORT = 1099;
-
+    public static final String MYIP = null;
+    
+    
+    
     public static void main(String[] args) {
-
+        //ler o ficheiro de conf para obter o ip do server é o ip deste client.
+        
         try {
+            System.setProperty("java.rmi.server.hostname", "172.16.120.77");//informar isso no relatório
             Registry registry = LocateRegistry.getRegistry(HOST, PORT);
             ServerInf objRemoto = (ServerInf) registry.lookup("response");
             System.out.println(objRemoto.printMessage());
