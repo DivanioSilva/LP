@@ -26,6 +26,6 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInf{
 
     @Override
     public void connect(CallerInf id) throws RemoteException {
-        id.testCallback("O callback funcionou");
+        System.out.println(id.testCallback("O callback funcionou"));
     }
 }
