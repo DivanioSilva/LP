@@ -7,6 +7,7 @@ package ual.lp.server.rmi;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import ual.lp.caller.rmi.CallerInf;
 
 /**
  *
@@ -21,5 +22,10 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInf{
     public String printMessage() throws RemoteException {
         System.out.println("Estou a imprimir no servidor");
         return "Olá Pedrinho, aqui é o servidor que esta falando :-)";
+    }
+
+    @Override
+    public void connect(CallerInf id) throws RemoteException {
+        id.testCallback("O callback funcionou");
     }
 }

@@ -7,6 +7,7 @@ package ual.lp.server.rmi;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import ual.lp.caller.rmi.CallerInf;
 
 /**
  *
@@ -15,4 +16,6 @@ import java.rmi.RemoteException;
 public interface ServerInf extends Remote {
     
     public String printMessage() throws RemoteException;
+    public void connect(CallerInf id) throws RemoteException;
+        
 }
