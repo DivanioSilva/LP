@@ -7,6 +7,7 @@ package ual.lp.caller.rmi;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import javax.swing.JOptionPane;
 import ual.lp.server.rmi.ServerInf;
 
 /**
@@ -24,6 +25,7 @@ public class ClientRMI {
             Registry registry = LocateRegistry.getRegistry(HOST, PORT);
             ServerInf objRemoto = (ServerInf) registry.lookup("response");
             System.out.println(objRemoto.printMessage());
+            JOptionPane.showMessageDialog(null, objRemoto.printMessage());
             CallerImpl callback = new CallerImpl();
             objRemoto.connect(callback);
 

@@ -7,6 +7,7 @@ package ual.lp.caller.rmi;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import javax.swing.JOptionPane;
 import ual.lp.server.objects.Ticket;
 
 /**
@@ -20,15 +21,16 @@ public class CallerImpl extends UnicastRemoteObject implements CallerInf {
 
     @Override
     public String testCallback(String msgString) throws RemoteException {
-        String out;
-        
-         out = "O server enviou a seguinte mensagem: "+msgString+".\nÉ UM CALLBACK :-)";
-         return out;
+        String out=null;
+        System.err.println("Finalmente o server fez o Callback");
+        out = "O server enviou a seguinte mensagem: " + msgString + ".\nÉ UM CALLBACK :-)";
+        JOptionPane.showMessageDialog(null, out);
+        return out;
     }
 
     @Override
     public Ticket counter() throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }
