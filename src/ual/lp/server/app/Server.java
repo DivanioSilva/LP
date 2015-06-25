@@ -20,12 +20,11 @@ public class Server {
     
     public static void main(String[] args) {
         try {
-            System.setProperty("java.rmi.server.hostname", "172.16.214.237");
+            System.setProperty("java.rmi.server.hostname", "192.168.1.3");
             Registry registry = LocateRegistry.createRegistry(port);
             Thread.sleep(2000);
             System.out.println("O server arrancou!");
             ServerInf serverImpl = new ServerImpl();
-            UnicastRemoteObject.exportObject(serverImpl, 2500);
             registry.rebind("response", serverImpl);
 
         } catch (Exception e) {

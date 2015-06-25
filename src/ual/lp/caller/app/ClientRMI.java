@@ -14,7 +14,7 @@ import ual.lp.server.rmi.ServerInf;
  * @author Divanio Silva
  */
 public class ClientRMI {
-    public static final String HOST = "172.16.214.237";
+    public static final String HOST = "192.168.1.3";
     public static final int PORT = 1099;
     
     public static void main(String[] args) {
