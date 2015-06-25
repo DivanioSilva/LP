@@ -7,6 +7,7 @@ package ual.lp.caller.rmi;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import ual.lp.server.objects.Employee;
 import ual.lp.server.objects.Ticket;
 
 /**
@@ -18,4 +19,6 @@ public interface CallerInf extends Remote{
     public Ticket counter() throws RemoteException;
     
     public String testCallback(String serverMsg) throws RemoteException;
+    
+    public Employee tocktock() throws RemoteException;
 }
