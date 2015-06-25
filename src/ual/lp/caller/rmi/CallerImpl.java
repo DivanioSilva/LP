@@ -19,10 +19,9 @@ public class CallerImpl extends UnicastRemoteObject implements CallerInf {
     }
 
     @Override
-    public String testCallback() throws RemoteException {
+    public void testCallback(String msgString) throws RemoteException {
         
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("O server enviou a seguinte mensagem: "+msgString+".\nÉ UM CALLBACK :-)");
     }
 
     @Override
