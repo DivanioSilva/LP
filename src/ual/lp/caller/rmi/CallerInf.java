@@ -17,5 +17,5 @@ public interface CallerInf extends Remote{
     
     public Ticket counter() throws RemoteException;
     
-    public void testCallback(String serverMsg) throws RemoteException;
+    public String testCallback(String serverMsg) throws RemoteException;
 }

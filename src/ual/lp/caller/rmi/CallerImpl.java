@@ -19,9 +19,11 @@ public class CallerImpl extends UnicastRemoteObject implements CallerInf {
     }
 
     @Override
-    public void testCallback(String msgString) throws RemoteException {
+    public String testCallback(String msgString) throws RemoteException {
+        String out;
         
-        System.out.println("O server enviou a seguinte mensagem: "+msgString+".\nÉ UM CALLBACK :-)");
+         out = "O server enviou a seguinte mensagem: "+msgString+".\nÉ UM CALLBACK :-)";
+         return out;
     }
 
     @Override

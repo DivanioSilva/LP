@@ -14,15 +14,19 @@ import ual.lp.server.rmi.ServerInf;
  * @author Divanio Silva
  */
 public class ClientRMI {
+
     public static final String HOST = "172.16.214.237";
     public static final int PORT = 1099;
-    
+
     public static void main(String[] args) {
-     
+
         try {
             Registry registry = LocateRegistry.getRegistry(HOST, PORT);
             ServerInf objRemoto = (ServerInf) registry.lookup("response");
             System.out.println(objRemoto.printMessage());
+            CallerImpl callback = new CallerImpl();
+            objRemoto.connect(callback);
+
         } catch (Exception e) {
 //            System.out.println("Deu merda no client.");
             System.out.println(e.getMessage());
