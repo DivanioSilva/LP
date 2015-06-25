@@ -5,11 +5,13 @@
  */
 package ual.lp.server.objects;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Divanio Silva, Pedro Almeida e Pedro Tomás
  */
-public class Department {
+public class Department implements Serializable{
 
     private int id;
     private String name;

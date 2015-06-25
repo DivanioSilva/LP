@@ -5,6 +5,7 @@
  */
 package ual.lp.server.objects;
 
+import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
 
@@ -12,7 +13,7 @@ import java.util.Date;
  *
  * @author Divanio Silva, Pedro Almeida e Pedro Tomás
  */
-public class Ticket {
+public class Ticket implements Serializable{
     private int idTicket;
     private String numberTicket;
     private Date hour;

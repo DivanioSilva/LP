@@ -5,11 +5,13 @@
  */
 package ual.lp.server.objects;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Divanio Silva, Pedro Almeida e Pedro Tomás
  */
-public class Employee {
+public class Employee implements Serializable{
     private int empNumber;
     private String name;
     private String department;
