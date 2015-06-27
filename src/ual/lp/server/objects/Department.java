@@ -15,6 +15,7 @@ public class Department implements Serializable{
 
     private int id;
     private String name;
+    private String abbreviation;
 
     public Department() {
     }
@@ -24,6 +25,18 @@ public class Department implements Serializable{
         this.name = name;
     }
 
+    public Department(int id, String name, String abbreviation) {
+        this.id = id;
+        this.name = name;
+        this.abbreviation = abbreviation;
+    }
+
+    public Department(int id) {
+        this.id = id;
+    }
+    
+    
+    
     @Override
     public String toString() {
         String out = "I´m a serious guy! I´m the department object!!! :-)";
@@ -57,4 +70,19 @@ public class Department implements Serializable{
     public void setName(String name) {
         this.name = name;
     }
+
+    /**
+     * @return the abbreviation
+     */
+    public String getAbbreviation() {
+        return abbreviation;
+    }
+
+    /**
+     * @param abbreviation the abbreviation to set
+     */
+    public void setAbbreviation(String abbreviation) {
+        this.abbreviation = abbreviation;
+    }
+
 }

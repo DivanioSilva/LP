@@ -30,21 +30,40 @@ public class Manager {
     }
    
     public void insertEmployee(Employee employee){
-        employeeDAO.insertEmployee(employee);
+//        employeeDAO.insertEmployee(employee);
         
     }
+//    
+//    public Employee getEmployee(Employee employee){
+////        return employeeDAO.getEmployee(employee);
+//    }
     
-    public Employee getEmployee(Employee employee){
-        return employeeDAO.getEmployee(employee);
-    }
-    
-    public List <Ticket> getTickets(){
-        return ticketDAO.getTicket();
-    }
+//    public List <Ticket> getTickets(){
+////        return ticketDAO.getTicket();
+//    }
     
     
     public void insertTicket(Ticket ticket){
-        ticketDAO.insertTicket(ticket);
+//        this.ticketDAO.insertTicket(ticket);
+    }
+    
+    public void closeTicket(Ticket ticket){
+        this.ticketDAO.closeTicket(ticket);
+    }
+    
+    /**
+     * Método utilizado para criar um novo ticket solicitado pelo dispenser.
+     * @param number do server.
+     * @param idDept do dispenser.
+     */
+    public void createTicket(int number, int idDept){
+        this.ticketDAO.createTicket(number, idDept);
+    }
+    
+    public Ticket getNextTicket(Employee employee){
+        //employee.getDepartment().getId()
+        
+        return this.ticketDAO.getNextTicket(employee);
     }
     /**
      * @return the context

@@ -14,23 +14,19 @@ import java.io.Serializable;
 public class Employee implements Serializable{
     private int empNumber;
     private String name;
-    private String department;
-//    private Department department;
+    private int deskNumber;
+    private Department department;
 
     public Employee() {
     }
 
-    public Employee(int empNumber, String name, String department) {
+    public Employee(int empNumber, String name, int deskNumber, Department department) {
         this.empNumber = empNumber;
         this.name = name;
+        this.deskNumber = deskNumber;
         this.department = department;
     }
-
-    @Override
-    public String toString() {
-        String out = getName();
-        return out;
-    }
+    
 
     /**
      * @return the empNumber
@@ -61,17 +57,32 @@ public class Employee implements Serializable{
     }
 
     /**
+     * @return the deskNumber
+     */
+    public int getDeskNumber() {
+        return deskNumber;
+    }
+
+    /**
+     * @param deskNumber the deskNumber to set
+     */
+    public void setDeskNumber(int deskNumber) {
+        this.deskNumber = deskNumber;
+    }
+
+    /**
      * @return the department
      */
-    public String getDepartment() {
+    public Department getDepartment() {
         return department;
     }
 
     /**
      * @param department the department to set
      */
-    public void setDepartment(String department) {
+    public void setDepartment(Department department) {
         this.department = department;
     }
+
 
 }

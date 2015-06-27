@@ -22,32 +22,32 @@ public class EmployeeDAO {
     private DataSourceTransactionManager transactionManager;
     private JdbcTemplate jdbcTemplate;
     
-    public int insertEmployee(Employee employee) {
-        String sql = "insert into employees(name, department) values (?, ?);";
-//        Object[] params = new Object[]{
-//            pessoa.getName(), pessoa.getIdade()
+//    public int insertEmployee(Employee employee) {
+//        String sql = "insert into employees(name, department) values (?, ?);";
+////        Object[] params = new Object[]{
+////            pessoa.getName(), pessoa.getIdade()
+////        };
+//
+//        int[] types = {
+//            Types.VARCHAR, Types.VARCHAR
 //        };
-
-        int[] types = {
-            Types.VARCHAR, Types.VARCHAR
-        };
-        return jdbcTemplate.update(sql, new Object[]{employee.getName(), employee.getDepartment()}, types);
-    }
-    
-    public Employee getEmployee(Employee employee){
-        String sql = "select * from employees where name=?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{employee.getName()}, new EmployeeMapper());
-    }
-    
-    private static final class EmployeeMapper implements RowMapper<Employee>{
-
-        @Override
-        public Employee mapRow(ResultSet rs, int i) throws SQLException {
-            Employee employee = new Employee(rs.getInt("idemployees"), rs.getString("name"), rs.getString("department"));
-            return employee;
-        }
-        
-    }
+//        return jdbcTemplate.update(sql, new Object[]{employee.getName(), employee.getDepartment()}, types);
+//    }
+//    
+//    public Employee getEmployee(Employee employee){
+//        String sql = "select * from employees where name=?";
+//        return jdbcTemplate.queryForObject(sql, new Object[]{employee.getName()}, new EmployeeMapper());
+//    }
+//    
+//    private static final class EmployeeMapper implements RowMapper<Employee>{
+//
+//        @Override
+//        public Employee mapRow(ResultSet rs, int i) throws SQLException {
+//            Employee employee = new Employee(rs.getInt("idemployees"), rs.getString("name"), rs.getString("department"));
+//            return employee;
+//        }
+//        
+//    }
     
     public void setTransactionManager(DataSourceTransactionManager transactionManager) {
         this.transactionManager = transactionManager;

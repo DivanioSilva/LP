@@ -15,33 +15,38 @@ import java.util.Date;
  */
 public class Ticket implements Serializable{
     private int idTicket;
-    private String numberTicket;
-    private Date hour;
+    private int numberticket;
+    private Date createHour;
+    private int status;
     private Time timeCall;
+    private int transferId;
     private Employee employee;
-
+    private Department department;
+    
     public Ticket() {
     }
 
-    public Ticket(int idTicket, String numberTicket, Date hour, Time timeCall, Employee employee) {
+    public Ticket(int idTicket, int numberticket, Date createHour, int status, Time timeCall, int transferId, Employee employee, Department department) {
         this.idTicket = idTicket;
-        this.numberTicket = numberTicket;
-        this.hour = hour;
+        this.numberticket = numberticket;
+        this.createHour = createHour;
+        this.status = status;
         this.timeCall = timeCall;
+        this.transferId = transferId;
         this.employee = employee;
+        this.department = department;
     }
 
-    public Ticket(int idTicket, String numberTicket, Date hour) {
+    public Ticket(int idTicket, int numberticket, Date createHour) {
         this.idTicket = idTicket;
-        this.numberTicket = numberTicket;
-        this.hour = hour;
+        this.numberticket = numberticket;
+        this.createHour = createHour;
     }
 
     @Override
     public String toString() {
-        return idTicket+" "+numberTicket+" "+hour; //To change body of generated methods, choose Tools | Templates.
+        return "O gajo que atendeu o ticket: "+getEmployee().getName();
     }
-
     
 
     /**
@@ -51,25 +56,19 @@ public class Ticket implements Serializable{
         return idTicket;
     }
 
-    /**
-     * @return the numberTicket
-     */
-    public String getNumberTicket() {
-        return numberTicket;
-    }
 
     /**
      * @return the hour
      */
     public Date getHour() {
-        return hour;
+        return getCreateHour();
     }
 
     /**
      * @param hour the hour to set
      */
     public void setHour(Date hour) {
-        this.hour = hour;
+        this.setCreateHour(hour);
     }
 
     /**
@@ -108,10 +107,73 @@ public class Ticket implements Serializable{
     }
 
     /**
-     * @param numberTicket the numberTicket to set
+     * @return the createHour
      */
-    public void setNumberTicket(String numberTicket) {
-        this.numberTicket = numberTicket;
+    public Date getCreateHour() {
+        return createHour;
+    }
+
+    /**
+     * @param createHour the createHour to set
+     */
+    public void setCreateHour(Date createHour) {
+        this.createHour = createHour;
+    }
+
+    /**
+     * @return the status
+     */
+    public int getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    /**
+     * @return the transferId
+     */
+    public int getTransferId() {
+        return transferId;
+    }
+
+    /**
+     * @param transferId the transferId to set
+     */
+    public void setTransferId(int transferId) {
+        this.transferId = transferId;
+    }
+
+    /**
+     * @return the department
+     */
+    public Department getDepartment() {
+        return department;
+    }
+
+    /**
+     * @param department the department to set
+     */
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    /**
+     * @return the numberticket
+     */
+    public int getNumberticket() {
+        return numberticket;
+    }
+
+    /**
+     * @param numberticket the numberticket to set
+     */
+    public void setNumberticket(int numberticket) {
+        this.numberticket = numberticket;
     }
 
 }

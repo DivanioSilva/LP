@@ -13,10 +13,10 @@ public class Main {
     
     public static void main(String[] args) {
         EmployeeSource data = new EmployeeSource();
-        int qtd = data.getData().size();
+//        int qtd = data.getData().size();
         
-        for (int i = 0; i < qtd; i++) {
-            System.out.println("Nome: "+data.getData().get(i).getName()+", dpt "+data.getData().get(i).getDepartment());
-        }
+//        for (int i = 0; i < qtd; i++) {
+////            System.out.println("Nome: "+data.getData().get(i).getName()+", dpt "+data.getData().get(i).getDepartment());
+//        }
     }
 }

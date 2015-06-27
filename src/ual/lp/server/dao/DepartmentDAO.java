@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ual.lp.test;
+package ual.lp.server.dao;
 
 /**
  *
- * @author Pedro
+ * @author Divanio Silva
  */
-public class NewClass {
+public class DepartmentDAO {
     
 }

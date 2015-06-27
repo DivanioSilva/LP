@@ -22,7 +22,7 @@ public class CallerMGR implements CallerInf {
     public CallerMGR() {
         empData = new EmployeeSource();
         ticketSource = new TicketSource();
-        qtd = empData.getData().size();
+//        qtd = empData.getData().size();
     }
     
     
@@ -49,7 +49,7 @@ public class CallerMGR implements CallerInf {
         System.out.println("MGR imprime: ");
         
         for (int i = 0; i < qtd; i++) {
-            System.out.println("Nome: " + empData.getData().get(i).getName() + ", dpt " + empData.getData().get(i).getDepartment());
+//            System.out.println("Nome: " + empData.getData().get(i).getName() + ", dpt " + empData.getData().get(i).getDepartment());
         }
         return empData;
     }
@@ -58,7 +58,7 @@ public class CallerMGR implements CallerInf {
 //        int qtd = empData.getData().size();
         String[] list = new String[qtd];
         for (int i = 0; i < qtd; i++) {
-            list[i] = empData.getData().get(i).getName();
+//            list[i] = empData.getData().get(i).getName();
         }
         return list;
     }
@@ -67,7 +67,7 @@ public class CallerMGR implements CallerInf {
 //        int qtd = empData.getData().size();
         String[] list = new String[qtd];
         for (int i = 0; i < qtd; i++) {
-            list[i] = empData.getData().get(i).getDepartment();
+//            list[i] = empData.getData().get(i).getDepartment();
         }
         return list;
     }
@@ -84,15 +84,15 @@ public class CallerMGR implements CallerInf {
     @Override
     public String showNextCallTicket() {
 //        ticketSource = new TicketSource();
-        int qtd = ticketSource.getTickets().size();
+//        int qtd = ticketSource.getTickets().size();
         String next;
 
         try {
             for (int i = 0; i < qtd; i++) {
-            next = ticketSource.getTickets().get(i+1).getNumberTicket();
+//            next = ticketSource.getTickets().get(i+1).getNumberTicket();
 //                System.out.println(ticketSource.getTickets().get(i).getNumberTicket());
             
-            return next;
+//            return next;
         }
             
         } catch (Exception e) {
@@ -102,16 +102,16 @@ public class CallerMGR implements CallerInf {
     }
     
     public String showActualTicket(){
-        int qtd = ticketSource.getTickets().size();
+//        int qtd = ticketSource.getTickets().size();
         String next;
         
         try {
             for (int i = 0; i < qtd; i++) {
-            next = ticketSource.getTickets().get(i).getNumberTicket();
+//            next = ticketSource.getTickets().get(i).getNumberTicket();
 //                System.out.println(ticketSource.getTickets().get(i).getNumberTicket());
             //artifícil para simular a actualização da lista pelo server.
-            ticketSource.getTickets().remove(i);
-            return next;
+//            ticketSource.getTickets().remove(i);
+//            return next;
         }
             
         } catch (Exception e) {

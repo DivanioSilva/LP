@@ -5,9 +5,7 @@
  */
 package ual.lp.server.mgr;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ual.lp.server.dao.EmployeeDAO;
+import ual.lp.server.objects.Department;
 import ual.lp.server.objects.Employee;
 import ual.lp.server.objects.Ticket;
 
@@ -21,7 +19,17 @@ public class MainTest {
 //        System.out.println(mgr.getEmployee(new Employee(1, "teste", "teste")).getName());
 //        mgr.insertEmployee(new Employee(1, "Pedro Tomas", "Ceu"));
 //        mgr.getEmployee(new Employee(5,"Pedro Tomas", "Ceu"));
-        System.out.println(mgr.getTickets());
+//        System.out.println(mgr.getTickets());
+        Ticket t = new Ticket();
+//        t.setIdTicket(2);
+//        mgr.createTicket(4, 1);
+            Employee employee = new Employee();
+            employee.setEmpNumber(3);
+            Department dept = new Department(1);
+            employee.setDepartment(dept);
+            System.out.println(mgr.getNextTicket(employee));
+        
+//        mgr.closeTicket(t);
         
 //        System.out.println(mgr.getEmployee(new Employee(3, "teste", "teste")).getName());
 //        ApplicationContext context = new ClassPathXmlApplicationContext("ual/lp/spring/bean.xml");
