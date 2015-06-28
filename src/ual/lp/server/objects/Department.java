@@ -34,8 +34,15 @@ public class Department implements Serializable{
     public Department(int id) {
         this.id = id;
     }
-    
-    
+
+    public Department(String abbreviation) {
+        this.abbreviation = abbreviation;
+    }
+
+    public Department(String name, String abbreviation) {
+        this.name = name;
+        this.abbreviation = abbreviation;
+    }
     
     @Override
     public String toString() {
