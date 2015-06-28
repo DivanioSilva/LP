@@ -10,8 +10,8 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.List;
 import javax.sql.DataSource;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import ual.lp.server.objects.Department;
@@ -44,12 +44,36 @@ public class TicketDAO {
      * @return
      */
     public Ticket getNextTicket(Employee employee) {
-        String sql = "select * \n"
-                + "from tickets \n"
-                + "join department on tickets.iddepartment=department.iddepartment\n"
-                + "join employee on employee.iddepartment=department.iddepartment\n"
-                + "where tickets.status=0 and employee.idemployee=? order by createhour limit 1;";
-        return jdbcTemplate.queryForObject(sql, new Object[]{employee.getEmpNumber()}, new TicketMapper());
+        String sql = null;
+        Ticket ticket;
+
+        try {
+            sql = "select *from tickets \n"
+                    + "join department on tickets.iddepartment=department.iddepartment \n"
+                    + "join employee on employee.iddepartment=department.iddepartment\n"
+                    + "where tickets.status=0 and employee.idemployee=? and transferid=? order by createhour limit 1;";
+
+            ticket = jdbcTemplate.queryForObject(sql, new Object[]{employee.getEmpNumber(), employee.getEmpNumber()}, new TicketMapper());
+
+            System.out.println("ID Ticket: " + ticket.getIdTicket());
+            return ticket;
+
+        } catch (EmptyResultDataAccessException e) {
+            System.out.println("Caiu na exception");
+            //ele não possui transferências!
+        }
+
+        try {
+            sql = "select * \n"
+                    + "from tickets \n"
+                    + "join department on tickets.iddepartment=department.iddepartment\n"
+                    + "join employee on employee.iddepartment=department.iddepartment\n"
+                    + "where tickets.status=0 and employee.idemployee=? order by createhour limit 1;";
+            return jdbcTemplate.queryForObject(sql, new Object[]{employee.getEmpNumber()}, new TicketMapper());
+        } catch (EmptyResultDataAccessException e) {
+//            System.out.println("Deu merda dentro do segundo try/catch");
+            return null;
+        }
     }
 
     /**
@@ -82,6 +106,7 @@ public class TicketDAO {
             ticket.setIdTicket(rs.getInt("idticket"));
             ticket.setNumberticket(rs.getInt("number"));
             ticket.setStatus(rs.getInt("status"));
+            ticket.setTransferId(rs.getInt("transferid"));
             Department department = new Department(rs.getInt("iddepartment"), rs.getString("department"), rs.getString("abbreviation"));
             ticket.setDepartment(department);
             ticket.setEmployee(new Employee(rs.getInt("idemployee"), rs.getString("name"), rs.getInt("desknumber"), department));
