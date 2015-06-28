@@ -24,7 +24,7 @@ public class MainTest {
 //        t.setIdTicket(2);
 //        mgr.createTicket(4, 1);
             Employee employee = new Employee();
-            employee.setEmpNumber(3);
+            employee.setEmpNumber(4);
             Department dept = new Department(1);
             employee.setDepartment(dept);
             System.out.println(mgr.getNextTicket(employee));
