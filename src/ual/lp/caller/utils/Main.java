@@ -22,7 +22,7 @@ public class Main {
         conf.getEmployee();
         System.out.println(emp.getName()+", "+emp.getDepartment().getAbbreviation()+", "+emp.getDeskNumber()+", "+emp.getDepartment().getName());
         System.out.println("MyIP: "+conf.getMyIP());
-        System.out.println(Inet4Address.getLocalHost().getHostAddress());
+//        System.out.println(Inet4Address.getLocalHost().getHostAddress());
         System.out.println("ServerIP: "+conf.getServerIP());
     }
 }
