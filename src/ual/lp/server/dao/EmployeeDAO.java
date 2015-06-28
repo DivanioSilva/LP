@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import ual.lp.server.objects.Employee;
 import ual.lp.server.objects.rowmappers.DepartmentMapper;
-import ual.lp.server.objects.rowmappers.simpleEmployeeMapper;
+import ual.lp.server.objects.rowmappers.SimpleEmployeeMapper;
 
 /**
  *
@@ -60,7 +60,7 @@ public class EmployeeDAO {
 
         try {
             //se passar, é pq existe o employee na db.
-            jdbcTemplate.queryForObject(sql, new Object[]{employee.getName()}, new simpleEmployeeMapper());
+            jdbcTemplate.queryForObject(sql, new Object[]{employee.getName()}, new SimpleEmployeeMapper());
 
             System.out.println("O employee já esta na db.");
 
@@ -70,7 +70,7 @@ public class EmployeeDAO {
                         + "join department on employee.iddepartment=department.iddepartment\n"
                         + "where employee.name=? and department.department=? and desknumber=?;";
 
-                Employee emp = jdbcTemplate.queryForObject(sql, new Object[]{employee.getName(), employee.getDepartment().getName(), employee.getDeskNumber()}, new simpleEmployeeMapper());
+                Employee emp = jdbcTemplate.queryForObject(sql, new Object[]{employee.getName(), employee.getDepartment().getName(), employee.getDeskNumber()}, new SimpleEmployeeMapper());
 
                 System.out.println("Ele pertence mesmo ao departamento");
 
