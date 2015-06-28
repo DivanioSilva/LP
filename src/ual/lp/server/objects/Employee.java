@@ -26,6 +26,13 @@ public class Employee implements Serializable{
         this.deskNumber = deskNumber;
         this.department = department;
     }
+
+    public Employee(int empNumber, String name, int deskNumber) {
+        this.empNumber = empNumber;
+        this.name = name;
+        this.deskNumber = deskNumber;
+    }
+     
     
 
     /**
