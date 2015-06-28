@@ -78,5 +78,9 @@ public class Manager {
 //    public void setContext(ApplicationContext context) {
 //        this.context = context;
 //    }
+    
+    public void verifyEmployee(Employee employee){
+        this.employeeDAO.verifyEmployee(employee);
+    }
 
 }

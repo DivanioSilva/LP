@@ -5,6 +5,7 @@
  */
 package ual.lp.server.mgr;
 
+import ual.lp.caller.utils.Config;
 import ual.lp.server.objects.Department;
 import ual.lp.server.objects.Employee;
 import ual.lp.server.objects.Ticket;
@@ -14,7 +15,10 @@ import ual.lp.server.objects.Ticket;
  * @author Pedro
  */
 public class MainTest {
+
     public static void main(String[] args) {
+        Config config = new Config();
+        Employee employee;
         Manager mgr = new Manager();
 //        System.out.println(mgr.getEmployee(new Employee(1, "teste", "teste")).getName());
 //        mgr.insertEmployee(new Employee(1, "Pedro Tomas", "Ceu"));
@@ -23,14 +27,11 @@ public class MainTest {
         Ticket t = new Ticket();
 //        t.setIdTicket(2);
 //        mgr.createTicket(4, 1);
-            Employee employee = new Employee();
-            employee.setEmpNumber(4);
-            Department dept = new Department(1);
-            employee.setDepartment(dept);
-            System.out.println(mgr.getNextTicket(employee));
-        
+        employee = config.getEmployee();
+
+        mgr.verifyEmployee(employee);
+
 //        mgr.closeTicket(t);
-        
 //        System.out.println(mgr.getEmployee(new Employee(3, "teste", "teste")).getName());
 //        ApplicationContext context = new ClassPathXmlApplicationContext("ual/lp/spring/bean.xml");
 //        EmployeeDAO empDAO = (EmployeeDAO) context.getBean("employeeDAO");

@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import javax.sql.DataSource;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -34,7 +33,8 @@ public class EmployeeDAO {
         return jdbcTemplate.update(sql, new Object[]{employee.getName(), employee.getDeskNumber(), employee.getDepartment().getId()}, types);
     }
 
-    public boolean verifyEmployee(Employee employee) {
+    public void verifyEmployee(Employee employee) {
+        boolean hasDepart = false, hasEmployee = false;
 
         String sql = null;
 
@@ -42,7 +42,8 @@ public class EmployeeDAO {
 
         try {
             jdbcTemplate.queryForObject(sql, new Object[]{employee.getDepartment().getName(), employee.getDepartment().getAbbreviation()}, new DepartmentMapper());
-
+            hasDepart = true;
+            System.out.println("O dept existe na db.");
         } catch (Exception e) {
             //não existe o departemento, precisamos adiciona-lo na DB
             sql = "insert into department(department, abbreviation) values(?, ?);";
@@ -52,6 +53,7 @@ public class EmployeeDAO {
             };
 
             jdbcTemplate.update(sql, new Object[]{employee.getDepartment().getName(), employee.getDepartment().getAbbreviation()}, types);
+            System.out.println("O dept não existia e foi criado agora por mim!");
         }
 
         //ver se ele já esta na DB.
@@ -61,39 +63,63 @@ public class EmployeeDAO {
             //se passar, é pq existe o employee na db.
             jdbcTemplate.queryForObject(sql, new Object[]{employee.getName()}, new simpleEmployeeMapper());
 
+            System.out.println("O employee já esta na db.");
+
+            //verificar se o gajo pertence ao departamento e pertece a secretária.
+            try {
+                sql = "select * from employee\n"
+                        + "join department on employee.iddepartment=department.iddepartment\n"
+                        + "where employee.name=? and department.department=? and desknumber=?;";
+
+                Employee emp = jdbcTemplate.queryForObject(sql, new Object[]{employee.getName(), employee.getDepartment().getName(), employee.getDeskNumber()}, new simpleEmployeeMapper());
+
+                System.out.println("Ele pertence mesmo ao departamento");
+
+            } catch (Exception e) {
+
+                String sqlDeptID = "select iddepartment from department where department=? limit 1;";
+
+                int[] types = {
+                    Types.VARCHAR
+                };
+
+                int idDept = jdbcTemplate.queryForInt(sqlDeptID, new Object[]{employee.getDepartment().getName()}, types);
+                employee.getDepartment().setId(idDept);
+
+                System.out.println("Deu merda ao verificar se o employee pertece ao departamento");
+                //fazer update do gajo para o departamento certo!
+                String sqlUpdate = "update employee set desknumber=?, iddepartment=? where employee.name=?;;";
+
+                int[] typesUpdate = {
+                    Types.INTEGER, Types.INTEGER, Types.VARCHAR
+                };
+
+                jdbcTemplate.update(sqlUpdate, new Object[]{employee.getDeskNumber(), employee.getDepartment().getId(), employee.getName()}, typesUpdate);
+
+            }
+
         } catch (Exception e) {
-            
-        }
+//            System.out.println("Deu merda, o gajo não esta na db, preciso inseri-lo.");
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        //ver se ele já esta na DB.
-        //se não, inseri-lo
-        sql = "select * from employee\n"
-                + "join department on employee.iddepartment=department.iddepartment\n"
-                + "where employee.name=?;";
-
-        try {
-            jdbcTemplate.queryForObject(sql, new Object[]{employee.getName()}, new EmployeeMapper());
-            return true;
-
-        } catch (EmptyResultDataAccessException e) {
-            sql = "insert into employee(name, desknumber, iddepartment) values (?, ?, ?);";
+            String sqlDeptID = "select iddepartment from department where department=? limit 1;";
 
             int[] types = {
+                Types.VARCHAR
+            };
+
+            int idDept = jdbcTemplate.queryForInt(sqlDeptID, new Object[]{employee.getDepartment().getName()}, types);
+            employee.getDepartment().setId(idDept);
+
+            //insert into employee(name, desknumber, iddepartment) values ('Paulo Cabrita', 3, 2);
+            sql = "insert into employee(name, desknumber, iddepartment) values (?, ?, ?);";
+
+            int[] types2 = {
                 Types.VARCHAR, Types.INTEGER, Types.INTEGER
             };
 
-            jdbcTemplate.update(sql, new Object[]{employee.getName(), employee.getDeskNumber(), employee.getDepartment().getId()}, types);
+            jdbcTemplate.update(sql, new Object[]{employee.getName(), employee.getDeskNumber(), employee.getDepartment().getId()}, types2);
+            System.out.println("O employee não existia mas acabei de cria-lo!");
 
-            return false;
         }
     }
 

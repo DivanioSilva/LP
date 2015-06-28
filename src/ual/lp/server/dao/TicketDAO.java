@@ -47,6 +47,7 @@ public class TicketDAO {
         String sql = null;
         Ticket ticket;
 
+        //verifica se existe transferência para aquele employee
         try {
             sql = "select *from tickets \n"
                     + "join department on tickets.iddepartment=department.iddepartment \n"
@@ -55,11 +56,11 @@ public class TicketDAO {
 
             ticket = jdbcTemplate.queryForObject(sql, new Object[]{employee.getEmpNumber(), employee.getEmpNumber()}, new TicketMapper());
 
-            System.out.println("ID Ticket: " + ticket.getIdTicket());
+            System.out.println("Possui transferências!\nID Ticket: " + ticket.getIdTicket());
             return ticket;
 
         } catch (EmptyResultDataAccessException e) {
-            System.out.println("Caiu na exception");
+            System.out.println("Não há transferências!");
             //ele não possui transferências!
         }
 
@@ -70,8 +71,12 @@ public class TicketDAO {
                     + "join employee on employee.iddepartment=department.iddepartment\n"
                     + "where tickets.status=0 and employee.idemployee=? order by createhour limit 1;";
             return jdbcTemplate.queryForObject(sql, new Object[]{employee.getEmpNumber()}, new TicketMapper());
+            //A fila possui tickets para serem atendidos, será atribuido o mais antigo para este caller.
+            
+            
         } catch (EmptyResultDataAccessException e) {
 //            System.out.println("Deu merda dentro do segundo try/catch");
+            System.out.println("Não existem tickets para serem atendidos nesta fila.");
             return null;
         }
     }

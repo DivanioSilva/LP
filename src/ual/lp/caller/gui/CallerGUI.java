@@ -47,12 +47,13 @@ public class CallerGUI extends javax.swing.JFrame {
 //        jComboBoxDeptList.setModel(new DefaultComboBoxModel(callerMGR.deptmentList()));
 //        jComboBoxColegasList.addItem(this.callerMGR.colleagueList().getData().get(0).getName());
         
-                //construo aqui o empl e envio para o server para ser colocado na lista de emp que estão a trabalhar.
+        //construo aqui o empl e envio para o server para ser colocado na lista de emp que estão a trabalhar.
         config = new Config();
         employee = config.getEmployee();
         
         JOptionPane.showMessageDialog(this, employee.getDeskNumber()+"\n "+employee.getName()+"\n"
                 +employee.getDepartment().getName()+"\n"+employee.getDepartment().getAbbreviation());
+        //chama o connect do rmi e mando o emp como argumento.
     }
 
     /**
