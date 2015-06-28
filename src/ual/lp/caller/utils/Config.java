@@ -37,7 +37,7 @@ public class Config {
      private Department department;
     
      {
-     "name":"Divanio Silva", "deskNumber":"1", "iddepartment":"S", "ip":"192.168.1.32"
+     "name":"Divanio Silva", "deskNumber":"1", "abbreviation":"S", "ip":"192.168.1.32"
      }
      */
     public Employee getEmployee() {
@@ -47,7 +47,7 @@ public class Config {
             jsonObject = (JSONObject) parser.parse(new FileReader("config.json"));
             employee.setName((String) jsonObject.get("name"));
             employee.setDeskNumber(Integer.parseInt((String) jsonObject.get("deskNumber")));
-            employee.setDepartment(new Department((String) jsonObject.get("department"), (String) jsonObject.get("iddepartment")));
+            employee.setDepartment(new Department((String) jsonObject.get("abbreviation"), (String) jsonObject.get("iddepartment")));
 
         } catch (Exception e) {
             System.err.println("Erro ao ler o ficheiro de configuração 'config.json' para construir o employee desta máquina.");
