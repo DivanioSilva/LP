@@ -17,6 +17,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import ual.lp.server.objects.Department;
 import ual.lp.server.objects.Employee;
 import ual.lp.server.objects.Ticket;
+import ual.lp.server.objects.rowmappers.TicketMapper;
 
 /**
  *
@@ -100,23 +101,6 @@ public class TicketDAO {
         String sql = "select * from tickets where timecall is null;";
 
         return jdbcTemplate.query(sql, new TicketMapper());
-    }
-
-    private static final class TicketMapper implements RowMapper<Ticket> {
-
-        Ticket ticket = new Ticket();
-
-        @Override
-        public Ticket mapRow(ResultSet rs, int i) throws SQLException {
-            ticket.setIdTicket(rs.getInt("idticket"));
-            ticket.setNumberticket(rs.getInt("number"));
-            ticket.setStatus(rs.getInt("status"));
-            ticket.setTransferId(rs.getInt("transferid"));
-            Department department = new Department(rs.getInt("iddepartment"), rs.getString("department"), rs.getString("abbreviation"));
-            ticket.setDepartment(department);
-            ticket.setEmployee(new Employee(rs.getInt("idemployee"), rs.getString("name"), rs.getInt("desknumber"), department));
-            return ticket;
-        }
     }
 
     public void setTransactionManager(DataSourceTransactionManager transactionManager) {

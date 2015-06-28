@@ -5,15 +5,13 @@
  */
 package ual.lp.server.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Types;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import ual.lp.server.objects.Department;
 import ual.lp.server.objects.Employee;
+import ual.lp.server.objects.rowmappers.DepartmentMapper;
+import ual.lp.server.objects.rowmappers.simpleEmployeeMapper;
 
 /**
  *
@@ -41,6 +39,7 @@ public class EmployeeDAO {
         sql = "select * from department where department = ? and abbreviation = ?;";
 
         try {
+//            jdbcTemplate.queryForObject(sql, new Object[]{employee.getDepartment().getName(), employee.getDepartment().getAbbreviation()}, new DepartmentMapper());
             jdbcTemplate.queryForObject(sql, new Object[]{employee.getDepartment().getName(), employee.getDepartment().getAbbreviation()}, new DepartmentMapper());
             hasDepart = true;
             System.out.println("O dept existe na db.");
@@ -123,33 +122,6 @@ public class EmployeeDAO {
         }
     }
 
-    private static final class EmployeeMapper implements RowMapper<Employee> {
-
-        @Override
-        public Employee mapRow(ResultSet rs, int i) throws SQLException {
-            Department department = new Department(rs.getInt("iddepartment"), rs.getString("department"), rs.getString("abbreviation"));
-            Employee employee = new Employee(rs.getInt("idemployee"), rs.getString("name"), rs.getInt("desknumber"), department);
-            return employee;
-        }
-    }
-
-    private static final class simpleEmployeeMapper implements RowMapper<Employee> {
-
-        @Override
-        public Employee mapRow(ResultSet rs, int i) throws SQLException {
-            Employee employee = new Employee(rs.getInt("idemployee"), rs.getString("name"), rs.getInt("desknumber"));
-            return employee;
-        }
-    }
-
-    private static final class DepartmentMapper implements RowMapper<Department> {
-
-        @Override
-        public Department mapRow(ResultSet rs, int i) throws SQLException {
-            Department department = new Department(rs.getInt("iddepartment"), rs.getString("department"), rs.getString("abbreviation"));
-            return department;
-        }
-    }
 
     public void setTransactionManager(DataSourceTransactionManager transactionManager) {
         this.transactionManager = transactionManager;
