@@ -33,6 +33,10 @@ public class Manager {
 //        employeeDAO.insertEmployee(employee);
         
     }
+    
+    public void transferTicket(Ticket ticket){
+        this.ticketDAO.transferTicket(ticket);
+    }
 //    
 //    public Employee getEmployee(Employee employee){
 ////        return employeeDAO.getEmployee(employee);

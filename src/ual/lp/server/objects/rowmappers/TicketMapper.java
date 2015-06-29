@@ -22,13 +22,13 @@ public class TicketMapper implements RowMapper<Ticket> {
 
     @Override
     public Ticket mapRow(ResultSet rs, int i) throws SQLException {
-        ticket.setIdTicket(rs.getInt("idticket"));
-        ticket.setNumberticket(rs.getInt("number"));
-        ticket.setStatus(rs.getInt("status"));
-        ticket.setTransferId(rs.getInt("transferid"));
-        Department department = new Department(rs.getInt("iddepartment"), rs.getString("department"), rs.getString("abbreviation"));
+        ticket.setIdTicket(rs.getInt("tickets.idticket"));
+        ticket.setNumberticket(rs.getInt("tickets.number"));
+        ticket.setStatus(rs.getInt("tickets.status"));
+        ticket.setTransferId(rs.getInt("tickets.transferid"));
+        Department department = new Department(rs.getInt("department.iddepartment"), rs.getString("department.department"), rs.getString("department.abbreviation"));
         ticket.setDepartment(department);
-        ticket.setEmployee(new Employee(rs.getInt("idemployee"), rs.getString("name"), rs.getInt("desknumber"), department));
+        ticket.setEmployee(new Employee(rs.getInt("employee.idemployee"), rs.getString("employee.name"), rs.getInt("employee.desknumber"), department));
         return ticket;
     }
 }

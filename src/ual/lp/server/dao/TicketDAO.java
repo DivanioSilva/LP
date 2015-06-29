@@ -5,16 +5,12 @@
  */
 package ual.lp.server.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Types;
 import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import ual.lp.server.objects.Department;
 import ual.lp.server.objects.Employee;
 import ual.lp.server.objects.Ticket;
 import ual.lp.server.objects.rowmappers.TicketMapper;
@@ -45,19 +41,31 @@ public class TicketDAO {
      * @return
      */
     public Ticket getNextTicket(Employee employee) {
-        String sql = null;
+        String sql, sqlUpdate = null;
         Ticket ticket;
 
         //verifica se existe transferência para aquele employee
         try {
-            sql = "select *from tickets \n"
+            sql = "select * from tickets \n"
                     + "join department on tickets.iddepartment=department.iddepartment \n"
-                    + "join employee on employee.iddepartment=department.iddepartment\n"
-                    + "where tickets.status=0 and employee.idemployee=? and transferid=? order by createhour limit 1;";
+                    + "join employee on employee.iddepartment=department.iddepartment \n"
+                    + "where tickets.status=0 and employee.idemployee=transferid and employee.name=? order by createhour limit 1;";
 
-            ticket = jdbcTemplate.queryForObject(sql, new Object[]{employee.getEmpNumber(), employee.getEmpNumber()}, new TicketMapper());
+            ticket = jdbcTemplate.queryForObject(sql, new Object[]{employee.getName()}, new TicketMapper());
+
+            sqlUpdate = "update tickets \n"
+                    + "set tickets.idemployee=?, tickets.status=1\n"
+                    + "where tickets.idticket=?;";
+
+            int[] types = {
+                Types.INTEGER, Types.INTEGER
+            };
+            System.out.println(ticket.getEmployee().getEmpNumber() + " " + ticket.getEmployee().getName());
+
+            jdbcTemplate.update(sqlUpdate, new Object[]{ticket.getEmployee().getEmpNumber(), ticket.getIdTicket()}, types);
 
             System.out.println("Possui transferências!\nID Ticket: " + ticket.getIdTicket());
+
             return ticket;
 
         } catch (EmptyResultDataAccessException e) {
@@ -65,21 +73,54 @@ public class TicketDAO {
             //ele não possui transferências!
         }
 
+        //A fila possui tickets para serem atendidos, será atribuido o mais antigo para este caller.
+        //Sem transferências.
         try {
-            sql = "select * \n"
-                    + "from tickets \n"
-                    + "join department on tickets.iddepartment=department.iddepartment\n"
-                    + "join employee on employee.iddepartment=department.iddepartment\n"
-                    + "where tickets.status=0 and employee.idemployee=? order by createhour limit 1;";
-            return jdbcTemplate.queryForObject(sql, new Object[]{employee.getEmpNumber()}, new TicketMapper());
-            //A fila possui tickets para serem atendidos, será atribuido o mais antigo para este caller.
-            
-            
+            sql = "select * from tickets join department on tickets.iddepartment=department.iddepartment \n"
+                    + "join employee on employee.iddepartment=department.iddepartment \n"
+                    + "where tickets.status=0 and employee.name=? and tickets.transferid is null order by createhour limit 1;";
+
+            ticket = jdbcTemplate.queryForObject(sql, new Object[]{employee.getName()}, new TicketMapper());
+
+            sqlUpdate = "update tickets \n"
+                    + "set tickets.idemployee=?, tickets.status=1\n"
+                    + "where tickets.idticket=?;";
+
+            int[] types = {
+                Types.INTEGER, Types.INTEGER
+            };
+
+            jdbcTemplate.update(sqlUpdate, new Object[]{ticket.getEmployee().getEmpNumber(), ticket.getIdTicket()}, types);
+            System.out.println("O ticket atribuido é " + ticket.getNumberticket() + " e o colaborador é " + ticket.getEmployee().getName() + ".\nidTicket " + ticket.getIdTicket());
+            return ticket;
+
         } catch (EmptyResultDataAccessException e) {
 //            System.out.println("Deu merda dentro do segundo try/catch");
             System.out.println("Não existem tickets para serem atendidos nesta fila.");
             return null;
         }
+    }
+
+    /**
+     * Método para fazer a transferência do ticket.
+     *
+     * @param employee
+     */
+    public void transferTicket(Ticket ticket) {
+
+        String sql = "update tickets \n"
+                + "set tickets.transferid=?, tickets.status=0\n"
+                + "where tickets.idticket=?;;";
+
+        int[] types = {
+            Types.INTEGER, Types.INTEGER
+        };
+
+        jdbcTemplate.update(sql, new Object[]{ticket.getTransferId(), ticket.getIdTicket()}, types);
+        
+        System.out.println("O ticket "+ticket.getIdTicket()+" foi transferido do colaborador "+ticket.getEmployee().getName()+""
+                + " para o employee com o id "+ticket.getTransferId());
+
     }
 
     /**

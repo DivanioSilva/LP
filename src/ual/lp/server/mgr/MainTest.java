@@ -25,13 +25,24 @@ public class MainTest {
 //        mgr.getEmployee(new Employee(5,"Pedro Tomas", "Ceu"));
 //        System.out.println(mgr.getTickets());
         Ticket t = new Ticket();
-//        t.setIdTicket(2);
-//        mgr.createTicket(4, 1);
-        employee = config.getEmployee();
+        t.setIdTicket(2);
+//////        t.setNumberticket(1);
+//////        t.setStatus(0);
+//////        Department dept = new Department(1, "Tesouraria", "T");
+//////        Employee emp = new Employee(1, "Divanio Silva", 1, dept);
+//////        t.setTransferId(2);
+//////        t.setEmployee(emp);
+//////        t.setDepartment(dept);
+////        mgr.transferTicket(t);
+        
+        
+//        mgr.createTicket(2, 2);
+//        employee = config.getEmployee();
+//        mgr.getNextTicket(employee);
+//
+//        mgr.verifyEmployee(employee);
 
-        mgr.verifyEmployee(employee);
-
-//        mgr.closeTicket(t);
+        mgr.closeTicket(t);
 //        System.out.println(mgr.getEmployee(new Employee(3, "teste", "teste")).getName());
 //        ApplicationContext context = new ClassPathXmlApplicationContext("ual/lp/spring/bean.xml");
 //        EmployeeDAO empDAO = (EmployeeDAO) context.getBean("employeeDAO");

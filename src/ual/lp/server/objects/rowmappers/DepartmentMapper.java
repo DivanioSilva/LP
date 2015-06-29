@@ -18,7 +18,7 @@ public class DepartmentMapper implements RowMapper<Department> {
 
     @Override
     public Department mapRow(ResultSet rs, int i) throws SQLException {
-        Department department = new Department(rs.getInt("iddepartment"), rs.getString("department"), rs.getString("abbreviation"));
+        Department department = new Department(rs.getInt("department.iddepartment"), rs.getString("department.department"), rs.getString("department.abbreviation"));
         return department;
     }
 }

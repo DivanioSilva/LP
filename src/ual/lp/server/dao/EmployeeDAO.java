@@ -37,7 +37,7 @@ public class EmployeeDAO {
         String sql = null;
 
         sql = "select * from department where department = ? and abbreviation = ?;";
-
+        //verifica se o dept existe.
         try {
 //            jdbcTemplate.queryForObject(sql, new Object[]{employee.getDepartment().getName(), employee.getDepartment().getAbbreviation()}, new DepartmentMapper());
             jdbcTemplate.queryForObject(sql, new Object[]{employee.getDepartment().getName(), employee.getDepartment().getAbbreviation()}, new DepartmentMapper());
@@ -85,10 +85,10 @@ public class EmployeeDAO {
                 int idDept = jdbcTemplate.queryForInt(sqlDeptID, new Object[]{employee.getDepartment().getName()}, types);
                 employee.getDepartment().setId(idDept);
 
-                System.out.println("Deu merda ao verificar se o employee pertece ao departamento");
+//                System.out.println("Deu merda ao verificar se o employee pertece ao departamento");
                 //fazer update do gajo para o departamento certo!
                 String sqlUpdate = "update employee set desknumber=?, iddepartment=? where employee.name=?;;";
-
+                System.out.println("Fiz o update do departamento e/ou secretária.");
                 int[] typesUpdate = {
                     Types.INTEGER, Types.INTEGER, Types.VARCHAR
                 };

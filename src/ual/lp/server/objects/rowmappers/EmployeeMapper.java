@@ -19,8 +19,8 @@ public class EmployeeMapper implements RowMapper<Employee> {
 
         @Override
         public Employee mapRow(ResultSet rs, int i) throws SQLException {
-            Department department = new Department(rs.getInt("iddepartment"), rs.getString("department"), rs.getString("abbreviation"));
-            Employee employee = new Employee(rs.getInt("idemployee"), rs.getString("name"), rs.getInt("desknumber"), department);
+            Department department = new Department(rs.getInt("department.iddepartment"), rs.getString("department.department"), rs.getString("department.abbreviation"));
+            Employee employee = new Employee(rs.getInt("employee.idemployee"), rs.getString("employee.name"), rs.getInt("employee.desknumber"), department);
             return employee;
         }
     }
