@@ -16,6 +16,7 @@ import ual.lp.server.objects.Employee;
  */
  public class SimpleEmployeeMapper implements RowMapper<Employee> {
 
+     
         @Override
         public Employee mapRow(ResultSet rs, int i) throws SQLException {
             Employee employee = new Employee(rs.getInt("idemployee"), rs.getString("name"), rs.getInt("desknumber"));
