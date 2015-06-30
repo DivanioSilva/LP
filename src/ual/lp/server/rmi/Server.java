@@ -5,6 +5,7 @@
  */
 package ual.lp.server.rmi;
 
+import java.rmi.RemoteException;
 import ual.lp.server.app.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -26,10 +27,15 @@ public class Server {
             Thread.sleep(2000);
             System.out.println("O server arrancou!");
             ServerInf serverImpl = new ServerImpl();
+            
             registry.rebind("response", serverImpl);
-
-        } catch (Exception e) {
-            System.err.println("Deu merda no server!" +e.getMessage());
+        } catch (RemoteException e) {
+            System.out.println("");
+        } catch (InterruptedException e) {
+            System.out.println("");
         }
+            
+
+       
     }
 }
