@@ -7,6 +7,7 @@ package ual.lp.server.mgr;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ual.lp.exceptions.NoTicketsException;
 import ual.lp.server.dao.EmployeeDAO;
 import ual.lp.server.dao.TicketDAO;
 import ual.lp.server.objects.Employee;
@@ -63,7 +64,7 @@ public class Manager {
         this.ticketDAO.createTicket(number, idDept);
     }
     
-    public Ticket getNextTicket(Employee employee){
+    public Ticket getNextTicket(Employee employee) throws NoTicketsException{
         //employee.getDepartment().getId()
         
         return this.ticketDAO.getNextTicket(employee);
