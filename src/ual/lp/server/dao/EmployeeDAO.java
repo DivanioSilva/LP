@@ -7,6 +7,8 @@ package ual.lp.server.dao;
 
 import java.sql.Types;
 import javax.sql.DataSource;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import ual.lp.server.objects.Employee;
@@ -32,7 +34,6 @@ public class EmployeeDAO {
     }
 
     public void verifyEmployee(Employee employee) {
-        boolean hasDepart = false, hasEmployee = false;
 
         String sql = null;
 
@@ -41,9 +42,8 @@ public class EmployeeDAO {
         try {
 //            jdbcTemplate.queryForObject(sql, new Object[]{employee.getDepartment().getName(), employee.getDepartment().getAbbreviation()}, new DepartmentMapper());
             jdbcTemplate.queryForObject(sql, new Object[]{employee.getDepartment().getName(), employee.getDepartment().getAbbreviation()}, new DepartmentMapper());
-            hasDepart = true;
             System.out.println("O dept existe na db.");
-        } catch (Exception e) {
+        } catch (EmptyResultDataAccessException e) {
             //não existe o departemento, precisamos adiciona-lo na DB
             sql = "insert into department(department, abbreviation) values(?, ?);";
 
@@ -64,7 +64,7 @@ public class EmployeeDAO {
 
             System.out.println("O employee já esta na db.");
 
-            //verificar se o gajo pertence ao departamento e pertece a secretária.
+            //verificar se o gajo pertence ao departamento e pertence à secretária.
             try {
                 sql = "select * from employee\n"
                         + "join department on employee.iddepartment=department.iddepartment\n"
@@ -72,9 +72,9 @@ public class EmployeeDAO {
 
                 Employee emp = jdbcTemplate.queryForObject(sql, new Object[]{employee.getName(), employee.getDepartment().getName(), employee.getDeskNumber()}, new SimpleEmployeeMapper());
 
-                System.out.println("Ele pertence mesmo ao departamento");
-
-            } catch (Exception e) {
+                System.out.println("Ele pertence mesmo ao departamento e secretária");
+                
+            } catch (EmptyResultDataAccessException e) {
 
                 String sqlDeptID = "select iddepartment from department where department=? limit 1;";
 
@@ -97,7 +97,7 @@ public class EmployeeDAO {
 
             }
 
-        } catch (Exception e) {
+        } catch (EmptyResultDataAccessException e) {
 //            System.out.println("Deu merda, o gajo não esta na db, preciso inseri-lo.");
 
             String sqlDeptID = "select iddepartment from department where department=? limit 1;";

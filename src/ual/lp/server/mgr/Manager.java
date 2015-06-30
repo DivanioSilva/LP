@@ -8,6 +8,7 @@ package ual.lp.server.mgr;
 import java.util.List;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.dao.EmptyResultDataAccessException;
 import ual.lp.server.dao.EmployeeDAO;
 import ual.lp.server.dao.TicketDAO;
 import ual.lp.server.objects.Employee;
