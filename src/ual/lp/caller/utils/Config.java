@@ -29,17 +29,6 @@ public class Config {
     private String myIP = null;
     private String serverIP = null;
 
-//    JSONParser parser = new JSONParser();
-
-    /*
-     private String name;
-     private int deskNumber;
-     private Department department;
-    
-     {
-     "name":"Divanio Silva", "deskNumber":"1", "abbreviation":"S", "ip":"192.168.1.32"
-     }
-     */
     public Employee getEmployee() {
         employee = new Employee();
 

@@ -35,12 +35,14 @@ public class MainTest {
 //////        t.setDepartment(dept);
 ////        mgr.transferTicket(t);
         
+        mgr.autoCreateTicket("Tesouraria");
+        
         
 //        mgr.createTicket(2, 2);
-        employee = config.getEmployee();
+//        employee = config.getEmployee();
 //        mgr.getNextTicket(employee);
 //
-        mgr.verifyEmployee(employee);
+//        mgr.verifyEmployee(employee);
 
 //        mgr.closeTicket(t);
 //        System.out.println(mgr.getEmployee(new Employee(3, "teste", "teste")).getName());

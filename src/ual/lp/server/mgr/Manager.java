@@ -5,10 +5,8 @@
  */
 package ual.lp.server.mgr;
 
-import java.util.List;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.dao.EmptyResultDataAccessException;
 import ual.lp.server.dao.EmployeeDAO;
 import ual.lp.server.dao.TicketDAO;
 import ual.lp.server.objects.Employee;
@@ -35,18 +33,18 @@ public class Manager {
         
     }
     
+    /**
+     * Método que o Dispenser irá invocar
+     * @param o nome do departamento como esta na DB
+     * @return o número o ticket que ele irá imprimir.
+     */
+    public String autoCreateTicket(String dept){
+        return this.ticketDAO.autoCreateTicket(dept);
+    }
+    
     public void transferTicket(Ticket ticket){
         this.ticketDAO.transferTicket(ticket);
     }
-//    
-//    public Employee getEmployee(Employee employee){
-////        return employeeDAO.getEmployee(employee);
-//    }
-    
-//    public List <Ticket> getTickets(){
-////        return ticketDAO.getTicket();
-//    }
-    
     
     public void insertTicket(Ticket ticket){
 //        this.ticketDAO.insertTicket(ticket);
@@ -70,22 +68,8 @@ public class Manager {
         
         return this.ticketDAO.getNextTicket(employee);
     }
-    /**
-     * @return the context
-     */
-//    public ApplicationContext getContext() {
-//        return context;
-//    }
-
-    /**
-     * @param context the context to set
-     */
-//    public void setContext(ApplicationContext context) {
-//        this.context = context;
-//    }
     
     public void verifyEmployee(Employee employee){
         this.employeeDAO.verifyEmployee(employee);
     }
-
 }

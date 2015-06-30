@@ -11,8 +11,10 @@ import javax.sql.DataSource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import ual.lp.exceptions.NoTicketsException;
 import ual.lp.server.objects.Employee;
 import ual.lp.server.objects.Ticket;
+import ual.lp.server.objects.rowmappers.SimpleTicketMapper;
 import ual.lp.server.objects.rowmappers.TicketMapper;
 
 /**
@@ -40,7 +42,7 @@ public class TicketDAO {
      *
      * @return
      */
-    public Ticket getNextTicket(Employee employee) {
+    public Ticket getNextTicket(Employee employee) throws NoTicketsException{
         String sql, sqlUpdate = null;
         Ticket ticket;
 
@@ -91,13 +93,64 @@ public class TicketDAO {
             };
 
             jdbcTemplate.update(sqlUpdate, new Object[]{ticket.getEmployee().getEmpNumber(), ticket.getIdTicket()}, types);
-            System.out.println("O ticket atribuido é " + ticket.getNumberticket() + " e o colaborador é " + ticket.getEmployee().getName() + ".\nidTicket " + ticket.getIdTicket());
+            System.out.println("O ticket atribuido é " + ticket.getNumberticket() + " e o colaborador é "
+                    + ticket.getEmployee().getName() + ".\nidTicket " + ticket.getIdTicket());
             return ticket;
 
         } catch (EmptyResultDataAccessException e) {
 //            System.out.println("Deu merda dentro do segundo try/catch");
             System.out.println("Não existem tickets para serem atendidos nesta fila.");
-            return null;
+            throw new NoTicketsException("Não há tickets");
+        }
+    }
+
+    /**
+     *
+     */
+    public String autoCreateTicket(String dept) {
+        Ticket ticket = new Ticket();
+        String sql, ticketNumber = null;
+
+        try {
+            sql = "select * from tickets join department on tickets.iddepartment=department.iddepartment\n"
+                    + "where tickets.status=0 and department.department=? order by tickets.createhour limit 1;";
+
+            ticket = jdbcTemplate.queryForObject(sql, new Object[]{dept}, new SimpleTicketMapper());
+
+            sql = "insert into tickets(number, createhour, status, iddepartment) values(?, now(), 0, ?);";
+
+            int[] types = {
+                Types.INTEGER, Types.INTEGER
+            };
+            jdbcTemplate.update(sql, new Object[]{ticket.getNumberticket() + 1, ticket.getDepartment().getId()}, types);
+
+            ticketNumber = String.valueOf(ticket.getNumberticket() + 1);
+            System.out.println("Irei inserir na db o seguinte ticket number: "+ticketNumber);
+            return ticketNumber;
+
+        } catch (EmptyResultDataAccessException e) {
+//            System.out.println("Deu merda dentro do segundo try/catch");
+
+            sql = "select department.iddepartment\n"
+                    + "from department \n"
+                    + "where department.department=? limit 1;";
+
+            int[] types = {
+                Types.INTEGER, Types.INTEGER
+            };
+            
+            int deptId = jdbcTemplate.queryForInt(sql, new Object[]{dept});
+            
+
+//            System.out.println("Não existem tickets para serem atendidos nesta fila.");
+            sql = "insert into tickets(number, createhour, status, iddepartment) values(0, now(), 0, ?);";
+
+            int[] typesForDepartId = {
+                Types.INTEGER
+            };
+            jdbcTemplate.update(sql, new Object[]{deptId}, typesForDepartId);
+            System.out.println("Acabei de inserir um ticket com o numero igual a zero.");
+            return "0";
         }
     }
 
@@ -117,9 +170,9 @@ public class TicketDAO {
         };
 
         jdbcTemplate.update(sql, new Object[]{ticket.getTransferId(), ticket.getIdTicket()}, types);
-        
-        System.out.println("O ticket "+ticket.getIdTicket()+" foi transferido do colaborador "+ticket.getEmployee().getName()+""
-                + " para o employee com o id "+ticket.getTransferId());
+
+        System.out.println("O ticket " + ticket.getIdTicket() + " foi transferido do colaborador " + ticket.getEmployee().getName() + ""
+                + " para o employee com o id " + ticket.getTransferId());
 
     }
 

@@ -15,7 +15,7 @@ and open the template in the editor.
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://localhost:3306/isenhasdb" />
         <property name="username" value="root" />
-        <property name="password" value="IloveSql83" />
+        <property name="password" value="root" />
         <property name="maxActive" value="10" />
         <property name="minIdle" value="1" />
         <property name="poolPreparedStatements" value="true" />
