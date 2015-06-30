@@ -6,27 +6,27 @@
 package ual.lp.server.rmi;
 
 import java.rmi.RemoteException;
-import ual.lp.server.app.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
-import ual.lp.server.rmi.ServerImpl;
-import ual.lp.server.rmi.ServerInf;
+import ual.lp.server.mgr.Manager;
 
 /**
  *
  * @author Divanio Silva
  */
 public class Server {
+    private Manager manager;
+    
     private static final int port = 1099;
     
-    public static void main(String[] args) {
+    public Server(Manager manager) {
+        
         try {
             System.setProperty("java.rmi.server.hostname", "172.16.214.237");
             Registry registry = LocateRegistry.createRegistry(port);
             Thread.sleep(2000);
             System.out.println("O server arrancou!");
-            ServerInf serverImpl = new ServerImpl();
+            ServerInf serverImpl = new ServerImpl(manager);
             
             registry.rebind("response", serverImpl);
         } catch (RemoteException e) {
@@ -34,8 +34,6 @@ public class Server {
         } catch (InterruptedException e) {
             System.out.println("");
         }
-            
-
-       
     }
+    
 }
