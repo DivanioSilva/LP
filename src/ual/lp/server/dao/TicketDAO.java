@@ -123,7 +123,6 @@ public class TicketDAO {
                 Types.INTEGER, Types.INTEGER
             };
             jdbcTemplate.update(sql, new Object[]{ticket.getNumberticket() + 1, ticket.getDepartment().getId()}, types);
-
             ticketNumber = String.valueOf(ticket.getNumberticket() + 1);
             System.out.println("Irei inserir na db o seguinte ticket number: "+ticketNumber);
             return ticketNumber;
