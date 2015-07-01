@@ -7,9 +7,8 @@ package ual.lp.caller.rmi;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import javax.swing.JOptionPane;
+import ual.lp.caller.gui.CallerGUI;
 import ual.lp.caller.utils.Config;
-import ual.lp.server.objects.Employee;
 import ual.lp.server.rmi.ServerInf;
 
 /**
@@ -21,18 +20,27 @@ public class ClientRMI {
     public static final String HOST = "172.16.120.77";
     public static final int PORT = 1099;
     public static final String MYIP = null;
+    private CallerGUI callerGUI;
+
+    public ClientRMI(CallerGUI callerGUI) {
+        this.callerGUI = callerGUI;
+        System.setProperty("java.rmi.server.hostname", "172.16.214.237");//informar isso no relatório
+            try {
+            Registry registry = LocateRegistry.getRegistry(HOST, PORT);
+            ServerInf objRemoto = (ServerInf) registry.lookup("response");
+            this.callerGUI.setRemoteObject(objRemoto);
+        } catch (Exception e) {
+                System.out.println(e.getMessage());
+        }
+    }
     
-    
-    
-    public static void main(String[] args) {
-        //ler o ficheiro de conf para obter o ip do server é o ip deste client.
-        
+
+    public ClientRMI() {
         try {
             System.setProperty("java.rmi.server.hostname", "172.16.214.237");//informar isso no relatório
             Registry registry = LocateRegistry.getRegistry(HOST, PORT);
             ServerInf objRemoto = (ServerInf) registry.lookup("response");
             System.out.println(objRemoto.printMessage());
-            JOptionPane.showMessageDialog(null, objRemoto.printMessage());
             CallerImpl callback = new CallerImpl();
             objRemoto.connect(callback);
             objRemoto.TockTock(new Config().getEmployee());
@@ -45,4 +53,6 @@ public class ClientRMI {
             System.out.println(e.getMessage());
         }
     }
+    
+    
 }

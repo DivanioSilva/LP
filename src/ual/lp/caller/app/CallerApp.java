@@ -15,7 +15,7 @@ import ual.lp.caller.mgr.CallerMGR;
 public class CallerApp {
     public static void main(String[] args) {
         CallerMGR mgr = new CallerMGR();
-        CallerGUI caller = new CallerGUI(mgr);
+        CallerGUI caller = new CallerGUI();
         
         caller.setVisible(true);
     }

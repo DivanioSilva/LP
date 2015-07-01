@@ -5,11 +5,18 @@
  */
 package ual.lp.caller.gui;
 
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import ual.lp.caller.mgr.CallerMGR;
+import ual.lp.caller.rmi.ClientRMI;
 import ual.lp.caller.utils.Config;
+import ual.lp.exceptions.NoTicketsException;
 import ual.lp.server.objects.Employee;
+import ual.lp.server.objects.Ticket;
+import ual.lp.server.rmi.ServerInf;
 
 /**
  *
@@ -20,23 +27,34 @@ public class CallerGUI extends javax.swing.JFrame {
     private Config config;
     private Employee employee;
     private CallerMGR callerMGR;
+    private ClientRMI clientRMI;
+    private ServerInf remoteObject;
 
     /**
      * Creates new form CallerPanel
      */
     public CallerGUI() {
-        initComponents();
-        initData();
-    }
-
-    public CallerGUI(CallerMGR callerMGR) {
-        this.callerMGR = callerMGR;
-        initComponents();
+        
+        this.clientRMI = new ClientRMI(this);
         this.setLocationRelativeTo(null);
-        initData();
+        initComponents();
+        try {
+            initData();
+        } catch (Exception e) {
+            System.out.println("Deu merda no construtor do Caller.");
+        }
     }
 
-    public void initData() {
+//
+//    public CallerGUI(CallerMGR callerMGR) {
+//        this.callerMGR = callerMGR;
+//        initComponents();
+//        this.setLocationRelativeTo(null);
+//        initData();
+//        this.clientRMI = new ClientRMI();
+//    }
+
+    public void initData() throws RemoteException {
         jLabelNextTicket.setText(callerMGR.showNextCallTicket());
         jLabelActualTicket.setText(callerMGR.showActualTicket());
         //add o array todo dentro da list.
@@ -50,9 +68,10 @@ public class CallerGUI extends javax.swing.JFrame {
         //construo aqui o empl e envio para o server para ser colocado na lista de emp que estão a trabalhar.
         config = new Config();
         employee = config.getEmployee();
+        remoteObject.TockTock(employee);
         
-        JOptionPane.showMessageDialog(this, employee.getDeskNumber()+"\n "+employee.getName()+"\n"
-                +employee.getDepartment().getName()+"\n"+employee.getDepartment().getAbbreviation());
+//        JOptionPane.showMessageDialog(this, employee.getDeskNumber()+"\n "+employee.getName()+"\n"
+//                +employee.getDepartment().getName()+"\n"+employee.getDepartment().getAbbreviation());
         //chama o connect do rmi e mando o emp como argumento.
     }
 
@@ -176,32 +195,43 @@ public class CallerGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCallNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCallNextActionPerformed
-
-        if(jComboBoxDeptList.getSelectedItem()!=""&&jComboBoxColegasList.getSelectedItem()!=""){
-//            System.out.println("Tenho os dois selecionados.");
-            JOptionPane.showMessageDialog(this, "Você não pode transferir para um colega e\n para um departamento ao mesmo tempo");
-            jComboBoxColegasList.setSelectedIndex(0);
-            jComboBoxDeptList.setSelectedIndex(0);
-        }else if(jComboBoxDeptList.getSelectedItem()==""&&jComboBoxColegasList.getSelectedItem()==""){
-//            System.out.println("Não tenho nenhum selecionado");
-            jLabelNextTicket.setText(callerMGR.showNextCallTicket());
-            jLabelActualTicket.setText(callerMGR.showActualTicket());
-        }else{
-//            System.out.println("Valor do colega: "+ jComboBoxColegasList.getSelectedItem()+"\nValor do dept:"+jComboBoxDeptList.getSelectedItem());
-            JOptionPane.showMessageDialog(this, "Será feita a transferência para:\nColega "+ jComboBoxColegasList.getSelectedItem()+".\nDepartamento "+jComboBoxDeptList.getSelectedItem()+".");
-            jComboBoxColegasList.setSelectedIndex(0);
-            jComboBoxDeptList.setSelectedIndex(0);
-            jLabelNextTicket.setText(callerMGR.showNextCallTicket());
-            jLabelActualTicket.setText(callerMGR.showActualTicket());
-        }
         
-          //Testando o callerMGR para ser se funciona.
+        try {
+            Ticket ticket = remoteObject.getNextTicket(this.employee);
+           
+            jLabelActualTicket.setText(ticket.getDepartment().getAbbreviation()+""+String.valueOf(ticket.getNumberticket()));
+            
+            
+////////        if(jComboBoxDeptList.getSelectedItem()!=""&&jComboBoxColegasList.getSelectedItem()!=""){
+//////////            System.out.println("Tenho os dois selecionados.");
+////////            JOptionPane.showMessageDialog(this, "Você não pode transferir para um colega e\n para um departamento ao mesmo tempo");
+////////            jComboBoxColegasList.setSelectedIndex(0);
+////////            jComboBoxDeptList.setSelectedIndex(0);
+////////        }else if(jComboBoxDeptList.getSelectedItem()==""&&jComboBoxColegasList.getSelectedItem()==""){
+//////////            System.out.println("Não tenho nenhum selecionado");
+////////            jLabelNextTicket.setText(callerMGR.showNextCallTicket());
+////////            jLabelActualTicket.setText(callerMGR.showActualTicket());
+////////        }else{
+//////////            System.out.println("Valor do colega: "+ jComboBoxColegasList.getSelectedItem()+"\nValor do dept:"+jComboBoxDeptList.getSelectedItem());
+////////            JOptionPane.showMessageDialog(this, "Será feita a transferência para:\nColega "+ jComboBoxColegasList.getSelectedItem()+".\nDepartamento "+jComboBoxDeptList.getSelectedItem()+".");
+////////            jComboBoxColegasList.setSelectedIndex(0);
+////////            jComboBoxDeptList.setSelectedIndex(0);
+////////            jLabelNextTicket.setText(callerMGR.showNextCallTicket());
+////////            jLabelActualTicket.setText(callerMGR.showActualTicket());
+////////        }
+            
+            //Testando o callerMGR para ser se funciona.
 //        callerMGR.colleagueList();
 //        jComboBoxColegasList.add(callerMGR.colleagueList());
         
 //        System.out.println(callerMGR.showNextCallTicket());
 
 //        System.out.println(jComboBoxColegasList.getSelectedItem());//Faz o get do item selecionado na jList
+        } catch (RemoteException ex) {
+            Logger.getLogger(CallerGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoTicketsException ex) {
+            Logger.getLogger(CallerGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_jButtonCallNextActionPerformed
 
@@ -258,4 +288,18 @@ public class CallerGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the remoteObject
+     */
+    public ServerInf getRemoteObject() {
+        return remoteObject;
+    }
+
+    /**
+     * @param remoteObject the remoteObject to set
+     */
+    public void setRemoteObject(ServerInf remoteObject) {
+        this.remoteObject = remoteObject;
+    }
 }
