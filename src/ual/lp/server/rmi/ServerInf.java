@@ -22,6 +22,8 @@ public interface ServerInf extends Remote {
     
     public void connect(CallerInf id) throws RemoteException;
     
+    public void TockTock(Employee employee) throws RemoteException;
+    
     public void closeTicket(Ticket ticket) throws RemoteException;
     
     public Ticket getNextTicket(Employee employee) throws RemoteException, NoTicketsException;

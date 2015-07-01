@@ -17,14 +17,15 @@ import ual.lp.server.objects.Ticket;
  *
  * @author Divanio Silva
  */
-public class ServerImpl extends UnicastRemoteObject implements ServerInf{
+public class ServerImpl extends UnicastRemoteObject implements ServerInf {
+
     private Manager manager;
     private Ticket ticket;
-    
+
     public ServerImpl(Manager mgr) throws RemoteException {
-        this.manager=mgr;
+        this.manager = mgr;
     }
-    
+
     @Override
     public String printMessage() throws RemoteException {
         System.out.println("Estou a imprimir no servidor");
@@ -34,6 +35,12 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInf{
     @Override
     public void connect(CallerInf id) throws RemoteException {
         System.out.println(id.testCallback("O callback funcionou"));
+
+    }
+
+    @Override
+    public void TockTock(Employee employee) throws RemoteException {
+        this.manager.verifyEmployee(employee);
     }
 
     @Override
@@ -44,6 +51,6 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInf{
     @Override
     public Ticket getNextTicket(Employee employee) throws RemoteException, NoTicketsException {
         ticket = new Ticket();
-        return ticket=this.manager.getNextTicket(employee);
+        return ticket = this.manager.getNextTicket(employee);
     }
 }
