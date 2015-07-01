@@ -8,6 +8,8 @@ package ual.lp.caller.rmi;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import javax.swing.JOptionPane;
+import ual.lp.caller.utils.Config;
+import ual.lp.server.objects.Employee;
 import ual.lp.server.rmi.ServerInf;
 
 /**
@@ -16,7 +18,7 @@ import ual.lp.server.rmi.ServerInf;
  */
 public class ClientRMI {
     //172.16.214.237
-    public static final String HOST = "172.16.214.237";
+    public static final String HOST = "172.16.120.77";
     public static final int PORT = 1099;
     public static final String MYIP = null;
     
@@ -26,13 +28,17 @@ public class ClientRMI {
         //ler o ficheiro de conf para obter o ip do server é o ip deste client.
         
         try {
-            System.setProperty("java.rmi.server.hostname", "172.16.120.77");//informar isso no relatório
+            System.setProperty("java.rmi.server.hostname", "172.16.214.237");//informar isso no relatório
             Registry registry = LocateRegistry.getRegistry(HOST, PORT);
             ServerInf objRemoto = (ServerInf) registry.lookup("response");
             System.out.println(objRemoto.printMessage());
             JOptionPane.showMessageDialog(null, objRemoto.printMessage());
             CallerImpl callback = new CallerImpl();
             objRemoto.connect(callback);
+            objRemoto.TockTock(new Config().getEmployee());
+             
+            System.out.println((objRemoto.getNextTicket(new Config().getEmployee())).getNumberticket());
+            
 
         } catch (Exception e) {
 //            System.out.println("Deu merda no client.");
