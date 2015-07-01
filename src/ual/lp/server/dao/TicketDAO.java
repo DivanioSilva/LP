@@ -128,7 +128,6 @@ public class TicketDAO {
             return ticketNumber;
 
         } catch (EmptyResultDataAccessException e) {
-//            System.out.println("Deu merda dentro do segundo try/catch");
 
             sql = "select department.iddepartment\n"
                     + "from department \n"
