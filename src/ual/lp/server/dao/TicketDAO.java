@@ -113,7 +113,7 @@ public class TicketDAO {
 
         try {
             sql = "select * from tickets join department on tickets.iddepartment=department.iddepartment\n"
-                    + "where reset is null and department.department=? order by tickets.createhour desc limit 1;";
+                    + "where tickets.reset is null and department.department=? order by tickets.createhour desc limit 1;";
 
             ticket = jdbcTemplate.queryForObject(sql, new Object[]{dept}, new SimpleTicketMapper());
 
