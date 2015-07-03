@@ -55,8 +55,8 @@ public class CallerGUI extends javax.swing.JFrame {
 //    }
 
     public void initData() throws RemoteException {
-        jLabelNextTicket.setText(callerMGR.showNextCallTicket());
-        jLabelActualTicket.setText(callerMGR.showActualTicket());
+//        jLabelNextTicket.setText(callerMGR.showNextCallTicket());
+//        jLabelActualTicket.setText(callerMGR.showActualTicket());
         //add o array todo dentro da list.
         //callerMGR.colleagueList().getData().toArray())
 
@@ -89,8 +89,6 @@ public class CallerGUI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBoxColegasList = new javax.swing.JComboBox();
-        jComboBoxDeptList = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabelActualTicket = new javax.swing.JLabel();
@@ -137,21 +135,6 @@ public class CallerGUI extends javax.swing.JFrame {
 
         jLabel3.setText("Colegas");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 17, -1, -1));
-
-        jComboBoxColegasList.setMaximumRowCount(20);
-        jComboBoxColegasList.setModel(new DefaultComboBoxModel(callerMGR.employeesList()));
-        jComboBoxColegasList.setToolTipText("");
-        jPanel2.add(jComboBoxColegasList, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 38, 135, -1));
-
-        jComboBoxDeptList.setMaximumRowCount(20);
-        jComboBoxDeptList.setModel(new DefaultComboBoxModel(callerMGR.deptmentList())
-        );
-        jComboBoxDeptList.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxDeptListActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jComboBoxDeptList, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 89, 135, -1));
 
         jLabel4.setText("Departamentos");
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 68, -1, -1));
@@ -235,10 +218,6 @@ public class CallerGUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButtonCallNextActionPerformed
 
-    private void jComboBoxDeptListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDeptListActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxDeptListActionPerformed
-
 //    /**
 //     * @param args the command line arguments
 //     */
@@ -277,8 +256,6 @@ public class CallerGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCallNext;
-    private javax.swing.JComboBox jComboBoxColegasList;
-    private javax.swing.JComboBox jComboBoxDeptList;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

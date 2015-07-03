@@ -21,7 +21,7 @@ public class MainTest {
     public static void main(String[] args) {
         Config config = new Config();
         Employee employee;
-        Manager mgr = new Manager(true);
+        Manager mgr = new Manager(false);
 //        System.out.println(mgr.getEmployee(new Employee(1, "teste", "teste")).getName());
 //        mgr.insertEmployee(new Employee(1, "Pedro Tomas", "Ceu"));
 //        mgr.getEmployee(new Employee(5,"Pedro Tomas", "Ceu"));
@@ -37,8 +37,8 @@ public class MainTest {
 //////        t.setDepartment(dept);
 ////        mgr.transferTicket(t);
 
-//                employee = config.getEmployee();
-//                mgr.verifyEmployee(employee);
+                employee = config.getEmployee();
+                mgr.verifyEmployee(employee);
                 
 //                mgr.autoCreateTicket("Tesouraria");
         

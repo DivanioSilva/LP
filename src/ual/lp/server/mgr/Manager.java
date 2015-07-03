@@ -5,14 +5,17 @@
  */
 package ual.lp.server.mgr;
 
+import java.util.List;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ual.lp.exceptions.NoTicketsException;
 import ual.lp.server.dao.EmployeeDAO;
 import ual.lp.server.dao.TicketDAO;
+import ual.lp.server.objects.Department;
 import ual.lp.server.objects.Employee;
 import ual.lp.server.objects.Ticket;
 import ual.lp.server.rmi.ServerRMI;
+import ual.lp.server.utils.Serverconfig;
 
 /**
  *
@@ -24,12 +27,18 @@ public class Manager {
     private TicketDAO ticketDAO;
     private ServerRMI serverRMI;
     private ApplicationContext context;
+    private Serverconfig serverconfig;
+    private List<Department> departments;
     
     public Manager(boolean rmi){
         if(rmi) this.serverRMI = new ServerRMI(this); 
         this.context = new ClassPathXmlApplicationContext("ual/lp/spring/bean.xml");
         employeeDAO = (EmployeeDAO) context.getBean("employeeDAO");
         ticketDAO = (TicketDAO) context.getBean("ticketDAO");
+        serverconfig = (Serverconfig) context.getBean("serverConfig");
+        departments = serverconfig.getDepartments();
+        
+        
     }
 //
 //    public Manager(Manager manager) {
