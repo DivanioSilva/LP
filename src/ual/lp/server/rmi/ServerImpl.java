@@ -33,7 +33,8 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInf {
     }
 
     @Override
-    public void connect(CallerInf id) throws RemoteException {
+    public void connect(CallerInf id, Employee employee) throws RemoteException {
+        
         System.out.println(id.testCallback("O callback funcionou"));
 
     }

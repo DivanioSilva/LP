@@ -7,6 +7,7 @@ package ual.lp.caller.rmi;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 import javax.swing.JOptionPane;
 import ual.lp.server.objects.Employee;
 import ual.lp.server.objects.Ticket;
@@ -35,9 +36,8 @@ public class CallerImpl extends UnicastRemoteObject implements CallerInf {
     }
 
     @Override
-    public Employee tocktock() throws RemoteException {
-        //ver do ficheiro de conf os dados para criar o employee e envia-lo para o server.
-        Employee emp = new Employee();
-        return emp;
+    public List<Employee> sendEmployees() throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 }

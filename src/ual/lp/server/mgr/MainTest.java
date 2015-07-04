@@ -21,7 +21,7 @@ public class MainTest {
     public static void main(String[] args) {
         Config config = new Config();
         Employee employee;
-        Manager mgr = new Manager(false);
+        Manager mgr = new Manager(true);
 //        System.out.println(mgr.getEmployee(new Employee(1, "teste", "teste")).getName());
 //        mgr.insertEmployee(new Employee(1, "Pedro Tomas", "Ceu"));
 //        mgr.getEmployee(new Employee(5,"Pedro Tomas", "Ceu"));
@@ -37,10 +37,18 @@ public class MainTest {
 //////        t.setDepartment(dept);
 ////        mgr.transferTicket(t);
 
-                employee = config.getEmployee();
-                mgr.verifyEmployee(employee);
+//                employee = config.getEmployee();
+//                mgr.verifyEmployee(employee);
                 
-//                mgr.autoCreateTicket("Tesouraria");
+                for (int i = 0; i < 40; i++) {
+            try {
+                mgr.autoCreateTicket("Tesouraria");
+                Thread.sleep(1000);
+                
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MainTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
 //        for (int i = 0; i < 20; i++) {
 //            mgr.autoCreateTicket("Tesouraria");

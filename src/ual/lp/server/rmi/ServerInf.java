@@ -20,7 +20,7 @@ public interface ServerInf extends Remote {
     
     public String printMessage() throws RemoteException;
     
-    public void connect(CallerInf id) throws RemoteException;
+    public void connect(CallerInf id, Employee employee) throws RemoteException;
     
     public void TockTock(Employee employee) throws RemoteException;
     

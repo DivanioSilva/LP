@@ -5,10 +5,8 @@
  */
 package ual.lp.caller.gui;
 
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import ual.lp.caller.mgr.CallerMGR;
 import ual.lp.caller.rmi.ClientRMI;
@@ -23,55 +21,46 @@ import ual.lp.server.rmi.ServerInf;
  * @author Divanio Silva
  */
 public class CallerGUI extends javax.swing.JFrame {
+
     //colocar um botão bonitinho do call. Imagem Play????
     private Config config;
     private Employee employee;
     private CallerMGR callerMGR;
     private ClientRMI clientRMI;
     private ServerInf remoteObject;
+    Ticket ticket;
 
     /**
      * Creates new form CallerPanel
      */
     public CallerGUI() {
-        
-        this.clientRMI = new ClientRMI(this);
         this.setLocationRelativeTo(null);
+
         initComponents();
         try {
+
+            this.clientRMI = new ClientRMI(this);
             initData();
-        } catch (Exception e) {
-            System.out.println("Deu merda no construtor do Caller.");
+        } catch (RemoteException e) {
+            System.err.println("Deu merda no construtor do Caller.\n" + e.getMessage());
+            JOptionPane.showMessageDialog(this, "O servidor esta off-line.\nContacte o administrador do sistema.");
+            System.exit(1);
+        } catch (NotBoundException e) {
+            System.err.println("Caiu na notBound" + e.getMessage());
+        } catch (NullPointerException en) {
+            System.err.println("Deu nullPointer" + en.getMessage());
         }
     }
 
-//
-//    public CallerGUI(CallerMGR callerMGR) {
-//        this.callerMGR = callerMGR;
-//        initComponents();
-//        this.setLocationRelativeTo(null);
-//        initData();
-//        this.clientRMI = new ClientRMI();
-//    }
-
     public void initData() throws RemoteException {
-//        jLabelNextTicket.setText(callerMGR.showNextCallTicket());
-//        jLabelActualTicket.setText(callerMGR.showActualTicket());
-        //add o array todo dentro da list.
-        //callerMGR.colleagueList().getData().toArray())
 
-//        jComboBoxColegasList.setModel(new DefaultComboBoxModel(callerMGR.employeesList()));
-////        jComboBoxColegasList.setModel(new DefaultComboBoxModel(callerMGR.employeesList()));
-//        jComboBoxDeptList.setModel(new DefaultComboBoxModel(callerMGR.deptmentList()));
-//        jComboBoxColegasList.addItem(this.callerMGR.colleagueList().getData().get(0).getName());
-        
         //construo aqui o empl e envio para o server para ser colocado na lista de emp que estão a trabalhar.
         config = new Config();
         employee = config.getEmployee();
         remoteObject.TockTock(employee);
-        
-//        JOptionPane.showMessageDialog(this, employee.getDeskNumber()+"\n "+employee.getName()+"\n"
-//                +employee.getDepartment().getName()+"\n"+employee.getDepartment().getAbbreviation());
+        jLabelActualTicket.setText("");
+        jLabelNextTicket.setText("");
+
         //chama o connect do rmi e mando o emp como argumento.
     }
 
@@ -172,7 +161,7 @@ public class CallerGUI extends javax.swing.JFrame {
                 jButtonCallNextActionPerformed(evt);
             }
         });
-        getContentPane().add(jButtonCallNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 120, 120));
+        getContentPane().add(jButtonCallNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, 120, 120));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -180,11 +169,20 @@ public class CallerGUI extends javax.swing.JFrame {
     private void jButtonCallNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCallNextActionPerformed
         
         try {
-            Ticket ticket = remoteObject.getNextTicket(this.employee);
-           
-            jLabelActualTicket.setText(ticket.getDepartment().getAbbreviation()+""+String.valueOf(ticket.getNumberticket()));
             
+            if (jLabelActualTicket.getText().equals("")) {
+
+                this.ticket = remoteObject.getNextTicket(this.employee);
+
+                jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
+            } else{
+                remoteObject.closeTicket(this.ticket);
+                this.ticket = remoteObject.getNextTicket(this.employee);
+                 jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
+            }
             
+            //Fazer o close deste ticket.
+
 ////////        if(jComboBoxDeptList.getSelectedItem()!=""&&jComboBoxColegasList.getSelectedItem()!=""){
 //////////            System.out.println("Tenho os dois selecionados.");
 ////////            JOptionPane.showMessageDialog(this, "Você não pode transferir para um colega e\n para um departamento ao mesmo tempo");
@@ -202,18 +200,12 @@ public class CallerGUI extends javax.swing.JFrame {
 ////////            jLabelNextTicket.setText(callerMGR.showNextCallTicket());
 ////////            jLabelActualTicket.setText(callerMGR.showActualTicket());
 ////////        }
-            
             //Testando o callerMGR para ser se funciona.
-//        callerMGR.colleagueList();
-//        jComboBoxColegasList.add(callerMGR.colleagueList());
-        
-//        System.out.println(callerMGR.showNextCallTicket());
-
-//        System.out.println(jComboBoxColegasList.getSelectedItem());//Faz o get do item selecionado na jList
         } catch (RemoteException ex) {
-            Logger.getLogger(CallerGUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Existe um problema de comunicação\n com o servidor");
         } catch (NoTicketsException ex) {
-            Logger.getLogger(CallerGUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Não existem tickets por atender.");
+            jLabelActualTicket.setText("");
         }
 
     }//GEN-LAST:event_jButtonCallNextActionPerformed
