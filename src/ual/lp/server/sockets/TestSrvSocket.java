@@ -13,7 +13,7 @@ public class TestSrvSocket {
         int port =5000;
         
 		//Constrói o servior
-		SDPServerSocket servidor = new SDPServerSocket();
+		SocketSrv servidor = new SocketSrv();
 		//SDPMultiServerSocket servidor = new SDPMultiServerSocket();
 		try{
 			//int port = Integer.parseInt(args[1]); //Faz o parse do porto

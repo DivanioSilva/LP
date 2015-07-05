@@ -8,7 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 
-public class SDPServerSocket {
+public class SocketSrv {
 	
 	private  ServerSocket server;
 	private  Socket client;
@@ -19,7 +19,7 @@ public class SDPServerSocket {
 	/**
 	 * Constrói o obj
 	 */
-	public SDPServerSocket(){}
+	public SocketSrv(){}
 	
 	/**
 	 * Função que cria um servidor socket num determinado porto e estabelece ligação
