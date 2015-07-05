@@ -19,10 +19,10 @@ public class Client {
 //		}
 		
 		try {
-			InetAddress host = InetAddress.getByName("192.168.16.31");
+			InetAddress host = InetAddress.getByName("192.168.1.9");
 			try{
 			
-			int port = 5000;
+			int port = 5005;
 		
 			//Cria o socket
 			socket = new Socket(host,port);

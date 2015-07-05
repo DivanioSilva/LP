@@ -10,7 +10,7 @@ public class TestSrvSocket {
 //			System.out.println("-p <porto>");
 //			System.exit(-1);
 //		}
-        int port =5000;
+        int port =5006;
         
 		//Constrói o servior
 		SocketSrv servidor = new SocketSrv();
