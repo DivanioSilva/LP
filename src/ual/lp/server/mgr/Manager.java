@@ -23,7 +23,7 @@ import ual.lp.server.utils.Serverconfig;
  * @author Pedro
  */
 public class Manager {
-   
+
     private EmployeeDAO employeeDAO;
     private TicketDAO ticketDAO;
     private DepartmentDAO departmentDAO;
@@ -31,10 +31,12 @@ public class Manager {
     private ApplicationContext context;
     private Serverconfig serverconfig;
     private List<Department> departments;
-    
-    
-    public Manager(boolean rmi){
-        if(rmi) this.serverRMI = new ServerRMI(this); 
+    private List<Employee> employees;
+
+    public Manager(boolean rmi) {
+        if (rmi) {
+            this.serverRMI = new ServerRMI(this);
+        }
         this.context = new ClassPathXmlApplicationContext("ual/lp/spring/bean.xml");
         employeeDAO = (EmployeeDAO) context.getBean("employeeDAO");
         ticketDAO = (TicketDAO) context.getBean("ticketDAO");
@@ -42,8 +44,7 @@ public class Manager {
         serverconfig = (Serverconfig) context.getBean("serverConfig");
         departments = serverconfig.getDepartments();
         departmentDAO.loadDepartmens(departments);
-        
-        
+
     }
 //
 //    public Manager(Manager manager) {
@@ -53,54 +54,74 @@ public class Manager {
 //        ticketDAO = (TicketDAO) context.getBean("ticketDAO");
 //    }
 //    
-    
-   
-    public void insertEmployee(Employee employee){
+
+    public void insertEmployee(Employee employee) {
 //        employeeDAO.insertEmployee(employee);
-        
+
     }
-    
+
     /**
      * Método que o Dispenser irá invocar
+     *
      * @param o nome do departamento como esta na DB
      * @return o número o ticket que ele irá imprimir.
      */
-    public String autoCreateTicket(String dept){
+    public String autoCreateTicket(String dept) {
         return this.getTicketDAO().autoCreateTicket(dept);
     }
-    
-    public void transferTicket(Ticket ticket){
+
+    public void transferTicket(Ticket ticket) {
         this.getTicketDAO().transferTicket(ticket);
     }
-    
-    public void insertTicket(Ticket ticket){
+
+    public void insertTicket(Ticket ticket) {
 //        this.ticketDAO.insertTicket(ticket);
     }
-    
-    public void closeTicket(Ticket ticket){
+
+    public void closeTicket(Ticket ticket) {
         this.getTicketDAO().closeTicket(ticket);
     }
-    
+
     /**
      * Método utilizado para criar um novo ticket solicitado pelo dispenser.
+     *
      * @param number do server.
      * @param idDept do dispenser.
      */
-    public void createTicket(int number, int idDept){
+    public void createTicket(int number, int idDept) {
         this.getTicketDAO().createTicket(number, idDept);
     }
-    
-    public Ticket getNextTicket(Employee employee) throws NoTicketsException{
+
+    public Ticket getNextTicket(Employee employee) throws NoTicketsException {
         //employee.getDepartment().getId()
-        
+
         return this.getTicketDAO().getNextTicket(employee);
     }
-    
-    public void verifyEmployee(Employee employee){
+
+    public void verifyEmployee(Employee employee) {
         this.getEmployeeDAO().verifyEmployee(employee);
     }
-    public void loadDepartments (List<Department> departments){
-        
+//    public void loadDepartments (List<Department> departments){
+//        
+//    }
+
+    /**
+     * verifica configurações do colaborador
+     *
+     * @param employee
+     * @return true se as configurações estiverem correctas(Departamento e
+     * abreviação no ficheiro de configuração do colaborador), false se as configurações estiverem erradas
+     */
+    public boolean verifyEmployeeConfig(Employee employee) {
+        for (int i = 0; i < this.departments.size(); i++) {
+            if (employee.getDepartment().getName().equals(this.departments.get(i).getName())
+                    && employee.getDepartment().getAbbreviation().equals(this.departments.get(i).getAbbreviation())) {
+                return true;
+
+            }
+
+        }
+        return false;
     }
 
     /**
@@ -158,5 +179,5 @@ public class Manager {
     public void setContext(ApplicationContext context) {
         this.context = context;
     }
-   
+
 }

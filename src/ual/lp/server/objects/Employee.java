@@ -6,6 +6,7 @@
 package ual.lp.server.objects;
 
 import java.io.Serializable;
+import ual.lp.caller.inf.CallerInf;
 
 /**
  *
@@ -16,6 +17,7 @@ public class Employee implements Serializable{
     private String name;
     private int deskNumber;
     private Department department;
+    private CallerInf callerInf;
 
     public Employee() {
     }
@@ -89,6 +91,20 @@ public class Employee implements Serializable{
      */
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    /**
+     * @return the callerInf
+     */
+    public CallerInf getCallerInf() {
+        return callerInf;
+    }
+
+    /**
+     * @param callerInf the callerInf to set
+     */
+    public void setCallerInf(CallerInf callerInf) {
+        this.callerInf = callerInf;
     }
 
 
