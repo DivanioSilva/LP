@@ -8,6 +8,7 @@ package ual.lp.server.mgr;
 import java.util.List;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ual.lp.exceptions.BadConfigurationException;
 import ual.lp.exceptions.NoTicketsException;
 import ual.lp.server.dao.DepartmentDAO;
 import ual.lp.server.dao.EmployeeDAO;
@@ -110,18 +111,27 @@ public class Manager {
      *
      * @param employee
      * @return true se as configurações estiverem correctas(Departamento e
-     * abreviação no ficheiro de configuração do colaborador), false se as configurações estiverem erradas
+     * abreviação no ficheiro de configuração do colaborador), false se as
+     * configurações estiverem erradas
      */
-    public boolean verifyEmployeeConfig(Employee employee) {
+    public void verifyEmployeeConfig(Employee employee) throws BadConfigurationException {
         for (int i = 0; i < this.departments.size(); i++) {
             if (employee.getDepartment().getName().equals(this.departments.get(i).getName())
                     && employee.getDepartment().getAbbreviation().equals(this.departments.get(i).getAbbreviation())) {
-                return true;
-
+                return;
             }
-
         }
-        return false;
+        throw new BadConfigurationException("Configurações incorrectas");
+    }
+
+    public void addEmployee(Employee employee) {
+        for (int i = 0; i < this.employees.size(); i++) {
+            if (employee.getName().equals(employees.get(i).getName())) {
+                employees.remove(i);
+            }
+        }
+        employees.add(employee);
+
     }
 
     /**
