@@ -12,8 +12,11 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import ual.lp.exceptions.NoTicketsException;
+import ual.lp.server.objects.Department;
 import ual.lp.server.objects.Employee;
 import ual.lp.server.objects.Ticket;
+import ual.lp.server.objects.rowmappers.DepartmentMapper;
+import ual.lp.server.objects.rowmappers.SimpleEmployeeMapper;
 import ual.lp.server.objects.rowmappers.SimpleTicketMapper;
 import ual.lp.server.objects.rowmappers.TicketMapper;
 
@@ -42,7 +45,7 @@ public class TicketDAO {
      *
      * @return
      */
-    public Ticket getNextTicket(Employee employee) throws NoTicketsException{
+    public Ticket getNextTicket(Employee employee) throws NoTicketsException {
         String sql, sqlUpdate = null;
         Ticket ticket;
 
@@ -105,7 +108,9 @@ public class TicketDAO {
     }
 
     /**
-     *
+     * Método utilizado pelo mgr/dispenser para inserir um ticket.
+     * @param dept nome do departamento
+     * @return o ticket para ser impresso pelo dispenser
      */
     public String autoCreateTicket(String dept) {
         Ticket ticket = new Ticket();
@@ -123,32 +128,41 @@ public class TicketDAO {
                 Types.INTEGER, Types.INTEGER
             };
             jdbcTemplate.update(sql, new Object[]{ticket.getNumberticket() + 1, ticket.getDepartment().getId()}, types);
-            ticketNumber = String.valueOf(ticket.getNumberticket() + 1);
-            System.out.println("Irei inserir na db o seguinte ticket number: "+ticketNumber);
+            //S01
+//            ticketNumber = String.valueOf(ticket.getNumberticket() + 1);
+            ticketNumber = ticket.getDepartment().getAbbreviation() + "" + String.valueOf(ticket.getNumberticket() + 1);
+            //T01
+            System.out.println("Irei inserir na db o seguinte ticket number: " + ticketNumber);
             return ticketNumber;
 
         } catch (EmptyResultDataAccessException e) {
 
-            sql = "select department.iddepartment\n"
+            sql = "select *\n"
                     + "from department \n"
                     + "where department.department=? limit 1;";
 
-            int[] types = {
-                Types.INTEGER, Types.INTEGER
-            };
-            
-            int deptId = jdbcTemplate.queryForInt(sql, new Object[]{dept});
+//            int[] types = {
+//                Types.INTEGER, Types.INTEGER
+//            };
+
+//            int deptId = jdbcTemplate.queryForInt(sql, new Object[]{dept});
+            Department department;
+            department= jdbcTemplate.queryForObject(sql, new Object[]{dept}, new DepartmentMapper());
             
 
 //            System.out.println("Não existem tickets para serem atendidos nesta fila.");
-            sql = "insert into tickets(number, createhour, status, iddepartment) values(0, now(), 0, ?);";
+            sql = "insert into tickets(number, createhour, status, iddepartment) values(1, now(), 0, ?);";
 
             int[] typesForDepartId = {
                 Types.INTEGER
             };
-            jdbcTemplate.update(sql, new Object[]{deptId}, typesForDepartId);
-            System.out.println("Acabei de inserir um ticket com o numero igual a zero.");
-            return "0";
+            
+            jdbcTemplate.update(sql, new Object[]{department.getId()}, typesForDepartId);
+            
+            
+            System.out.println("Acabei de inserir um ticket com o numero 1.");
+            
+            return department.getAbbreviation()+""+1;
         }
     }
 

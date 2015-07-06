@@ -134,6 +134,10 @@ public class Manager {
         employees.add(employee);
     }
 
+    public List<Employee> employeesCallback(Employee employee){
+        return null;
+    }
+    
     /**
      * @return the employeeDAO
      */
