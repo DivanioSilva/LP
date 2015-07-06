@@ -8,6 +8,7 @@ package ual.lp.server.mgr;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import ual.lp.caller.utils.Config;
+import ual.lp.exceptions.BadConfigurationException;
 import ual.lp.server.objects.Department;
 import ual.lp.server.objects.Employee;
 import ual.lp.server.objects.Ticket;
@@ -37,7 +38,12 @@ public class MainTest {
 //////        t.setDepartment(dept);
 ////        mgr.transferTicket(t);
 
-//                employee = config.getEmployee();
+                employee = config.getEmployee();
+        try {
+            mgr.verifyEmployeeConfig(employee);
+            mgr.addEmployee(employee);
+            mgr.verifyEmployee(employee);
+            
 //                mgr.verifyEmployee(employee);
                 
 //                for (int i = 0; i < 40; i++) {
@@ -79,5 +85,8 @@ public class MainTest {
 //        emp.setName("Divanio Silva");
 //        emp.setDepartment("Financeiro");
 //        empDAO.insert(emp);
+        } catch (BadConfigurationException ex) {
+            System.err.println("O camelo do gajo de configurou isso fez merda!\n"+ex.getMessage());
+        }
     }
 }
