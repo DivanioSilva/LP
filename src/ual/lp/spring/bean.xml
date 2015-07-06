@@ -33,6 +33,9 @@ and open the template in the editor.
     <bean id="ticketDAO" class="ual.lp.server.dao.TicketDAO">
         <property name="transactionManager" ref="transactionManager" />
     </bean>
+    <bean id="departmentDAO" class="ual.lp.server.dao.DepartmentDAO">
+        <property name="transactionManager" ref="transactionManager" />
+    </bean>
     
     <bean id="serverConfig" class="ual.lp.server.utils.Serverconfig">
     </bean>
