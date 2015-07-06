@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ual.lp.exceptions.NoTicketsException;
+import ual.lp.server.dao.DepartmentDAO;
 import ual.lp.server.dao.EmployeeDAO;
 import ual.lp.server.dao.TicketDAO;
 import ual.lp.server.objects.Department;
@@ -25,18 +26,22 @@ public class Manager {
    
     private EmployeeDAO employeeDAO;
     private TicketDAO ticketDAO;
+    private DepartmentDAO departmentDAO;
     private ServerRMI serverRMI;
     private ApplicationContext context;
     private Serverconfig serverconfig;
     private List<Department> departments;
+    
     
     public Manager(boolean rmi){
         if(rmi) this.serverRMI = new ServerRMI(this); 
         this.context = new ClassPathXmlApplicationContext("ual/lp/spring/bean.xml");
         employeeDAO = (EmployeeDAO) context.getBean("employeeDAO");
         ticketDAO = (TicketDAO) context.getBean("ticketDAO");
+        departmentDAO = (DepartmentDAO) context.getBean("departmentDAO");
         serverconfig = (Serverconfig) context.getBean("serverConfig");
         departments = serverconfig.getDepartments();
+        departmentDAO.loadDepartmens(departments);
         
         
     }
@@ -94,6 +99,9 @@ public class Manager {
     public void verifyEmployee(Employee employee){
         this.getEmployeeDAO().verifyEmployee(employee);
     }
+    public void loadDepartments (List<Department> departments){
+        
+    }
 
     /**
      * @return the employeeDAO
@@ -150,4 +158,5 @@ public class Manager {
     public void setContext(ApplicationContext context) {
         this.context = context;
     }
+   
 }
