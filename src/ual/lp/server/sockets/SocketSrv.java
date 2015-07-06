@@ -58,7 +58,9 @@ public class SocketSrv {
 			try {
 				data = in.readLine();
 				System.out.println("Recebido: "+data);
-				out.println("Recebido: "+data);
+                new ProtocolProcessing().inMessage(data);
+                
+				//out.println("Recebido: "+data);
                 
                 //Implementar solução de saida
                 
