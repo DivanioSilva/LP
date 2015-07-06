@@ -5,6 +5,7 @@
  */
 package ual.lp.server.mgr;
 
+import java.util.LinkedList;
 import java.util.List;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -45,7 +46,7 @@ public class Manager {
         serverconfig = (Serverconfig) context.getBean("serverConfig");
         departments = serverconfig.getDepartments();
         departmentDAO.loadDepartmens(departments);
-
+        employees = new LinkedList<>();
     }
 //
 //    public Manager(Manager manager) {
@@ -131,7 +132,6 @@ public class Manager {
             }
         }
         employees.add(employee);
-
     }
 
     /**
