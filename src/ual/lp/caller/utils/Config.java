@@ -42,8 +42,9 @@ public class Config {
             employee.setDepartment(new Department((String) jsonObject.get("department"), (String) jsonObject.get("abbreviation")));
 
         } catch (Exception e) {
-            callerLog.fatal("Erro ao ler o ficheiro de configuração 'config.json' para construir o employee desta máquina.", e);
-            System.err.println("Erro ao ler o ficheiro de configuração 'config.json' para construir o employee desta máquina.");
+            callerLog.fatal("Erro ao ler o ficheiro de configuração 'callerconfig.json' para construir o employee desta máquina.", e);
+            
+            System.err.println("Erro ao ler o ficheiro de configuração 'callerconfig.json' para construir o employee desta máquina.");
         }
 
         return employee;
@@ -55,8 +56,8 @@ public class Config {
             myIP = (String) jsonObject.get("myIP");
 
         } catch (Exception e) {
-            callerLog.fatal("Erro ao ler o ficheiro de configuração 'config.json' para obter o IP da máquina.\n", e);
-            System.err.println("Erro ao ler o ficheiro de configuração 'config.json' para obter o IP da máquina.");
+            callerLog.fatal("Erro ao ler o ficheiro de configuração 'callerconfig.json' para obter o IP da máquina.\n", e);
+            System.err.println("Erro ao ler o ficheiro de configuração 'callerconfig.json' para obter o IP da máquina.");
         }
 
         return myIP;
@@ -68,8 +69,8 @@ public class Config {
             serverIP = (String) jsonObject.get("serverIP");
 
         } catch (Exception e) {
-            callerLog.fatal("Erro ao ler o ficheiro de configuração 'config.json' para obter o IP do servidor.", e);
-            System.err.println("Erro ao ler o ficheiro de configuração 'config.json' para obter o IP do servidor.");
+            callerLog.fatal("Erro ao ler o ficheiro de configuração 'callerconfig.json' para obter o IP do servidor.", e);
+            System.err.println("Erro ao ler o ficheiro de configuração 'callerconfig.json' para obter o IP do servidor.");
         }
 
         return serverIP;
