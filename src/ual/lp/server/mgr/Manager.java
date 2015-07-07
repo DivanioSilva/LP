@@ -5,6 +5,7 @@
  */
 package ual.lp.server.mgr;
 
+import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -27,9 +28,6 @@ import ual.lp.server.utils.Serverconfig;
  */
 public class Manager {
 
-    static Logger logger = Logger.getLogger(Manager.class);
-    //Criação do log.
-    static final Logger serverLog = Logger.getLogger("serverLogger");
     private EmployeeDAO employeeDAO;
     private TicketDAO ticketDAO;
     private DepartmentDAO departmentDAO;
@@ -38,8 +36,6 @@ public class Manager {
     private Serverconfig serverconfig;
     private List<Department> departments;
     private List<Employee> employees;
-    
-    
 
     public Manager(boolean rmi) {
         if (rmi) {
@@ -53,7 +49,6 @@ public class Manager {
         departments = serverconfig.getDepartments();
         departmentDAO.loadDepartmens(departments);
         employees = new LinkedList<>();
-        
     }
 //
 //    public Manager(Manager manager) {
@@ -76,7 +71,6 @@ public class Manager {
      * @return o número o ticket que ele irá imprimir.
      */
     public String autoCreateTicket(String dept) {
-        
         return this.getTicketDAO().autoCreateTicket(dept);
     }
 
@@ -130,8 +124,6 @@ public class Manager {
                 return;
             }
         }
-        
-//        serverLog.error("Configurações incorrectas\n"+employee.getName()+".\n"+employee.getDepartment().getName()+""+employee.getDepartment().getAbbreviation());
         throw new BadConfigurationException("Configurações incorrectas");
     }
 
@@ -143,11 +135,40 @@ public class Manager {
         }
         employees.add(employee);
     }
-
-    public List<Employee> employeesCallback(Employee employee){
-        return null;
-    }
     
+
+    /**
+     * Método usado para o callback dos clientes com a lista de todos os
+     * colaboradores pertencentes ao mesmo departamento
+     *
+     * @param employee
+     * @return Lista de Employee
+     */
+    public void employeesCallback(Department department) {
+        for (int i = 0; i < employees.size(); i++) {
+            if(employees.get(i).getDepartment().equals(department)){
+                try {
+                    employees.get(i).getCallerInf().sendEmployees(employees);
+                } catch (RemoteException ex) {
+                    employees.remove(i);
+                    employeesCallback(department);
+                }
+            }
+        }
+    }
+    /**
+     * Método usado para receber os nomes de todos os departamentos em formato
+     * String
+     * @return Uma lista de departamentos
+     */
+    public List<String> getDepartmentsString(){
+        List<String> depts = new LinkedList<>();
+        for (Department d: this.departments){
+            depts.add(d.getName());  
+        }
+        return depts;
+    }
+
     /**
      * @return the employeeDAO
      */
@@ -203,5 +224,6 @@ public class Manager {
     public void setContext(ApplicationContext context) {
         this.context = context;
     }
+
 
 }

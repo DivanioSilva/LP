@@ -6,7 +6,8 @@
 package ual.lp.server.objects;
 
 import java.io.Serializable;
-import ual.lp.caller.inf.CallerInf;
+import ual.lp.caller.rmi.CallerInf;
+
 
 /**
  *

@@ -36,8 +36,10 @@ public class CallerImpl extends UnicastRemoteObject implements CallerInf {
     }
 
     @Override
-    public List<Employee> sendEmployees() throws RemoteException {
+    public List<Employee> sendEmployees(List<Employee> employees) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    
 
 }

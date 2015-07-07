@@ -15,11 +15,11 @@ import ual.lp.server.objects.Ticket;
  *
  * @author Divanio Silva
  */
-public interface CallerInf extends Remote{
-    
+public interface CallerInf extends Remote {
+
     public Ticket counter() throws RemoteException;
-    
+
     public String testCallback(String serverMsg) throws RemoteException;
-    
-    public List<Employee> sendEmployees() throws RemoteException;
+
+    public List<Employee> sendEmployees(List<Employee> employees) throws RemoteException;
 }
