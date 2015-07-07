@@ -8,7 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 
-public class SocketSrv {
+public class SocketSrv extends Thread {
 	
 	private  ServerSocket server;
 	private  Socket client;
@@ -58,7 +58,7 @@ public class SocketSrv {
 			try {
 				data = in.readLine();
 				System.out.println("Recebido: "+data);
-                new ProtocolProcessing().inMessage(data);
+                new ProtocolProcessing(out).inMessage(data);
                 
 				//out.println("Recebido: "+data);
                 

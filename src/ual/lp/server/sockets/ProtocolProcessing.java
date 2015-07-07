@@ -5,15 +5,17 @@
  */
 package ual.lp.server.sockets;
 
+import java.io.PrintWriter;
+
 /**
  *
  * @author Pedro
  */
 public class ProtocolProcessing {
-    String in,out;
-    
-    public ProtocolProcessing(){
-       
+    private String in,out;
+    private PrintWriter sktOut;
+    public ProtocolProcessing(PrintWriter sktOut){
+        this.sktOut=sktOut;
     }
     
     void inMessage (String in){
@@ -22,7 +24,7 @@ public class ProtocolProcessing {
         switch (in) {
             case "Hello from Asura CPRN!":
                 System.out.println("Ele disse olá, oh meu deus o que vou fazer ?");
-                
+                sktOut.println("Recebido: "+"Ele disse olá, oh meu deus o que vou fazer ?");
             case "Request":
                 
             break;
