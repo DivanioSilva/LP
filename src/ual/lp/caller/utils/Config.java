@@ -24,7 +24,7 @@ public class Config {
     JSONParser parser = new JSONParser();
 
     static final Logger callerLog = Logger.getLogger("callerLogger");
-    
+
     Properties prop = new Properties();
     InputStream input = null;
 
@@ -42,10 +42,10 @@ public class Config {
             employee.setDepartment(new Department((String) jsonObject.get("department"), (String) jsonObject.get("abbreviation")));
 
         } catch (Exception e) {
-            callerLog.fatal("Erro ao ler o ficheiro de configuração 'config.json' para construir o employee desta máquina.<->"+e.getMessage()+"<->"+e.toString());
+            callerLog.fatal("Erro ao ler o ficheiro de configuração 'config.json' para construir o employee desta máquina.", e);
             System.err.println("Erro ao ler o ficheiro de configuração 'config.json' para construir o employee desta máquina.");
         }
-        
+
         return employee;
     }
 
@@ -55,7 +55,7 @@ public class Config {
             myIP = (String) jsonObject.get("myIP");
 
         } catch (Exception e) {
-            callerLog.fatal("Erro ao ler o ficheiro de configuração 'config.json' para obter o IP da máquina.\n"+e.getMessage()+"<->"+e.toString());
+            callerLog.fatal("Erro ao ler o ficheiro de configuração 'config.json' para obter o IP da máquina.\n", e);
             System.err.println("Erro ao ler o ficheiro de configuração 'config.json' para obter o IP da máquina.");
         }
 
@@ -68,10 +68,10 @@ public class Config {
             serverIP = (String) jsonObject.get("serverIP");
 
         } catch (Exception e) {
-            callerLog.fatal("Erro ao ler o ficheiro de configuração 'config.json' para obter o IP do servidor."+e.getMessage()+"<->"+e.toString());
+            callerLog.fatal("Erro ao ler o ficheiro de configuração 'config.json' para obter o IP do servidor.", e);
             System.err.println("Erro ao ler o ficheiro de configuração 'config.json' para obter o IP do servidor.");
         }
-        
+
         return serverIP;
     }
 

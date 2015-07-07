@@ -8,6 +8,7 @@ package ual.lp.caller.gui;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import javax.swing.JOptionPane;
+import org.apache.log4j.Logger;
 import ual.lp.caller.mgr.CallerMGR;
 import ual.lp.caller.rmi.ClientRMI;
 import ual.lp.caller.utils.Config;
@@ -21,6 +22,7 @@ import ual.lp.server.rmi.ServerInf;
  * @author Divanio Silva
  */
 public class CallerGUI extends javax.swing.JFrame {
+    static final Logger callerLog = Logger.getLogger("callerLogger");
 
     //colocar um botão bonitinho do call. Imagem Play????
     private Config config;
@@ -42,13 +44,16 @@ public class CallerGUI extends javax.swing.JFrame {
             this.clientRMI = new ClientRMI(this);
             initData();
         } catch (RemoteException e) {
-            System.err.println("Deu merda no construtor do Caller.\n" + e.getMessage());
+            System.err.println("O server esta off-line.\n" + e.getMessage());
+            callerLog.error("O server esta off-line.", e);
             JOptionPane.showMessageDialog(this, "O servidor esta off-line.\nContacte o administrador do sistema.");
             System.exit(1);
         } catch (NotBoundException e) {
             System.err.println("Caiu na notBound" + e.getMessage());
+            callerLog.error("Caiu na notBound", e);
         } catch (NullPointerException en) {
             System.err.println("Deu nullPointer" + en.getMessage());
+            callerLog.error("Deu nullPointer", en);
         }
     }
 
@@ -203,6 +208,7 @@ public class CallerGUI extends javax.swing.JFrame {
             //Testando o callerMGR para ser se funciona.
         } catch (RemoteException ex) {
             JOptionPane.showMessageDialog(this, "Existe um problema de comunicação\n com o servidor");
+            callerLog.error("Existe um problema de comunicação\n com o servidor", ex);
         } catch (NoTicketsException ex) {
             JOptionPane.showMessageDialog(this, "Não existem tickets por atender.");
             jLabelActualTicket.setText("");
