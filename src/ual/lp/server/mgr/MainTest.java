@@ -18,6 +18,7 @@ import ual.lp.server.objects.Ticket;
  * @author Pedro
  */
 public class MainTest {
+    
 
     public static void main(String[] args) {
         Config config = new Config();
@@ -38,39 +39,40 @@ public class MainTest {
 //////        t.setDepartment(dept);
 ////        mgr.transferTicket(t);
 
-                        mgr.autoCreateTicket("Boss");
+//                        mgr.autoCreateTicket("Boss");
         
-//                employee = config.getEmployee();
-//        try {
-//            mgr.verifyEmployeeConfig(employee);
-//            mgr.addEmployee(employee);
-//            mgr.verifyEmployee(employee);
-//            
-////                mgr.verifyEmployee(employee);
+                employee = config.getEmployee();
+        try {
+            mgr.verifyEmployeeConfig(employee);
+            mgr.addEmployee(employee);
+            mgr.verifyEmployee(employee);
+            
+                mgr.verifyEmployee(employee);
+                
+//                for (int i = 0; i < 40; i++) {
+//            try {
+//                mgr.autoCreateTicket("Tesouraria");
+//                Thread.sleep(1000);
 //                
-////                for (int i = 0; i < 40; i++) {
-////            try {
-////                mgr.autoCreateTicket("Tesouraria");
-////                Thread.sleep(1000);
-////                
-////            } catch (InterruptedException ex) {
-////                Logger.getLogger(MainTest.class.getName()).log(Level.SEVERE, null, ex);
-////            }
-////        }
-//        
-////        for (int i = 0; i < 20; i++) {
-////            mgr.autoCreateTicket("Tesouraria");
-////
-////            
-////            try {
-////                mgr.autoCreateTicket("Tesouraria");
-////                Thread.sleep(1000);
-////
-////            } catch (InterruptedException ex) {
-////                Logger.getLogger(MainTest.class.getName()).log(Level.SEVERE, null, ex);
-////            }
-////
-////        }
+//            }
+//            catch (InterruptedException ex) {
+//                        Logger.getLogger(MainTest.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//        }
+        
+        for (int i = 0; i < 2; i++) {
+            mgr.autoCreateTicket("Tesouraria");
+
+            
+            try {
+                mgr.autoCreateTicket("Tesouraria");
+                Thread.sleep(1000);
+
+            } catch (InterruptedException ex) {
+//                Logger.getLogger(MainTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
 //
 ////        mgr.createTicket(2, 2);
 ////        employee = config.getEmployee();
@@ -87,8 +89,8 @@ public class MainTest {
 ////        emp.setName("Divanio Silva");
 ////        emp.setDepartment("Financeiro");
 ////        empDAO.insert(emp);
-//        } catch (BadConfigurationException ex) {
-//            System.err.println("O camelo do gajo de configurou isso fez merda!\n"+ex.getMessage());
-//        }
+        } catch (BadConfigurationException ex) {
+            System.err.println("O camelo do gajo de configurou isso fez merda!\n"+ex.getMessage());
+        }
     }
 }

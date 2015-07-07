@@ -7,6 +7,7 @@ package ual.lp.server.mgr;
 
 import java.util.LinkedList;
 import java.util.List;
+import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ual.lp.exceptions.BadConfigurationException;
@@ -26,6 +27,9 @@ import ual.lp.server.utils.Serverconfig;
  */
 public class Manager {
 
+    static Logger logger = Logger.getLogger(Manager.class);
+    //Criação do log.
+    static final Logger serverLog = Logger.getLogger("serverLogger");
     private EmployeeDAO employeeDAO;
     private TicketDAO ticketDAO;
     private DepartmentDAO departmentDAO;
@@ -34,6 +38,8 @@ public class Manager {
     private Serverconfig serverconfig;
     private List<Department> departments;
     private List<Employee> employees;
+    
+    
 
     public Manager(boolean rmi) {
         if (rmi) {
@@ -47,6 +53,7 @@ public class Manager {
         departments = serverconfig.getDepartments();
         departmentDAO.loadDepartmens(departments);
         employees = new LinkedList<>();
+        
     }
 //
 //    public Manager(Manager manager) {
@@ -69,6 +76,7 @@ public class Manager {
      * @return o número o ticket que ele irá imprimir.
      */
     public String autoCreateTicket(String dept) {
+        
         return this.getTicketDAO().autoCreateTicket(dept);
     }
 
@@ -122,6 +130,8 @@ public class Manager {
                 return;
             }
         }
+        
+//        serverLog.error("Configurações incorrectas\n"+employee.getName()+".\n"+employee.getDepartment().getName()+""+employee.getDepartment().getAbbreviation());
         throw new BadConfigurationException("Configurações incorrectas");
     }
 
