@@ -24,7 +24,7 @@ public class Config {
     JSONParser parser = new JSONParser();
 
     static final Logger callerLog = Logger.getLogger("callerLogger");
-
+    
     Properties prop = new Properties();
     InputStream input = null;
 
