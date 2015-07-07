@@ -8,6 +8,7 @@ package ual.lp.server.rmi;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import ual.lp.caller.rmi.CallerInf;
+import ual.lp.exceptions.BadConfigurationException;
 import ual.lp.exceptions.NoTicketsException;
 import ual.lp.server.objects.Employee;
 import ual.lp.server.objects.Ticket;
@@ -20,7 +21,7 @@ public interface ServerInf extends Remote {
     
     public String printMessage() throws RemoteException;
     
-    public void connect(CallerInf id, Employee employee) throws RemoteException;
+    public void connect(Employee employee) throws RemoteException, BadConfigurationException;
     
     public void TockTock(Employee employee) throws RemoteException;
     

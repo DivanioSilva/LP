@@ -22,7 +22,7 @@ public class ServerRMI {
     public ServerRMI(Manager manager) {
         
         try {
-            System.setProperty("java.rmi.server.hostname", "172.16.120.77");
+            System.setProperty("java.rmi.server.hostname", "localhost");
             Registry registry = LocateRegistry.createRegistry(port);
             Thread.sleep(2000);
             System.out.println("O server arrancou!");

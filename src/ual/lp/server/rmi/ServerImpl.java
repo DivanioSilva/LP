@@ -8,6 +8,7 @@ package ual.lp.server.rmi;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import ual.lp.caller.rmi.CallerInf;
+import ual.lp.exceptions.BadConfigurationException;
 import ual.lp.exceptions.NoTicketsException;
 import ual.lp.server.mgr.Manager;
 import ual.lp.server.objects.Employee;
@@ -33,10 +34,8 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInf {
     }
 
     @Override
-    public void connect(CallerInf id, Employee employee) throws RemoteException {
-        
-        System.out.println(id.testCallback("O callback funcionou"));
-
+    public void connect(Employee employee) throws RemoteException, BadConfigurationException {
+        manager.connect(employee);
     }
 
     @Override

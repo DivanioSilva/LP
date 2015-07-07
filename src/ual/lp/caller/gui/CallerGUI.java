@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import ual.lp.caller.mgr.CallerMGR;
 import ual.lp.caller.rmi.ClientRMI;
 import ual.lp.caller.utils.Config;
+import ual.lp.exceptions.BadConfigurationException;
 import ual.lp.exceptions.NoTicketsException;
 import ual.lp.server.objects.Employee;
 import ual.lp.server.objects.Ticket;
@@ -22,6 +23,7 @@ import ual.lp.server.rmi.ServerInf;
  * @author Divanio Silva
  */
 public class CallerGUI extends javax.swing.JFrame {
+
     static final Logger callerLog = Logger.getLogger("callerLogger");
 
     //colocar um botão bonitinho do call. Imagem Play????
@@ -54,17 +56,18 @@ public class CallerGUI extends javax.swing.JFrame {
         } catch (NullPointerException en) {
             System.err.println("Deu nullPointer" + en.getMessage());
             callerLog.error("Deu nullPointer", en);
+        } catch (BadConfigurationException bad) {
+            callerLog.error("O caller apresenta configurações inválidas.", bad);
         }
     }
 
-    public void initData() throws RemoteException {
+    public void initData() throws RemoteException, BadConfigurationException {
 
         //construo aqui o empl e envio para o server para ser colocado na lista de emp que estão a trabalhar.
         config = new Config();
         employee = config.getEmployee();
-        remoteObject.TockTock(employee);
+        remoteObject.connect(employee);
         jLabelActualTicket.setText("");
-        jLabelNextTicket.setText("");
 
         //chama o connect do rmi e mando o emp como argumento.
     }
@@ -78,51 +81,26 @@ public class CallerGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabelNextTicket = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        jComboBoxColleagues = new javax.swing.JComboBox();
         jPanel3 = new javax.swing.JPanel();
         jLabelActualTicket = new javax.swing.JLabel();
+        jButtonRefresh = new javax.swing.JButton();
         jButtonCallNext = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("UAL");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setName("iSenhas - Caller"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(355, 300));
+        setPreferredSize(new java.awt.Dimension(420, 300));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Próxima", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
-
-        jLabelNextTicket.setFont(new java.awt.Font("Dialog", 1, 30)); // NOI18N
-        jLabelNextTicket.setForeground(new java.awt.Color(255, 0, 0));
-        jLabelNextTicket.setText("D99");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelNextTicket)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabelNextTicket)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 90, 60));
-
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel2.setText("iSenhas - Caller");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, -1, -1));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Tranferências"));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -130,10 +108,10 @@ public class CallerGUI extends javax.swing.JFrame {
         jLabel3.setText("Colegas");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 17, -1, -1));
 
-        jLabel4.setText("Departamentos");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 68, -1, -1));
+        jComboBoxColleagues.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel2.add(jComboBoxColleagues, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 90, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 114, 160, 120));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 130, 130));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Actual", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         jPanel3.setPreferredSize(new java.awt.Dimension(90, 61));
@@ -155,7 +133,18 @@ public class CallerGUI extends javax.swing.JFrame {
             .addComponent(jLabelActualTicket)
         );
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, -1, -1));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 40, -1, -1));
+
+        jButtonRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/refresh2.png"))); // NOI18N
+        jButtonRefresh.setToolTipText("Teste do botão chamar");
+        jButtonRefresh.setContentAreaFilled(false);
+        jButtonRefresh.setFocusCycleRoot(true);
+        jButtonRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRefreshActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButtonRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 120, 120, 120));
 
         jButtonCallNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/Play-icon120x120.png"))); // NOI18N
         jButtonCallNext.setToolTipText("Teste do botão chamar");
@@ -166,33 +155,36 @@ public class CallerGUI extends javax.swing.JFrame {
                 jButtonCallNextActionPerformed(evt);
             }
         });
-        getContentPane().add(jButtonCallNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, 120, 120));
+        getContentPane().add(jButtonCallNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 120, 120, 120));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefreshActionPerformed
+
+
+    }//GEN-LAST:event_jButtonRefreshActionPerformed
+
     private void jButtonCallNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCallNextActionPerformed
-        
         try {
-            
+
             if (jLabelActualTicket.getText().equals("")) {
 
                 this.ticket = remoteObject.getNextTicket(this.employee);
 
                 jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
-            } else{
+            } else {
                 remoteObject.closeTicket(this.ticket);
                 this.ticket = remoteObject.getNextTicket(this.employee);
-                 jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
+                jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
             }
-            
-            //Fazer o close deste ticket.
 
+            //Fazer o close deste ticket.
 ////////        if(jComboBoxDeptList.getSelectedItem()!=""&&jComboBoxColegasList.getSelectedItem()!=""){
 //////////            System.out.println("Tenho os dois selecionados.");
 ////////            JOptionPane.showMessageDialog(this, "Você não pode transferir para um colega e\n para um departamento ao mesmo tempo");
-////////            jComboBoxColegasList.setSelectedIndex(0);
-////////            jComboBoxDeptList.setSelectedIndex(0);
+////////            jComboBoxColegasList.setSelectedIndex(o);
+////////            jComboBoxDeptList.setSelectedIndex(o);
 ////////        }else if(jComboBoxDeptList.getSelectedItem()==""&&jComboBoxColegasList.getSelectedItem()==""){
 //////////            System.out.println("Não tenho nenhum selecionado");
 ////////            jLabelNextTicket.setText(callerMGR.showNextCallTicket());
@@ -200,8 +192,8 @@ public class CallerGUI extends javax.swing.JFrame {
 ////////        }else{
 //////////            System.out.println("Valor do colega: "+ jComboBoxColegasList.getSelectedItem()+"\nValor do dept:"+jComboBoxDeptList.getSelectedItem());
 ////////            JOptionPane.showMessageDialog(this, "Será feita a transferência para:\nColega "+ jComboBoxColegasList.getSelectedItem()+".\nDepartamento "+jComboBoxDeptList.getSelectedItem()+".");
-////////            jComboBoxColegasList.setSelectedIndex(0);
-////////            jComboBoxDeptList.setSelectedIndex(0);
+////////            jComboBoxColegasList.setSelectedIndex(o);
+////////            jComboBoxDeptList.setSelectedIndex(o);
 ////////            jLabelNextTicket.setText(callerMGR.showNextCallTicket());
 ////////            jLabelActualTicket.setText(callerMGR.showActualTicket());
 ////////        }
@@ -213,7 +205,6 @@ public class CallerGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Não existem tickets por atender.");
             jLabelActualTicket.setText("");
         }
-
     }//GEN-LAST:event_jButtonCallNextActionPerformed
 
 //    /**
@@ -254,12 +245,11 @@ public class CallerGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCallNext;
+    private javax.swing.JButton jButtonRefresh;
+    private javax.swing.JComboBox jComboBoxColleagues;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabelActualTicket;
-    private javax.swing.JLabel jLabelNextTicket;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables

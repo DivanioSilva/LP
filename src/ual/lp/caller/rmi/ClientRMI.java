@@ -19,14 +19,15 @@ import ual.lp.server.rmi.ServerInf;
  */
 public class ClientRMI {
     //172.16.214.237
-    public static final String HOST = "172.16.120.77";
+    //172.16.120.77
+    public static final String HOST = "localhost";
     public static final int PORT = 1099;
     public static final String MYIP = null;
     private CallerGUI callerGUI;
 
     public ClientRMI(CallerGUI callerGUI) throws RemoteException, NotBoundException{
         this.callerGUI = callerGUI;
-        System.setProperty("java.rmi.server.hostname", "172.16.120.77");//informar isso no relatório
+        System.setProperty("java.rmi.server.hostname", "localhost");//informar isso no relatório
             
             Registry registry = LocateRegistry.getRegistry(HOST, PORT);
             ServerInf objRemoto = (ServerInf) registry.lookup("response");
@@ -37,7 +38,7 @@ public class ClientRMI {
 
     public ClientRMI() {
         try {
-            System.setProperty("java.rmi.server.hostname", "172.16.120.77");//informar isso no relatório
+            System.setProperty("java.rmi.server.hostname", "localhost");//informar isso no relatório
             Registry registry = LocateRegistry.getRegistry(HOST, PORT);
             ServerInf objRemoto = (ServerInf) registry.lookup("response");
             System.out.println(objRemoto.printMessage());

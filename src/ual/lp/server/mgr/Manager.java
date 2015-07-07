@@ -28,6 +28,7 @@ import ual.lp.server.utils.Serverconfig;
  */
 public class Manager {
 
+    static final Logger managerLog = Logger.getLogger("managerLogger");
     private EmployeeDAO employeeDAO;
     private TicketDAO ticketDAO;
     private DepartmentDAO departmentDAO;
@@ -62,6 +63,18 @@ public class Manager {
     public void insertEmployee(Employee employee) {
 //        employeeDAO.insertEmployee(employee);
 
+    }
+    
+    public void connect(Employee employee) throws BadConfigurationException{
+            try {
+             this.verifyEmployeeConfig(employee);
+             this.addEmployee(employee);
+             this.verifyEmployee(employee);
+//             this.employeesCallback(employee.getDepartment());
+        } catch (BadConfigurationException e) {
+            managerLog.error("O caller apresenta configurações inválidas.", e);
+            throw  new BadConfigurationException("O caller apresenta configurações inválidas.");
+        }
     }
 
     /**
@@ -149,9 +162,11 @@ public class Manager {
             if(employees.get(i).getDepartment().equals(department)){
                 try {
                     employees.get(i).getCallerInf().sendEmployees(employees);
+                    
                 } catch (RemoteException ex) {
                     employees.remove(i);
                     employeesCallback(department);
+                    
                 }
             }
         }
