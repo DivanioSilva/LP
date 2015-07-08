@@ -10,6 +10,7 @@ import java.rmi.RemoteException;
 import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 import ual.lp.caller.mgr.CallerMGR;
+import ual.lp.caller.rmi.CallerInf;
 import ual.lp.caller.rmi.ClientRMI;
 import ual.lp.caller.utils.Config;
 import ual.lp.exceptions.BadConfigurationException;
@@ -33,6 +34,7 @@ public class CallerGUI extends javax.swing.JFrame {
     private ClientRMI clientRMI;
     private ServerInf remoteObject;
     Ticket ticket;
+    private CallerInf callerInf;
 
     /**
      * Creates new form CallerPanel
@@ -66,6 +68,7 @@ public class CallerGUI extends javax.swing.JFrame {
         //construo aqui o empl e envio para o server para ser colocado na lista de emp que estão a trabalhar.
         config = new Config();
         employee = config.getEmployee();
+        employee.setCallerInf(this.callerInf);
         remoteObject.connect(employee);
         jLabelActualTicket.setText("");
 
@@ -266,5 +269,19 @@ public class CallerGUI extends javax.swing.JFrame {
      */
     public void setRemoteObject(ServerInf remoteObject) {
         this.remoteObject = remoteObject;
+    }
+
+    /**
+     * @return the callerInf
+     */
+    public CallerInf getCallerInf() {
+        return callerInf;
+    }
+
+    /**
+     * @param callerInf the callerInf to set
+     */
+    public void setCallerInf(CallerInf callerInf) {
+        this.callerInf = callerInf;
     }
 }
