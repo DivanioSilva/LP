@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import ual.lp.server.mgr.Manager;
 
 
 public class SocketSrv extends Thread {
@@ -15,12 +16,15 @@ public class SocketSrv extends Thread {
 	private  BufferedReader in;
 	private  PrintWriter out;
 	private  boolean running = true;
-	
+	private  Manager manager;
 	/**
 	 * Constrói o obj
 	 */
 	public SocketSrv(){}
-	
+    
+	public SocketSrv(Manager manager){
+        this.manager= manager;
+    }	
 	/**
 	 * Função que cria um servidor socket num determinado porto e estabelece ligação
 	 * @param port
@@ -58,7 +62,7 @@ public class SocketSrv extends Thread {
 			try {
 				data = in.readLine();
 				System.out.println("Recebido: "+data);
-                new ProtocolProcessing(out).inMessage(data);
+                new ProtocolProcessing(out,manager).inMessage(data);
                 
 				//out.println("Recebido: "+data);
                 
