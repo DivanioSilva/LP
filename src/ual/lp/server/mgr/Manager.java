@@ -39,6 +39,7 @@ public class Manager {
     private List<Employee> employees;
 
     public Manager(boolean rmi) {
+
         if (rmi) {
             this.serverRMI = new ServerRMI(this);
         }
@@ -64,16 +65,17 @@ public class Manager {
 //        employeeDAO.insertEmployee(employee);
 
     }
-    
-    public void connect(Employee employee) throws BadConfigurationException{
-            try {
-             this.verifyEmployeeConfig(employee);
-             this.addEmployee(employee);
-             this.verifyEmployee(employee);
-             this.employeesCallback(employee.getDepartment());
+
+    public void connect(Employee employee) throws BadConfigurationException {
+
+        try {
+            this.verifyEmployeeConfig(employee);
+            this.addEmployee(employee);
+            this.verifyEmployee(employee);
+            this.employeesCallback(employee.getDepartment());
         } catch (BadConfigurationException e) {
             managerLog.error("O caller apresenta configurações inválidas.", e);
-            throw  new BadConfigurationException("O caller apresenta configurações inválidas.");
+            throw new BadConfigurationException("O caller apresenta configurações inválidas.");
         }
     }
 
@@ -131,6 +133,7 @@ public class Manager {
      * configurações estiverem erradas
      */
     public void verifyEmployeeConfig(Employee employee) throws BadConfigurationException {
+
         for (int i = 0; i < this.departments.size(); i++) {
             if (employee.getDepartment().getName().equals(this.departments.get(i).getName())
                     && employee.getDepartment().getAbbreviation().equals(this.departments.get(i).getAbbreviation())) {
@@ -148,38 +151,58 @@ public class Manager {
         }
         employees.add(employee);
     }
-    
 
     /**
      * Método usado para o callback dos clientes com a lista de todos os
      * colaboradores pertencentes ao mesmo departamento
      *
-     * @param employee
-     * @return Lista de Employee
+     * @param department
      */
     public void employeesCallback(Department department) {
+        
+        List<Employee> departmentEmployees = this.getDepartmentEmployees(department);
         for (int i = 0; i < employees.size(); i++) {
-            if(employees.get(i).getDepartment().equals(department)){
+            if (employees.get(i).getDepartment().getName().equals(department.getName())) {
                 try {
-                    employees.get(i).getCallerInf().updateEmployees(employees);
-                    
+                    employees.get(i).getCallerInf().updateEmployees(departmentEmployees);
+
                 } catch (RemoteException ex) {
                     employees.remove(i);
                     employeesCallback(department);
-                    
+
                 }
             }
         }
     }
+
+    /**
+     * Método para devolver a lista de colaboradores de um determinado
+     * departamento
+     *
+     * @param department
+     * @return Lista de colaboradores
+     */
+    public List<Employee> getDepartmentEmployees(Department department) {
+
+        List<Employee> departmentEmployees = new LinkedList<>();
+        for (int i = 0; i < employees.size(); i++) {
+            if (employees.get(i).getDepartment().getName().equals(department.getName())) {
+                departmentEmployees.add(employees.get(i));
+            }
+        }
+        return departmentEmployees;
+    }
+
     /**
      * Método usado para receber os nomes de todos os departamentos em formato
      * String
+     *
      * @return Uma lista de departamentos
      */
-    public List<String> getDepartmentsString(){
+    public List<String> getDepartmentsString() {
         List<String> depts = new LinkedList<>();
-        for (Department d: this.departments){
-            depts.add(d.getName());  
+        for (Department d : this.departments) {
+            depts.add(d.getName());
         }
         return depts;
     }
@@ -239,6 +262,5 @@ public class Manager {
     public void setContext(ApplicationContext context) {
         this.context = context;
     }
-
 
 }

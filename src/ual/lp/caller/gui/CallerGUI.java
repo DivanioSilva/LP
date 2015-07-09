@@ -43,6 +43,7 @@ public class CallerGUI extends javax.swing.JFrame {
      * Creates new form CallerPanel
      */
     public CallerGUI() {
+
         this.setLocationRelativeTo(null);
         this.employees = new LinkedList<>();
 
@@ -78,14 +79,25 @@ public class CallerGUI extends javax.swing.JFrame {
 
         //chama o connect do rmi e mando o emp como argumento.
     }
-    
-    public void updateEmployees(List<Employee> employees){
+
+    /**
+     * Faz o update da lista de employees do mesmo departamento quando existem
+     * alterações
+     *
+     * @param employees
+     */
+    public void updateEmployees(List<Employee> employees) {
         this.employees = employees;
-        for(Employee emp: employees){
-            
+        for (int i = 1; i < jComboBoxColleagues.getItemCount(); i++) {
+            jComboBoxColleagues.removeItemAt(i);
+
+        }
+
+        for (Employee emp : employees) {
+
             jComboBoxColleagues.addItem(emp.getName());
         }
-        
+
     }
 
     /**
