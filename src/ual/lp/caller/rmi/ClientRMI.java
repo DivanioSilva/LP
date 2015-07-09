@@ -32,9 +32,7 @@ public class ClientRMI {
             Registry registry = LocateRegistry.getRegistry(HOST, PORT);
             ServerInf objRemoto = (ServerInf) registry.lookup("response");
             this.callerGUI.setRemoteObject(objRemoto);
-            this.callerGUI.setCallerInf(new CallerImpl());
-            
-       
+            this.callerGUI.setCallerInf(new CallerImpl(this.callerGUI));         
     }
     
 
@@ -44,7 +42,7 @@ public class ClientRMI {
             Registry registry = LocateRegistry.getRegistry(HOST, PORT);
             ServerInf objRemoto = (ServerInf) registry.lookup("response");
             System.out.println(objRemoto.printMessage());
-            CallerImpl callback = new CallerImpl();
+            CallerImpl callback = new CallerImpl(this.callerGUI);
 //            objRemoto.connect(callback);
             objRemoto.TockTock(new Config().getEmployee());
              

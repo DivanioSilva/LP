@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import javax.swing.JOptionPane;
+import ual.lp.caller.gui.CallerGUI;
 import ual.lp.server.objects.Employee;
 import ual.lp.server.objects.Ticket;
 
@@ -17,8 +18,10 @@ import ual.lp.server.objects.Ticket;
  * @author Divanio Silva
  */
 public class CallerImpl extends UnicastRemoteObject implements CallerInf {
+    private CallerGUI callerGUI;
 
-    public CallerImpl() throws RemoteException {
+    public CallerImpl(CallerGUI callerGUI) throws RemoteException {
+        this.callerGUI = callerGUI;
     }
 
     @Override
@@ -36,8 +39,8 @@ public class CallerImpl extends UnicastRemoteObject implements CallerInf {
     }
 
     @Override
-    public List<Employee> sendEmployees(List<Employee> employees) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateEmployees(List<Employee> employees) throws RemoteException {
+        this.callerGUI.updateEmployees(employees);
     }
 
     

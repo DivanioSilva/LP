@@ -70,7 +70,7 @@ public class Manager {
              this.verifyEmployeeConfig(employee);
              this.addEmployee(employee);
              this.verifyEmployee(employee);
-//             this.employeesCallback(employee.getDepartment());
+             this.employeesCallback(employee.getDepartment());
         } catch (BadConfigurationException e) {
             managerLog.error("O caller apresenta configurações inválidas.", e);
             throw  new BadConfigurationException("O caller apresenta configurações inválidas.");
@@ -161,7 +161,7 @@ public class Manager {
         for (int i = 0; i < employees.size(); i++) {
             if(employees.get(i).getDepartment().equals(department)){
                 try {
-                    employees.get(i).getCallerInf().sendEmployees(employees);
+                    employees.get(i).getCallerInf().updateEmployees(employees);
                     
                 } catch (RemoteException ex) {
                     employees.remove(i);

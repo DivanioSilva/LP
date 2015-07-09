@@ -7,6 +7,8 @@ package ual.lp.caller.gui;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.LinkedList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 import ual.lp.caller.mgr.CallerMGR;
@@ -35,12 +37,14 @@ public class CallerGUI extends javax.swing.JFrame {
     private ServerInf remoteObject;
     Ticket ticket;
     private CallerInf callerInf;
+    private List<Employee> employees;
 
     /**
      * Creates new form CallerPanel
      */
     public CallerGUI() {
         this.setLocationRelativeTo(null);
+        this.employees = new LinkedList<>();
 
         initComponents();
         try {
@@ -73,6 +77,15 @@ public class CallerGUI extends javax.swing.JFrame {
         jLabelActualTicket.setText("");
 
         //chama o connect do rmi e mando o emp como argumento.
+    }
+    
+    public void updateEmployees(List<Employee> employees){
+        this.employees = employees;
+        for(Employee emp: employees){
+            
+            jComboBoxColleagues.addItem(emp.getName());
+        }
+        
     }
 
     /**
@@ -111,7 +124,12 @@ public class CallerGUI extends javax.swing.JFrame {
         jLabel3.setText("Colegas");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 17, -1, -1));
 
-        jComboBoxColleagues.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxColleagues.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "não" }));
+        jComboBoxColleagues.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxColleaguesActionPerformed(evt);
+            }
+        });
         jPanel2.add(jComboBoxColleagues, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 90, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 130, 130));
@@ -209,6 +227,10 @@ public class CallerGUI extends javax.swing.JFrame {
             jLabelActualTicket.setText("");
         }
     }//GEN-LAST:event_jButtonCallNextActionPerformed
+
+    private void jComboBoxColleaguesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxColleaguesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxColleaguesActionPerformed
 
 //    /**
 //     * @param args the command line arguments

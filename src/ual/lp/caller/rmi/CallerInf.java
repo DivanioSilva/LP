@@ -21,5 +21,5 @@ public interface CallerInf extends Remote {
 
     public String testCallback(String serverMsg) throws RemoteException;
 
-    public List<Employee> sendEmployees(List<Employee> employees) throws RemoteException;
+    public void updateEmployees(List<Employee> employees) throws RemoteException;
 }
