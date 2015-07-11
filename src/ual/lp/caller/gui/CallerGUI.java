@@ -94,8 +94,10 @@ public class CallerGUI extends javax.swing.JFrame {
         }
 
         for (Employee emp : employees) {
-
-            jComboBoxColleagues.addItem(emp.getName());
+            if(!(emp.getName().equals(employee.getName()))){
+                jComboBoxColleagues.addItem(emp.getName());
+            }
+            
         }
 
     }
