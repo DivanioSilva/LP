@@ -167,11 +167,17 @@ public class Manager {
                     employees.get(i).getCallerInf().updateEmployees(departmentEmployees);
 
                 } catch (RemoteException ex) {
+                    System.out.println(employees.get(i).getName());
                     employees.remove(i);
+                    
                     employeesCallback(department);
+                    return;
 
                 }
             }
+        }
+        for (Employee emp: departmentEmployees){
+            System.out.println(emp.getName());
         }
     }
 
