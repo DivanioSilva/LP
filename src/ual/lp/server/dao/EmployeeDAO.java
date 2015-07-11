@@ -7,6 +7,7 @@ package ual.lp.server.dao;
 
 import java.sql.Types;
 import javax.sql.DataSource;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -120,6 +121,21 @@ public class EmployeeDAO {
 //
 //        }
 //    }
+    public int getEmployeeID(Employee employee) {
+        String sql = "select idemployee from employee where employee.name=? limit 1;";
+        int empID = -1;
+
+        try {
+
+            empID = jdbcTemplate.queryForInt(sql, new Object[]{employee.getName()});
+            System.out.println(employee.getName()+" "+empID);
+        } catch (EmptyResultDataAccessException e) {
+            System.out.println("Erro ao obter o id do employee." + e.getMessage());
+        }
+
+        return empID;
+    }
+
     public void verifyEmployee(Employee employee) {
 
         String sql = null;
@@ -142,7 +158,7 @@ public class EmployeeDAO {
                 Employee emp = jdbcTemplate.queryForObject(sql, new Object[]{employee.getName(), employee.getDepartment().getName(), employee.getDeskNumber()}, new SimpleEmployeeMapper());
 
                 System.out.println("Ele pertence mesmo ao departamento e secretária");
-                
+
             } catch (EmptyResultDataAccessException e) {
 
                 String sqlDeptID = "select iddepartment from department where department=? limit 1;";
@@ -190,7 +206,6 @@ public class EmployeeDAO {
 
         }
     }
-
 
     public void setTransactionManager(DataSourceTransactionManager transactionManager) {
         this.transactionManager = transactionManager;

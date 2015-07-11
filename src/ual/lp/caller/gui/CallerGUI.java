@@ -76,8 +76,7 @@ public class CallerGUI extends javax.swing.JFrame {
         jLabelEmpName.setText(employee.getName());
         jLabelEmpDepartment.setText(employee.getDepartment().getName());
         jLabelEmpDesk.setText(String.valueOf(employee.getDeskNumber()));
-        
-        
+
         employee.setCallerInf(this.callerInf);
         remoteObject.connect(employee);
         jLabelActualTicket.setText("");
@@ -92,18 +91,29 @@ public class CallerGUI extends javax.swing.JFrame {
      * @param employees
      */
     public void updateEmployees(List<Employee> employees) {
+//        this.employees = null;
         this.employees = employees;
-        
-        for (int i = 1; i < jComboBoxColleagues.getItemCount(); i++) {
-            jComboBoxColleagues.removeItemAt(i);
+        jComboBoxColleagues.removeAllItems();
+        jComboBoxColleagues.addItem("");
 
+        System.out.println("Lista dos employees recebidas do server:");
+        for (int i = 0; i < employees.size(); i++) {
+            System.out.println(employees.get(i).getName() + " e id " + employees.get(i).getEmpNumber());
         }
 
+//        for (int i = 1; i < jComboBoxColleagues.getItemCount(); i++) {
+//            System.out.println("Irei remover "+ jComboBoxColleagues.getItemAt(i));
+//            
+//            jComboBoxColleagues.removeItemAt(i);
+//            
+//
+//        }
         for (Employee emp : employees) {
-            if(!(emp.getName().equals(employee.getName()))){
+            if (!(emp.getName().equals(employee.getName()))) {
                 jComboBoxColleagues.addItem(emp.getName());
+                callerLog.debug("Irei adicionar " + emp.getName());
             }
-            
+
         }
 
     }
@@ -269,15 +279,35 @@ public class CallerGUI extends javax.swing.JFrame {
     private void jButtonCallNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCallNextActionPerformed
         try {
 
-            if (jLabelActualTicket.getText().equals("")) {
+            if (jComboBoxColleagues.getSelectedItem() != "") {
+//                System.out.println("Transferir para " + jComboBoxColleagues.getSelectedItem());
+                //correr o array dos emp para encontrar o que quero fazer a transf.
+                for (int i = 0; i < this.employees.size(); i++) {
+                    if (employees.get(i).getName().equals(jComboBoxColleagues.getSelectedItem())) {
+                        this.employees.get(i);
+                        System.out.println("Encontrei o gajo na lista.\nIrei transferir para " + employees.get(i).getName());
+                        System.out.println(i);
+                        this.ticket.setTransferId(this.employees.get(i).getEmpNumber());
+                        remoteObject.transferTicket(ticket);
+                        continue;
+                    }
+                    
 
-                this.ticket = remoteObject.getNextTicket(this.employee);
-
-                jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
+                }
+                remoteObject.getNextTicket(this.employee);
+//                jComboBoxColleagues.setSelectedIndex(0);
             } else {
-                remoteObject.closeTicket(this.ticket);
-                this.ticket = remoteObject.getNextTicket(this.employee);
-                jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
+
+                if (jLabelActualTicket.getText().equals("")) {
+
+                    this.ticket = remoteObject.getNextTicket(this.employee);
+
+                    jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
+                } else {
+                    remoteObject.closeTicket(this.ticket);
+                    this.ticket = remoteObject.getNextTicket(this.employee);
+                    jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
+                }
             }
 
             //Fazer o close deste ticket.

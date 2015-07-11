@@ -175,7 +175,7 @@ public class TicketDAO {
 
         String sql = "update tickets \n"
                 + "set tickets.transferid=?, tickets.status=0\n"
-                + "where tickets.idticket=?;;";
+                + "where tickets.idticket=?;";
 
         int[] types = {
             Types.INTEGER, Types.INTEGER

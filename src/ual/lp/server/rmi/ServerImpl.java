@@ -53,4 +53,10 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInf {
         ticket = new Ticket();
         return ticket = this.manager.getNextTicket(employee);
     }
+
+    @Override
+    public void transferTicket(Ticket ticket) throws RemoteException {
+        this.manager.transferTicket(ticket);
+    }
+    
 }

@@ -28,7 +28,7 @@ import ual.lp.server.utils.Serverconfig;
  */
 public class Manager {
 
-    static final Logger managerLog = Logger.getLogger("managerLogger");
+    static final Logger serverLog = Logger.getLogger("serverLog");
     private EmployeeDAO employeeDAO;
     private TicketDAO ticketDAO;
     private DepartmentDAO departmentDAO;
@@ -70,11 +70,15 @@ public class Manager {
 
         try {
             this.verifyEmployeeConfig(employee);
-            this.addEmployee(employee);
             this.verifyEmployee(employee);
+            //saber o id do gajo.
+            employee.setEmpNumber(this.getEmpID(employee));
+            
+            this.addEmployee(employee);
+            
             this.employeesCallback(employee.getDepartment());
         } catch (BadConfigurationException e) {
-            managerLog.error("O caller apresenta configurações inválidas.", e);
+            serverLog.error("O caller apresenta configurações inválidas.", e);
             throw new BadConfigurationException("O caller apresenta configurações inválidas.");
         }
     }
@@ -99,6 +103,10 @@ public class Manager {
 
     public void closeTicket(Ticket ticket) {
         this.getTicketDAO().closeTicket(ticket);
+    }
+    
+    public int getEmpID(Employee employee){
+        return this.getEmployeeDAO().getEmployeeID(employee);
     }
 
     /**
@@ -167,7 +175,8 @@ public class Manager {
                     employees.get(i).getCallerInf().updateEmployees(departmentEmployees);
 
                 } catch (RemoteException ex) {
-                    System.out.println(employees.get(i).getName());
+                    serverLog.debug("A remover o "+employees.get(i).getName()+"da lista dos employees");
+                    System.out.println("A remover o "+employees.get(i).getName()+"da lista dos employees");
                     employees.remove(i);
                     
                     employeesCallback(department);
@@ -176,6 +185,8 @@ public class Manager {
                 }
             }
         }
+        
+        System.out.println("Lista a mandar para os employees: ");
         for (Employee emp: departmentEmployees){
             System.out.println(emp.getName());
         }

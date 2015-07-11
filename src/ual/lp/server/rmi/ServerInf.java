@@ -29,6 +29,8 @@ public interface ServerInf extends Remote {
     
     public Ticket getNextTicket(Employee employee) throws RemoteException, NoTicketsException;
     
+    public void transferTicket(Ticket ticket) throws RemoteException;
+    
 }
 
 /*
