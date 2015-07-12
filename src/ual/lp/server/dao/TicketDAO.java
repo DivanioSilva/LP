@@ -212,7 +212,7 @@ public class TicketDAO {
      * encontram-se em aberto.
      */
     public void closeDay() {
-        String sql = "update tickets set tickets.timecall=now(), tickets.status=4\n"
+        String sql = "update tickets set tickets.timecall=now(), tickets.status=3\n"
                 + "where tickets.status=0;";
 
         jdbcTemplate.update(sql);
