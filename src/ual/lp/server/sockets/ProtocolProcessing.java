@@ -6,10 +6,9 @@
 package ual.lp.server.sockets;
 
 import java.io.PrintWriter;
-import java.util.LinkedList;
+
 import java.util.List;
 import ual.lp.server.mgr.Manager;
-import ual.lp.server.objects.Department;
 
 /**
  *
@@ -33,37 +32,49 @@ public class ProtocolProcessing {
     void inMessage(String in) {
         this.in = in;
         List<String> departamentos;
+        String[] splitedProtocol;
 
-        switch (in) {
-            case "Hello from Asura CPRN!":
-                System.out.println("Ele disse olá, oh meu deus o que vou fazer ?");
-                departamentos = new Manager(false).getDepartmentsString();
-                String list = departamentos.toString();
-                String csv = list.substring(1, list.length() - 1).replace(", ", ",");
-                System.out.println("#######################");
-                System.out.println("#######################");
-                System.out.println(csv);
-                System.out.println("#######################");
-                System.out.println(departamentos.toString());
-                System.out.println("#######################");
-
-                sktOut.println("Recebido: " + "Ele disse olá, oh meu deus o que vou fazer ?");
- 
-                break;
-            case "Request":
-
+        //Separar a messagem do protocolo
+        //Ex: Request:Tesouraria- >  [0] Request  e [1] Tesouraria
+try {
+            
+            splitedProtocol = in.split(":");
+            
+            switch (splitedProtocol[0]) {
+                case "Hello from Asura CPRN!":
+                    System.out.println("Ele disse olá, oh meu deus o que vou fazer ?");
+                    departamentos = new Manager(false).getDepartmentsString();
+                    String list = departamentos.toString();
+                    String csv = list.substring(1, list.length() - 1).replace(", ", ",");
+                    
+                    System.out.println("*** Mensagem tratada *** " + "BUTTONS:" + csv + " ***");
+                    
+                    System.out.println("*** toString departamentos*** " + departamentos.toString() + " ***");
+                    
+                    sktOut.println("BUTTONS:" + csv);
+                    
+                    break;
+                
+                case "Request":
+                    String msg;
                 //corrigir
 
                 // Pckg ual.lp.server.mgr/Manager.java
-                // Metodo:autocreateticket (departamento) devolve numero
+                    // Metodo:autocreateticket (departamento) devolve numero
+                    System.out.println("*** Antes de pedir ***" + splitedProtocol[1] + " ***");
+                    msg = new Manager(false).autoCreateTicket(splitedProtocol[1]);
+                    
+                    System.out.println("*** Depois de pedir ***" + "TICKET:" + msg + " ***");
+                    sktOut.println("TICKET:" + msg);
+
+               // new Manager(false).autoCreateTicket(splitedProtocol[1]);
+                    // new Manager(false).autoCreateTicket("Tesouraria");
+                    break;
                 
-                sktOut.println("---------------- WTF ----------------");
-                new Manager(false).autoCreateTicket("Secretaria");
-                new Manager(false).autoCreateTicket("Tesouraria");
-
-                break;
-
+            }
+        } catch (Exception e) {
+            System.out.println("Cliente desligou-se "+ e.getMessage());
+            System.exit(-1);
         }
-
     }
 }

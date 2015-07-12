@@ -62,11 +62,10 @@ public class SocketSrv extends Thread {
 			try {
 				data = in.readLine();
 				System.out.println("Recebido: "+data);
+                
                 new ProtocolProcessing(out,manager).inMessage(data);
                 
-				//out.println("Recebido: "+data);
-                
-                //Implementar solução de saida
+				
                 
 			} catch (IOException e) {
 				System.out.println("Erro na leitura/escrita no socket em "+port);
