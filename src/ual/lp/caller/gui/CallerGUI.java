@@ -225,7 +225,7 @@ public class CallerGUI extends javax.swing.JFrame {
 
         jLabel1.setText("Nome:");
 
-        jLabelEmpName.setText("Pedro Maria Tomás Reis de Almeida");
+        jLabelEmpName.setText("Pedro Maria Thomaz Reis de Almeida");
 
         jLabel5.setText("Depart:");
 
@@ -253,7 +253,7 @@ public class CallerGUI extends javax.swing.JFrame {
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelEmpDesk)))
-                .addGap(0, 29, Short.MAX_VALUE))
+                .addGap(0, 26, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -340,7 +340,7 @@ public class CallerGUI extends javax.swing.JFrame {
 ////////        }
             //Testando o callerMGR para ser se funciona.
         } catch (RemoteException ex) {
-            JOptionPane.showMessageDialog(this, "Existe um problema de comunicação\n com o servidor");
+            JOptionPane.showMessageDialog(this, "Existe um problema de comunicação com o servidor.\nContacte o administrador do sistema!");
             callerLog.error("Existe um problema de comunicação\n com o servidor", ex);
         } catch (NoTicketsException ex) {
             JOptionPane.showMessageDialog(this, "Não existem tickets por atender.");

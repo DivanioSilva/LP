@@ -29,7 +29,7 @@ public class MainTest {
 //        d.setName("Tesouraria");
 //        mgr.resetQueue(d);
 
-        mgr.closeDay();
+//        mgr.closeDay();
 //        System.out.println(mgr.getEmployee(new Employee(1, "teste", "teste")).getName());
 //        mgr.insertEmployee(new Employee(1, "Pedro Tomas", "Ceu"));
 //        mgr.getEmployee(new Employee(5,"Pedro Tomas", "Ceu"));

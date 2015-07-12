@@ -213,7 +213,7 @@
                           <Component id="jLabelEmpDesk" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="0" pref="29" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="26" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -245,7 +245,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelEmpName">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Pedro Maria Tom&#xe1;s Reis de Almeida"/>
+            <Property name="text" type="java.lang.String" value="Pedro Maria Thomaz Reis de Almeida"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
