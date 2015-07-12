@@ -109,6 +109,7 @@ public class TicketDAO {
 
     /**
      * Método utilizado pelo mgr/dispenser para inserir um ticket.
+     *
      * @param dept nome do departamento
      * @return o ticket para ser impresso pelo dispenser
      */
@@ -144,11 +145,9 @@ public class TicketDAO {
 //            int[] types = {
 //                Types.INTEGER, Types.INTEGER
 //            };
-
 //            int deptId = jdbcTemplate.queryForInt(sql, new Object[]{dept});
             Department department;
-            department= jdbcTemplate.queryForObject(sql, new Object[]{dept}, new DepartmentMapper());
-            
+            department = jdbcTemplate.queryForObject(sql, new Object[]{dept}, new DepartmentMapper());
 
 //            System.out.println("Não existem tickets para serem atendidos nesta fila.");
             sql = "insert into tickets(number, createhour, status, iddepartment) values(1, now(), 0, ?);";
@@ -156,13 +155,12 @@ public class TicketDAO {
             int[] typesForDepartId = {
                 Types.INTEGER
             };
-            
+
             jdbcTemplate.update(sql, new Object[]{department.getId()}, typesForDepartId);
-            
-            
+
             System.out.println("Acabei de inserir um ticket com o numero 1.");
-            
-            return department.getAbbreviation()+""+1;
+
+            return department.getAbbreviation() + "" + 1;
         }
     }
 
@@ -207,6 +205,55 @@ public class TicketDAO {
         String sql = "select * from tickets where timecall is null;";
 
         return jdbcTemplate.query(sql, new TicketMapper());
+    }
+
+    /**
+     * Método utilizado no final do dia para fechar todos os tickets que
+     * encontram-se em aberto.
+     */
+    public void closeDay() {
+        String sql = "update tickets set tickets.timecall=now(), tickets.status=4\n"
+                + "where tickets.status=0;";
+
+        jdbcTemplate.update(sql);
+    }
+
+    /**
+     * Método para fazer o reset de uma determinada fila
+     * @param department que será feito o reset
+     */
+    public void resetQueue(Department department) {
+        //saber o id do department.
+        String sql = null;
+        
+        sql = "select department.iddepartment from department where department.department=?;";
+
+        int[] types = {
+            Types.VARCHAR
+        };
+
+        int deptID = jdbcTemplate.queryForInt(sql, new Object[]{department.getName()}, types);
+        department.setId(deptID);
+
+        //encerrar todos os tickets que estão por atender.
+        sql = "update tickets set tickets.timecall=now(), tickets.status=4\n"
+                + "where tickets.status=0 and tickets.iddepartment=?;";
+
+        int[] typesUpdate = {
+            Types.INTEGER
+        };
+
+        jdbcTemplate.update(sql, new Object[]{department.getId()}, typesUpdate);
+        
+        //inserir um ticket dummy com o número 0 para garantir que o próximo ticket criado será o 1.
+        sql ="insert into tickets(number, createhour, status, timecall, iddepartment) values(0, now(), 4, now(), ?);";
+        
+        int[] typesInsert = {
+            Types.INTEGER
+        };
+        
+        jdbcTemplate.update(sql, new Object[]{department.getId()}, typesInsert);
+        
     }
 
     public void setTransactionManager(DataSourceTransactionManager transactionManager) {

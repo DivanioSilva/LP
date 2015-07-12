@@ -23,6 +23,13 @@ public class MainTest {
         Config config = new Config();
         Employee employee;
         Manager mgr = new Manager(true);
+        Department d = new Department();
+        
+//        //reset queue.
+//        d.setName("Tesouraria");
+//        mgr.resetQueue(d);
+
+        mgr.closeDay();
 //        System.out.println(mgr.getEmployee(new Employee(1, "teste", "teste")).getName());
 //        mgr.insertEmployee(new Employee(1, "Pedro Tomas", "Ceu"));
 //        mgr.getEmployee(new Employee(5,"Pedro Tomas", "Ceu"));
@@ -40,13 +47,13 @@ public class MainTest {
 
 //                        mgr.autoCreateTicket("Boss");
 //                employee = config.getEmployee();
-        try {
-            for (int i = 0; i < 40; i++) {
-                mgr.autoCreateTicket("Tesouraria");
-                Thread.sleep(1000);
-            }
-        } catch (Exception e) {
-
-        }
+//        try {
+//            for (int i = 0; i < 5; i++) {
+//                mgr.autoCreateTicket("Tesouraria");
+//                Thread.sleep(1000);
+//            }
+//        } catch (Exception e) {
+//
+//        }
     }
 }

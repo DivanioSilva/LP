@@ -27,8 +27,10 @@ import ual.lp.server.utils.Serverconfig;
  * @author Pedro
  */
 public class Manager {
-
-    static final Logger serverLog = Logger.getLogger("serverLog");
+    
+    static final Logger serverLog = Logger.getLogger("serverLogger");
+    static final Logger callerTicketCallLog = Logger.getLogger("callerTicketCall");
+    static final Logger callerTransfLog = Logger.getLogger("callerTransfLog");
     private EmployeeDAO employeeDAO;
     private TicketDAO ticketDAO;
     private DepartmentDAO departmentDAO;
@@ -37,9 +39,9 @@ public class Manager {
     private Serverconfig serverconfig;
     private List<Department> departments;
     private List<Employee> employees;
-
+    
     public Manager(boolean rmi) {
-
+        
         if (rmi) {
             this.serverRMI = new ServerRMI(this);
         }
@@ -65,9 +67,9 @@ public class Manager {
 //        employeeDAO.insertEmployee(employee);
 
     }
-
+    
     public void connect(Employee employee) throws BadConfigurationException {
-
+        
         try {
             this.verifyEmployeeConfig(employee);
             this.verifyEmployee(employee);
@@ -92,20 +94,22 @@ public class Manager {
     public String autoCreateTicket(String dept) {
         return this.getTicketDAO().autoCreateTicket(dept);
     }
-
+    
     public void transferTicket(Ticket ticket) {
+        callerTransfLog.info("Transfer: from " + ticket.getEmployee().getName() + ", ticket " + ticket.getDepartment().getAbbreviation() + "" + ticket.getNumberticket() + " to " + ticket.getTransferId());
         this.getTicketDAO().transferTicket(ticket);
     }
-
+    
     public void insertTicket(Ticket ticket) {
 //        this.ticketDAO.insertTicket(ticket);
     }
-
+    
     public void closeTicket(Ticket ticket) {
+        callerTicketCallLog.info("Closed: " + ticket.getEmployee().getName() + " ticket " + ticket.getDepartment().getAbbreviation() + "" + ticket.getNumberticket());
         this.getTicketDAO().closeTicket(ticket);
     }
     
-    public int getEmpID(Employee employee){
+    public int getEmpID(Employee employee) {
         return this.getEmployeeDAO().getEmployeeID(employee);
     }
 
@@ -118,13 +122,15 @@ public class Manager {
     public void createTicket(int number, int idDept) {
         this.getTicketDAO().createTicket(number, idDept);
     }
-
+    
     public Ticket getNextTicket(Employee employee) throws NoTicketsException {
+        Ticket ticket = new Ticket();
         //employee.getDepartment().getId()
-
-        return this.getTicketDAO().getNextTicket(employee);
+        ticket = this.getTicketDAO().getNextTicket(employee);
+        callerTicketCallLog.info("Call: " + employee.getName() + " ticket " + ticket.getDepartment().getAbbreviation() + "" + ticket.getNumberticket());
+        return ticket;
     }
-
+    
     public void verifyEmployee(Employee employee) {
         this.getEmployeeDAO().verifyEmployee(employee);
     }
@@ -141,7 +147,7 @@ public class Manager {
      * configurações estiverem erradas
      */
     public void verifyEmployeeConfig(Employee employee) throws BadConfigurationException {
-
+        
         for (int i = 0; i < this.departments.size(); i++) {
             if (employee.getDepartment().getName().equals(this.departments.get(i).getName())
                     && employee.getDepartment().getAbbreviation().equals(this.departments.get(i).getAbbreviation())) {
@@ -150,7 +156,7 @@ public class Manager {
         }
         throw new BadConfigurationException("Configurações incorrectas");
     }
-
+    
     public void addEmployee(Employee employee) {
         for (int i = 0; i < this.employees.size(); i++) {
             if (employee.getName().equals(employees.get(i).getName())) {
@@ -173,21 +179,21 @@ public class Manager {
             if (employees.get(i).getDepartment().getName().equals(department.getName())) {
                 try {
                     employees.get(i).getCallerInf().updateEmployees(departmentEmployees);
-
+                    
                 } catch (RemoteException ex) {
-                    serverLog.debug("A remover o "+employees.get(i).getName()+"da lista dos employees");
-                    System.out.println("A remover o "+employees.get(i).getName()+"da lista dos employees");
+                    serverLog.debug("A remover o " + employees.get(i).getName() + "da lista dos employees");
+                    System.out.println("A remover o " + employees.get(i).getName() + "da lista dos employees");
                     employees.remove(i);
                     
                     employeesCallback(department);
                     return;
-
+                    
                 }
             }
         }
         
         System.out.println("Lista a mandar para os employees: ");
-        for (Employee emp: departmentEmployees){
+        for (Employee emp : departmentEmployees) {
             System.out.println(emp.getName());
         }
     }
@@ -200,7 +206,7 @@ public class Manager {
      * @return Lista de colaboradores
      */
     public List<Employee> getDepartmentEmployees(Department department) {
-
+        
         List<Employee> departmentEmployees = new LinkedList<>();
         for (int i = 0; i < employees.size(); i++) {
             if (employees.get(i).getDepartment().getName().equals(department.getName())) {
@@ -222,6 +228,25 @@ public class Manager {
             depts.add(d.getName());
         }
         return depts;
+    }
+    
+    /**
+     * Método para encerrar todos os tickets que ainda possam estar em aberto no final do dia.
+     * Uma thread para escutar o horário e acionar o método????
+     */
+    public void closeDay() {
+        serverLog.info("Feito reset das filas no final do dia.");
+        this.ticketDAO.closeDay();
+    }
+    
+    /**
+     * Faz o reset da fila de um determinado departamento.
+     * Método utilizado pelo user com privilégios de admin.
+     * @param department 
+     */
+    public void resetQueue(Department department) {
+        serverLog.info("Reset da fila: " + department.getName());
+        this.ticketDAO.resetQueue(department);
     }
 
     /**
@@ -279,5 +304,5 @@ public class Manager {
     public void setContext(ApplicationContext context) {
         this.context = context;
     }
-
+    
 }

@@ -28,8 +28,7 @@ import ual.lp.server.rmi.ServerInf;
 public class CallerGUI extends javax.swing.JFrame {
 
     static final Logger callerLog = Logger.getLogger("callerLogger");
-
-    //colocar um botão bonitinho do call. Imagem Play????
+    private AdminPanel adminPanel;
     private Config config;
     private Employee employee;
     private CallerMGR callerMGR;
@@ -38,6 +37,7 @@ public class CallerGUI extends javax.swing.JFrame {
     Ticket ticket;
     private CallerInf callerInf;
     private List<Employee> employees;
+    
 
     /**
      * Creates new form CallerPanel
@@ -60,23 +60,28 @@ public class CallerGUI extends javax.swing.JFrame {
         } catch (NotBoundException e) {
             System.err.println("Caiu na notBound" + e.getMessage());
             callerLog.error("Caiu na notBound", e);
+            JOptionPane.showMessageDialog(this, "O servidor esta off-line.\nContacte o administrador do sistema.");
         } catch (NullPointerException en) {
             System.err.println("Deu nullPointer" + en.getMessage());
             callerLog.error("Deu nullPointer", en);
+            JOptionPane.showMessageDialog(this, "O servidor esta off-line.\nContacte o administrador do sistema.");
         } catch (BadConfigurationException bad) {
             callerLog.error("O caller apresenta configurações inválidas.", bad);
+            JOptionPane.showMessageDialog(this, "As configurações do posto de trabalho não foram"
+                    + "\n não foram feitas correctamente.\nContacte o administrador do sistema.");
         }
     }
 
     public void initData() throws RemoteException, BadConfigurationException {
 
-        //construo aqui o empl e envio para o server para ser colocado na lista de emp que estão a trabalhar.
+        
         config = new Config();
         employee = config.getEmployee();
         jLabelEmpName.setText(employee.getName());
         jLabelEmpDepartment.setText(employee.getDepartment().getName());
         jLabelEmpDesk.setText(String.valueOf(employee.getDeskNumber()));
-
+        adminPanel = new AdminPanel();
+        adminPanel.setVisible(false);
         employee.setCallerInf(this.callerInf);
         remoteObject.connect(employee);
         jLabelActualTicket.setText("");
@@ -226,7 +231,7 @@ public class CallerGUI extends javax.swing.JFrame {
 
         jLabelEmpDepartment.setText("Tesouraria");
 
-        jLabel7.setText("Secretaria");
+        jLabel7.setText("Secretaria:");
 
         jLabelEmpDesk.setText("jLabel6");
 
@@ -248,7 +253,7 @@ public class CallerGUI extends javax.swing.JFrame {
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelEmpDesk)))
-                .addGap(0, 34, Short.MAX_VALUE))
+                .addGap(0, 29, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -266,13 +271,19 @@ public class CallerGUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 40, -1, -1));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 40, 250, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefreshActionPerformed
 
+//        adminPanel.setVisible(true);
+        try {
+            JOptionPane.showMessageDialog(this, "Rechamar a senha "+this.ticket.getDepartment().getAbbreviation()+""+this.ticket.getNumberticket());
+        } catch (NullPointerException e) {
+            callerLog.error(employee.getName()+" rechamou um ticket sem tem um ticket atribuido", e);
+        }
 
     }//GEN-LAST:event_jButtonRefreshActionPerformed
 
@@ -291,7 +302,6 @@ public class CallerGUI extends javax.swing.JFrame {
                         remoteObject.transferTicket(ticket);
                         continue;
                     }
-                    
 
                 }
                 remoteObject.getNextTicket(this.employee);
