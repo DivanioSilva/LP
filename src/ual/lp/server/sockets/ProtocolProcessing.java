@@ -36,6 +36,8 @@ public class ProtocolProcessing {
 
         //Separar a messagem do protocolo
         //Ex: Request:Tesouraria- >  [0] Request  e [1] Tesouraria
+        
+       
 try {
             
             splitedProtocol = in.split(":");
@@ -70,7 +72,7 @@ try {
                // new Manager(false).autoCreateTicket(splitedProtocol[1]);
                     // new Manager(false).autoCreateTicket("Tesouraria");
                     break;
-                
+               
             }
         } catch (Exception e) {
             System.out.println("Cliente desligou-se "+ e.getMessage());

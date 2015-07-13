@@ -15,13 +15,16 @@ public class TestSrvSocket {
 		//Constrói o servior
 		SocketSrv servidor = new SocketSrv();
 		//SDPMultiServerSocket servidor = new SDPMultiServerSocket();
-		try{
+		
+        try{
 			//int port = Integer.parseInt(args[1]); //Faz o parse do porto
 			servidor.listenSocket(port);		  //Inicia o processo
 		}catch(NumberFormatException ex){
 			System.out.println("Porto inválido.");
 			System.exit(-1);
 		}
+        
+        
 		 
 		
 		
