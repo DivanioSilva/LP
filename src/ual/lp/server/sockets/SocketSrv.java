@@ -36,7 +36,7 @@ public class SocketSrv extends Thread {
     public void listenSocket(int port) {
 
         System.out.println("A iniciar ..");
-       do {
+      
         String data =null;
         //Primeiro criamos o socket, vinculando-o no porto inserido
         try {
@@ -47,9 +47,10 @@ public class SocketSrv extends Thread {
             System.out.println("Não foi possível estabelecer o socket no porto " + port);
             System.exit(-1);
         }
-         
+          do {
             //Depois esperamos pela ligação do cliente
             try {
+                //client=null;
                 client = server.accept();
             } catch (IOException e) {
                 System.out.println("Erro ao aceitar ligação de cliente em " + port);
@@ -95,27 +96,31 @@ public class SocketSrv extends Thread {
 
             System.out.println("A fechar socket cliente..");
             //Fechamos o socket do cliente
-            if (!client.isClosed()) {
+          if (!client.isClosed()) {
+            System.out.println("Como não está fechado, a fechar socket cliente..");
                 try {
                     client.close();
                 } catch (IOException e) {
                     System.out.println("Erro ao fechar o socket cliente");
                     System.exit(-1);
                 }
-            }
+          }
 
-            System.out.println("A fechar socket servidor..");
-            //Fechamos o socket do servidor
-            if (!server.isClosed()) {
-                try {
-                    server.close();
-                } catch (IOException e) {
-                    System.out.println("Erro ao fechar o socket servior");
-                    System.exit(-1);
-                }
-            }
 
+        running = true;
         } while (true);
+          
+          //            System.out.println("A fechar socket servidor..");
+//            //Fechamos o socket do servidor
+//            if (!server.isClosed()) {
+//                 System.out.println("Como não está fechado, a fechar socket servidor..");
+//                try {
+//                    server.close();
+//                } catch (IOException e) {
+//                    System.out.println("Erro ao fechar o socket servior");
+//                    System.exit(-1);
+//                }
+//            }
     }
 
 }
