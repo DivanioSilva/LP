@@ -385,6 +385,7 @@ public class CallerGUI extends javax.swing.JFrame {
             } catch (NoTicketsException ex) {
                 JOptionPane.showMessageDialog(this, "Não existem tickets por atender.");
                 jLabelActualTicket.setText("");
+                jComboBoxColleagues.setSelectedIndex(0);
             }
                
         }
