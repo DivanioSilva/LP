@@ -5,10 +5,12 @@
  */
 package ual.lp.caller.gui;
 
+import java.awt.Color;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 import ual.lp.caller.mgr.CallerMGR;
@@ -37,12 +39,14 @@ public class CallerGUI extends javax.swing.JFrame {
     Ticket ticket;
     private CallerInf callerInf;
     private List<Employee> employees;
+    private String closeCaller;
     
-
+    
     /**
      * Creates new form CallerPanel
      */
     public CallerGUI() {
+       this.getContentPane().setBackground(Color.white);
 
         this.setLocationRelativeTo(null);
         this.employees = new LinkedList<>();
@@ -60,21 +64,23 @@ public class CallerGUI extends javax.swing.JFrame {
         } catch (NotBoundException e) {
             System.err.println("Caiu na notBound" + e.getMessage());
             callerLog.error("Caiu na notBound", e);
+            System.exit(1);
             JOptionPane.showMessageDialog(this, "O servidor esta off-line.\nContacte o administrador do sistema.");
         } catch (NullPointerException en) {
             System.err.println("Deu nullPointer" + en.getMessage());
             callerLog.error("Deu nullPointer", en);
             JOptionPane.showMessageDialog(this, "O servidor esta off-line.\nContacte o administrador do sistema.");
+            System.exit(1);
         } catch (BadConfigurationException bad) {
             callerLog.error("O caller apresenta configurações inválidas.", bad);
             JOptionPane.showMessageDialog(this, "As configurações do posto de trabalho não foram"
                     + "\n não foram feitas correctamente.\nContacte o administrador do sistema.");
+            System.exit(1);
         }
     }
 
     public void initData() throws RemoteException, BadConfigurationException {
 
-        
         config = new Config();
         employee = config.getEmployee();
         jLabelEmpName.setText(employee.getName());
@@ -132,7 +138,6 @@ public class CallerGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jComboBoxColleagues = new javax.swing.JComboBox();
@@ -147,25 +152,30 @@ public class CallerGUI extends javax.swing.JFrame {
         jLabelEmpDepartment = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabelEmpDesk = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("UAL");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("UAL iSenhas");
+        setAutoRequestFocus(false);
+        setBackground(new java.awt.Color(222, 222, 222));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setForeground(new java.awt.Color(222, 222, 222));
         setName("iSenhas - Caller"); // NOI18N
         setPreferredSize(new java.awt.Dimension(420, 330));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jLabel2.setText("iSenhas - Caller");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, -1, -1));
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Tranferências"));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Transferências", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        jPanel2.setForeground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel3.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel3.setText("Colegas");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 17, -1, -1));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
 
+        jComboBoxColleagues.setBackground(new java.awt.Color(255, 255, 255));
+        jComboBoxColleagues.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jComboBoxColleagues.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
         jComboBoxColleagues.setPreferredSize(new java.awt.Dimension(35, 24));
         jComboBoxColleagues.addActionListener(new java.awt.event.ActionListener() {
@@ -173,14 +183,16 @@ public class CallerGUI extends javax.swing.JFrame {
                 jComboBoxColleaguesActionPerformed(evt);
             }
         });
-        jPanel2.add(jComboBoxColleagues, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 110, -1));
+        jPanel2.add(jComboBoxColleagues, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 110, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 130, 130));
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Actual", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        jPanel3.setForeground(new java.awt.Color(255, 255, 255));
         jPanel3.setPreferredSize(new java.awt.Dimension(90, 61));
 
-        jLabelActualTicket.setFont(new java.awt.Font("Dialog", 1, 30)); // NOI18N
+        jLabelActualTicket.setFont(new java.awt.Font("Dialog", 1, 48)); // NOI18N
         jLabelActualTicket.setForeground(new java.awt.Color(0, 0, 255));
         jLabelActualTicket.setText("D99");
 
@@ -189,16 +201,18 @@ public class CallerGUI extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabelActualTicket))
+                .addContainerGap()
+                .addComponent(jLabelActualTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabelActualTicket)
+            .addComponent(jLabelActualTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 40, -1, -1));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 51, 120, 80));
 
+        jButtonRefresh.setForeground(new java.awt.Color(255, 255, 255));
         jButtonRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/refresh2.png"))); // NOI18N
         jButtonRefresh.setToolTipText("Teste do botão chamar");
         jButtonRefresh.setContentAreaFilled(false);
@@ -210,6 +224,7 @@ public class CallerGUI extends javax.swing.JFrame {
         });
         getContentPane().add(jButtonRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 120, 120));
 
+        jButtonCallNext.setForeground(new java.awt.Color(255, 255, 255));
         jButtonCallNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/Play-icon120x120.png"))); // NOI18N
         jButtonCallNext.setToolTipText("Teste do botão chamar");
         jButtonCallNext.setContentAreaFilled(false);
@@ -221,7 +236,9 @@ public class CallerGUI extends javax.swing.JFrame {
         });
         getContentPane().add(jButtonCallNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 160, 120, 120));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Colaborador"));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Colaborador", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setText("Nome:");
 
@@ -271,9 +288,23 @@ public class CallerGUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 40, 250, -1));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 250, -1));
+
+        jButton1.setForeground(new java.awt.Color(51, 51, 55));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/ExitButtonBlue100x80.png"))); // NOI18N
+        jButton1.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        jButton1.setBorderPainted(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, 80, 30));
+
+        getAccessibleContext().setAccessibleName("UAL iSenhas");
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefreshActionPerformed
@@ -338,26 +369,27 @@ public class CallerGUI extends javax.swing.JFrame {
 ////////            jLabelNextTicket.setText(callerMGR.showNextCallTicket());
 ////////            jLabelActualTicket.setText(callerMGR.showActualTicket());
 ////////        }
-            //Testando o callerMGR para ser se funciona.
-        
+        //Testando o callerMGR para ser se funciona.
         if (jLabelActualTicket.getText().equals("")) {
             try {
                 this.ticket = remoteObject.getNextTicket(this.employee);
-
+                jComboBoxColleagues.setSelectedIndex(0);
                 jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
             } catch (RemoteException ex) {
                 JOptionPane.showMessageDialog(this, "Existe um problema de comunicação com o servidor.\nContacte o administrador do sistema!");
                 callerLog.error("Existe um problema de comunicação\n com o servidor", ex);
+                System.exit(1);
             } catch (NoTicketsException ex) {
                 JOptionPane.showMessageDialog(this, "Não existem tickets por atender.");
                 jLabelActualTicket.setText("");
+                jComboBoxColleagues.setSelectedIndex(0);
             }
         } else {
-            
+
             try {
                 if (jComboBoxColleagues.getSelectedItem() != "") {
 //                System.out.println("Transferir para " + jComboBoxColleagues.getSelectedItem());
-                //correr o array dos emp para encontrar o que quero fazer a transf.
+                    //correr o array dos emp para encontrar o que quero fazer a transf.
                     for (int i = 0; i < this.employees.size(); i++) {
                         if (employees.get(i).getName().equals(jComboBoxColleagues.getSelectedItem())) {
                             this.employees.get(i);
@@ -372,29 +404,48 @@ public class CallerGUI extends javax.swing.JFrame {
                     this.ticket = remoteObject.getNextTicket(this.employee);
                     jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
                     jComboBoxColleagues.setSelectedIndex(0);
-                } else{
-                
-                
-                remoteObject.closeTicket(this.ticket);
-                this.ticket = remoteObject.getNextTicket(this.employee);
-                jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
-               }
+                } else {
+
+                    remoteObject.closeTicket(this.ticket);
+                    this.ticket = remoteObject.getNextTicket(this.employee);
+                    jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
+                }
             } catch (RemoteException ex) {
                 JOptionPane.showMessageDialog(this, "Existe um problema de comunicação com o servidor.\nContacte o administrador do sistema!");
                 callerLog.error("Existe um problema de comunicação\n com o servidor", ex);
+                System.exit(1);
             } catch (NoTicketsException ex) {
                 JOptionPane.showMessageDialog(this, "Não existem tickets por atender.");
+                callerLog.info("Não existem tickets por atender", ex);
                 jLabelActualTicket.setText("");
                 jComboBoxColleagues.setSelectedIndex(0);
             }
-               
+
         }
-       
+
     }//GEN-LAST:event_jButtonCallNextActionPerformed
 
     private void jComboBoxColleaguesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxColleaguesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxColleaguesActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            remoteObject.closeTicket(this.ticket);
+            JOptionPane.showMessageDialog(this, "Estou a encerrar o caller, o ticket já foi encerrado.");
+            System.exit(0);
+        } catch (RemoteException e) {
+            System.err.println("O server esta off-line.\n" + e.getMessage());
+            callerLog.error("O server esta off-line.", e);
+            JOptionPane.showMessageDialog(this, "O servidor esta off-line.\nContacte o administrador do sistema.");
+            System.exit(1);
+        } catch (NullPointerException e){
+//            System.err.println("O server esta off-line.\n" + e.getMessage());
+            callerLog.error("O server esta off-line.", e);
+            JOptionPane.showMessageDialog(this, "A aplicação foi encerrada com sucesso.");
+            System.exit(0);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 //    /**
 //     * @param args the command line arguments
@@ -433,11 +484,11 @@ public class CallerGUI extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCallNext;
     private javax.swing.JButton jButtonRefresh;
     private javax.swing.JComboBox jComboBoxColleagues;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
@@ -477,4 +528,5 @@ public class CallerGUI extends javax.swing.JFrame {
     public void setCallerInf(CallerInf callerInf) {
         this.callerInf = callerInf;
     }
+
 }

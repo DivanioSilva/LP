@@ -31,6 +31,7 @@ public class Manager {
     static final Logger serverLog = Logger.getLogger("serverLogger");
     static final Logger callerTicketCallLog = Logger.getLogger("callerTicketCall");
     static final Logger callerTransfLog = Logger.getLogger("callerTransfLog");
+    static final Logger loginLog = Logger.getLogger("login");
     private EmployeeDAO employeeDAO;
     private TicketDAO ticketDAO;
     private DepartmentDAO departmentDAO;
@@ -77,7 +78,7 @@ public class Manager {
             employee.setEmpNumber(this.getEmpID(employee));
             
             this.addEmployee(employee);
-            
+            loginLog.info("Begin - Dept: "+employee.getDepartment().getName()+". ID: "+employee.getEmpNumber()+" "+employee.getName());
             this.employeesCallback(employee.getDepartment());
         } catch (BadConfigurationException e) {
             serverLog.error("O caller apresenta configurações inválidas.", e);
