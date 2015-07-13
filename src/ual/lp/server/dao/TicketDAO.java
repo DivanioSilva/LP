@@ -158,7 +158,7 @@ public class TicketDAO {
 
             jdbcTemplate.update(sql, new Object[]{department.getId()}, typesForDepartId);
 
-            System.out.println("Acabei de inserir um ticket com o numero 1.");
+            System.out.println("Acabei de inserir um ticket com o numero" +department.getAbbreviation() +""+ 1);
 
             return department.getAbbreviation() + "" + 1;
         }

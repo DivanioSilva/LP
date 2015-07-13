@@ -279,46 +279,46 @@ public class CallerGUI extends javax.swing.JFrame {
     private void jButtonRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefreshActionPerformed
 
 //        adminPanel.setVisible(true);
-        try {
-            JOptionPane.showMessageDialog(this, "Rechamar a senha "+this.ticket.getDepartment().getAbbreviation()+""+this.ticket.getNumberticket());
-        } catch (NullPointerException e) {
-            callerLog.error(employee.getName()+" rechamou um ticket sem tem um ticket atribuido", e);
-        }
-
+//        try {
+//            JOptionPane.showMessageDialog(this, "Rechamar a senha "+this.ticket.getDepartment().getAbbreviation()+""+this.ticket.getNumberticket());
+//        } catch (NullPointerException e) {
+//            callerLog.error(employee.getName()+" rechamou um ticket sem tem um ticket atribuido", e);
+//        }
+//
     }//GEN-LAST:event_jButtonRefreshActionPerformed
 
     private void jButtonCallNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCallNextActionPerformed
-        try {
-
-            if (jComboBoxColleagues.getSelectedItem() != "") {
-//                System.out.println("Transferir para " + jComboBoxColleagues.getSelectedItem());
-                //correr o array dos emp para encontrar o que quero fazer a transf.
-                for (int i = 0; i < this.employees.size(); i++) {
-                    if (employees.get(i).getName().equals(jComboBoxColleagues.getSelectedItem())) {
-                        this.employees.get(i);
-                        System.out.println("Encontrei o gajo na lista.\nIrei transferir para " + employees.get(i).getName());
-                        System.out.println(i);
-                        this.ticket.setTransferId(this.employees.get(i).getEmpNumber());
-                        remoteObject.transferTicket(ticket);
-                        continue;
-                    }
-
-                }
-                remoteObject.getNextTicket(this.employee);
-//                jComboBoxColleagues.setSelectedIndex(0);
-            } else {
-
-                if (jLabelActualTicket.getText().equals("")) {
-
-                    this.ticket = remoteObject.getNextTicket(this.employee);
-
-                    jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
-                } else {
-                    remoteObject.closeTicket(this.ticket);
-                    this.ticket = remoteObject.getNextTicket(this.employee);
-                    jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
-                }
-            }
+//        try {
+//
+//            if (jComboBoxColleagues.getSelectedItem() != "") {
+////                System.out.println("Transferir para " + jComboBoxColleagues.getSelectedItem());
+//                //correr o array dos emp para encontrar o que quero fazer a transf.
+//                for (int i = 0; i < this.employees.size(); i++) {
+//                    if (employees.get(i).getName().equals(jComboBoxColleagues.getSelectedItem())) {
+//                        this.employees.get(i);
+//                        System.out.println("Encontrei o gajo na lista.\nIrei transferir para " + employees.get(i).getName());
+//                        System.out.println(i);
+//                        this.ticket.setTransferId(this.employees.get(i).getEmpNumber());
+//                        remoteObject.transferTicket(ticket);
+//                        continue;
+//                    }
+//
+//                }
+//                remoteObject.getNextTicket(this.employee);
+////                jComboBoxColleagues.setSelectedIndex(0);
+//            } else {
+//
+//                if (jLabelActualTicket.getText().equals("")) {
+//
+//                    this.ticket = remoteObject.getNextTicket(this.employee);
+//
+//                    jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
+//                } else {
+//                    remoteObject.closeTicket(this.ticket);
+//                    this.ticket = remoteObject.getNextTicket(this.employee);
+//                    jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
+//                }
+//            }
 
             //Fazer o close deste ticket.
 ////////        if(jComboBoxDeptList.getSelectedItem()!=""&&jComboBoxColegasList.getSelectedItem()!=""){
@@ -339,13 +339,56 @@ public class CallerGUI extends javax.swing.JFrame {
 ////////            jLabelActualTicket.setText(callerMGR.showActualTicket());
 ////////        }
             //Testando o callerMGR para ser se funciona.
-        } catch (RemoteException ex) {
-            JOptionPane.showMessageDialog(this, "Existe um problema de comunicação com o servidor.\nContacte o administrador do sistema!");
-            callerLog.error("Existe um problema de comunicação\n com o servidor", ex);
-        } catch (NoTicketsException ex) {
-            JOptionPane.showMessageDialog(this, "Não existem tickets por atender.");
-            jLabelActualTicket.setText("");
+        
+        if (jLabelActualTicket.getText().equals("")) {
+            try {
+                this.ticket = remoteObject.getNextTicket(this.employee);
+
+                jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
+            } catch (RemoteException ex) {
+                JOptionPane.showMessageDialog(this, "Existe um problema de comunicação com o servidor.\nContacte o administrador do sistema!");
+                callerLog.error("Existe um problema de comunicação\n com o servidor", ex);
+            } catch (NoTicketsException ex) {
+                JOptionPane.showMessageDialog(this, "Não existem tickets por atender.");
+                jLabelActualTicket.setText("");
+            }
+        } else {
+            
+            try {
+                if (jComboBoxColleagues.getSelectedItem() != "") {
+//                System.out.println("Transferir para " + jComboBoxColleagues.getSelectedItem());
+                //correr o array dos emp para encontrar o que quero fazer a transf.
+                    for (int i = 0; i < this.employees.size(); i++) {
+                        if (employees.get(i).getName().equals(jComboBoxColleagues.getSelectedItem())) {
+                            this.employees.get(i);
+                            System.out.println("Encontrei o gajo na lista.\nIrei transferir para " + employees.get(i).getName());
+                            System.out.println(i);
+                            this.ticket.setTransferId(this.employees.get(i).getEmpNumber());
+                            remoteObject.transferTicket(ticket);
+                            break;
+
+                        }
+                    }
+                    this.ticket = remoteObject.getNextTicket(this.employee);
+                    jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
+                    jComboBoxColleagues.setSelectedIndex(0);
+                } else{
+                
+                
+                remoteObject.closeTicket(this.ticket);
+                this.ticket = remoteObject.getNextTicket(this.employee);
+                jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
+               }
+            } catch (RemoteException ex) {
+                JOptionPane.showMessageDialog(this, "Existe um problema de comunicação com o servidor.\nContacte o administrador do sistema!");
+                callerLog.error("Existe um problema de comunicação\n com o servidor", ex);
+            } catch (NoTicketsException ex) {
+                JOptionPane.showMessageDialog(this, "Não existem tickets por atender.");
+                jLabelActualTicket.setText("");
+            }
+               
         }
+       
     }//GEN-LAST:event_jButtonCallNextActionPerformed
 
     private void jComboBoxColleaguesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxColleaguesActionPerformed
