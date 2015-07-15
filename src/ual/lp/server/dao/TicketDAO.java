@@ -222,7 +222,7 @@ public class TicketDAO {
      * Método para fazer o reset de uma determinada fila
      * @param department que será feito o reset
      */
-    public void resetQueue(Department department) {
+    public void resetQueue(Employee employee) {
         //saber o id do department.
         String sql = null;
         
@@ -232,9 +232,9 @@ public class TicketDAO {
             Types.VARCHAR
         };
 
-        int deptID = jdbcTemplate.queryForInt(sql, new Object[]{department.getName()}, types);
-        department.setId(deptID);
-
+        int deptID = jdbcTemplate.queryForInt(sql, new Object[]{employee.getDepartment().getName()}, types);
+//        department.setId(deptID);
+        employee.getDepartment().setId(deptID);
         //encerrar todos os tickets que estão por atender.
         sql = "update tickets set tickets.timecall=now(), tickets.status=3, tickets.reset=1\n"
                 + "where tickets.status=0 and tickets.iddepartment=?;";
@@ -243,7 +243,7 @@ public class TicketDAO {
             Types.INTEGER
         };
 
-        jdbcTemplate.update(sql, new Object[]{department.getId()}, typesUpdate);
+        jdbcTemplate.update(sql, new Object[]{employee.getDepartment().getId()}, typesUpdate);
         
 ////        //inserir um ticket dummy com o número 0 para garantir que o próximo ticket criado será o 1.
 ////        sql ="insert into tickets(number, createhour, status, timecall, iddepartment) values(0, now(), 4, now(), ?);";

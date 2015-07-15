@@ -245,9 +245,9 @@ public class Manager {
      * Método utilizado pelo user com privilégios de admin.
      * @param department 
      */
-    public void resetQueue(Department department) {
-        serverLog.info("Reset da fila: " + department.getName());
-        this.ticketDAO.resetQueue(department);
+    public void resetQueue(Employee employee) {
+        serverLog.info("Reset da fila: " + employee.getDepartment().getName());
+        this.ticketDAO.resetQueue(employee);
     }
 
     /**

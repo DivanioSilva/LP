@@ -3,5 +3,5 @@
     {"department":"Tesouraria", "abbreviation":"T"},
     {"department":"Secretaria", "abbreviation":"S"},
     {"department":"Boss", "abbreviation":"B"}
-    ], "url":"jdbc:mysql://localhost:3306/isenhasdb", "username":"root", "password":"root", "serverIP":"172.16.120.77"
+    ], "url":"jdbc:mysql://localhost:3306/isenhasdb", "username":"root", "password":"root", "serverIP":"172.16.120.77", "resetQueue":"22:00"
 }

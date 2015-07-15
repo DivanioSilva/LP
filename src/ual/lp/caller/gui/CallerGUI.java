@@ -10,7 +10,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 import ual.lp.caller.mgr.CallerMGR;
@@ -30,7 +29,6 @@ import ual.lp.server.rmi.ServerInf;
 public class CallerGUI extends javax.swing.JFrame {
 
     static final Logger callerLog = Logger.getLogger("callerLogger");
-    private AdminPanel adminPanel;
     private Config config;
     private Employee employee;
     private CallerMGR callerMGR;
@@ -40,13 +38,12 @@ public class CallerGUI extends javax.swing.JFrame {
     private CallerInf callerInf;
     private List<Employee> employees;
     private String closeCaller;
-    
-    
+
     /**
      * Creates new form CallerPanel
      */
     public CallerGUI() {
-       this.getContentPane().setBackground(Color.white);
+        this.getContentPane().setBackground(Color.white);
 
         this.setLocationRelativeTo(null);
         this.employees = new LinkedList<>();
@@ -86,8 +83,6 @@ public class CallerGUI extends javax.swing.JFrame {
         jLabelEmpName.setText(employee.getName());
         jLabelEmpDepartment.setText(employee.getDepartment().getName());
         jLabelEmpDesk.setText(String.valueOf(employee.getDeskNumber()));
-        adminPanel = new AdminPanel();
-        adminPanel.setVisible(false);
         employee.setCallerInf(this.callerInf);
         remoteObject.connect(employee);
         jLabelActualTicket.setText("");
@@ -138,6 +133,8 @@ public class CallerGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupAmin = new javax.swing.JPopupMenu();
+        jMenuIResetQueu = new javax.swing.JMenuItem();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jComboBoxColleagues = new javax.swing.JComboBox();
@@ -154,6 +151,14 @@ public class CallerGUI extends javax.swing.JFrame {
         jLabelEmpDesk = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
+        jMenuIResetQueu.setText("Reset");
+        jMenuIResetQueu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuIResetQueuActionPerformed(evt);
+            }
+        });
+        jPopupAmin.add(jMenuIResetQueu);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("UAL iSenhas");
         setAutoRequestFocus(false);
@@ -163,6 +168,11 @@ public class CallerGUI extends javax.swing.JFrame {
         setName("iSenhas - Caller"); // NOI18N
         setPreferredSize(new java.awt.Dimension(420, 330));
         setResizable(false);
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                formMouseReleased(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -301,8 +311,6 @@ public class CallerGUI extends javax.swing.JFrame {
         });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, 80, 30));
 
-        getAccessibleContext().setAccessibleName("UAL iSenhas");
-
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -351,7 +359,7 @@ public class CallerGUI extends javax.swing.JFrame {
 //                }
 //            }
 
-            //Fazer o close deste ticket.
+        //Fazer o close deste ticket.
 ////////        if(jComboBoxDeptList.getSelectedItem()!=""&&jComboBoxColegasList.getSelectedItem()!=""){
 //////////            System.out.println("Tenho os dois selecionados.");
 ////////            JOptionPane.showMessageDialog(this, "Você não pode transferir para um colega e\n para um departamento ao mesmo tempo");
@@ -430,22 +438,54 @@ public class CallerGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxColleaguesActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            remoteObject.closeTicket(this.ticket);
-            JOptionPane.showMessageDialog(this, "Estou a encerrar o caller, o ticket já foi encerrado.");
-            System.exit(0);
-        } catch (RemoteException e) {
-            System.err.println("O server esta off-line.\n" + e.getMessage());
-            callerLog.error("O server esta off-line.", e);
-            JOptionPane.showMessageDialog(this, "O servidor esta off-line.\nContacte o administrador do sistema.");
-            System.exit(1);
-        } catch (NullPointerException e){
+
+        int option = JOptionPane.showConfirmDialog(this, "Gostaria realmente de encerrar o caller?", "iSenhas", JOptionPane.YES_NO_OPTION);
+
+        if (option == JOptionPane.YES_OPTION) {
+//            System.out.println("Encerrando o caller");
+            try {
+                remoteObject.closeTicket(this.ticket);
+//                JOptionPane.showMessageDialog(this, "A aplicação foi encerrada com sucesso.");
+                System.exit(0);
+            } catch (RemoteException e) {
+                System.err.println("O server esta off-line.\n" + e.getMessage());
+                callerLog.error("O server esta off-line.", e);
+                JOptionPane.showMessageDialog(this, "O servidor esta off-line.\nContacte o administrador do sistema.");
+                System.exit(1);
+            } catch (NullPointerException e) {
 //            System.err.println("O server esta off-line.\n" + e.getMessage());
-            callerLog.error("O server esta off-line.", e);
-            JOptionPane.showMessageDialog(this, "A aplicação foi encerrada com sucesso.");
-            System.exit(0);
+                callerLog.error("O server esta off-line.", e);
+//                JOptionPane.showMessageDialog(this, "A aplicação foi encerrada com sucesso.");
+                System.exit(0);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Operação anulada!");
         }
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
+        if (evt.isPopupTrigger()) {
+            jPopupAmin.show(this, evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_formMouseReleased
+
+    private void jMenuIResetQueuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuIResetQueuActionPerformed
+        if (employee.isAdmin() != true) {
+            JOptionPane.showMessageDialog(this, "Peça ao administrador do departamento "
+                    + "fazer o reset da fila.");
+        } else {
+            try {
+                remoteObject.resetQueue(employee);
+            } catch (RemoteException e) {
+                System.err.println("Erro ao fazer o reset da fila" + e.getMessage());
+            }
+            JOptionPane.showMessageDialog(this, "Feito o reset da fila.");
+        }
+
+
+    }//GEN-LAST:event_jMenuIResetQueuActionPerformed
 
 //    /**
 //     * @param args the command line arguments
@@ -496,9 +536,11 @@ public class CallerGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelEmpDepartment;
     private javax.swing.JLabel jLabelEmpDesk;
     private javax.swing.JLabel jLabelEmpName;
+    private javax.swing.JMenuItem jMenuIResetQueu;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPopupMenu jPopupAmin;
     // End of variables declaration//GEN-END:variables
 
     /**

@@ -19,10 +19,20 @@ public class Employee implements Serializable{
     private int deskNumber;
     private Department department;
     private CallerInf callerInf;
+    private boolean admin;
 
     public Employee() {
     }
 
+    public Employee(int empNumber, String name, int deskNumber, Department department, CallerInf callerInf, boolean admin) {
+        this.empNumber = empNumber;
+        this.name = name;
+        this.deskNumber = deskNumber;
+        this.department = department;
+        this.callerInf = callerInf;
+        this.admin = admin;
+    }
+    
     public Employee(int empNumber, String name, int deskNumber, Department department) {
         this.empNumber = empNumber;
         this.name = name;
@@ -106,6 +116,20 @@ public class Employee implements Serializable{
      */
     public void setCallerInf(CallerInf callerInf) {
         this.callerInf = callerInf;
+    }
+
+    /**
+     * @return the admin
+     */
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    /**
+     * @param admin the admin to set
+     */
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 
 

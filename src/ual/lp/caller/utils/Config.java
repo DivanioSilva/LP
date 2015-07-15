@@ -38,8 +38,9 @@ public class Config {
         try {
             jsonObject = (JSONObject) parser.parse(new FileReader("callerconfig.json"));
             employee.setName((String) jsonObject.get("name"));
-            employee.setDeskNumber(Integer.parseInt((String) jsonObject.get("deskNumber")));
+            employee.setDeskNumber((Integer) Integer.parseInt((String)jsonObject.get("deskNumber")));
             employee.setDepartment(new Department((String) jsonObject.get("department"), (String) jsonObject.get("abbreviation")));
+            employee.setAdmin((Boolean) jsonObject.get("isAdmin"));
 
         } catch (Exception e) {
             callerLog.fatal("Erro ao ler o ficheiro de configuração 'callerconfig.json' para construir o employee desta máquina.", e);

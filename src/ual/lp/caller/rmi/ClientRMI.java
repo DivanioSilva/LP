@@ -32,7 +32,8 @@ public class ClientRMI {
             Registry registry = LocateRegistry.getRegistry(HOST, PORT);
             ServerInf objRemoto = (ServerInf) registry.lookup("response");
             this.callerGUI.setRemoteObject(objRemoto);
-            this.callerGUI.setCallerInf(new CallerImpl(this.callerGUI));         
+            this.callerGUI.setCallerInf(new CallerImpl(this.callerGUI));
+                     
     }
     
 
