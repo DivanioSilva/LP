@@ -255,6 +255,29 @@ public class TicketDAO {
 ////        jdbcTemplate.update(sql, new Object[]{department.getId()}, typesInsert);
         
     }
+    
+//    public ticket showToDisplay(Department department){
+//        Ticket ticket;
+//        String sql = null;
+//        
+//        sql = "select iddepartment from department where department.department=?;";
+//
+//        int[] types = {
+//            Types.VARCHAR
+//        };
+//
+//        int deptID = jdbcTemplate.queryForInt(sql, new Object[]{department.getName()}, types);
+//        department.setId(deptID);
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        return ticket;
+//    }
 
     public void setTransactionManager(DataSourceTransactionManager transactionManager) {
         this.transactionManager = transactionManager;

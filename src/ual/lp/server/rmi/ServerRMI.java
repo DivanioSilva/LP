@@ -27,8 +27,11 @@ public class ServerRMI {
             Thread.sleep(2000);
             System.out.println("O server arrancou!");
             ServerInf serverImpl = new ServerImpl(manager);
+            ServerToDisplayInf serverToDisplayImpl = new ServerToDisplayImpl(manager);
             
             registry.rebind("response", serverImpl);
+            registry.rebind("display",serverToDisplayImpl);
+            
         } catch (RemoteException e) {
             System.out.println("");
         } catch (InterruptedException e) {
