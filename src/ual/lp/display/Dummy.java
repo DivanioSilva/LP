@@ -10,5 +10,5 @@ package ual.lp.display;
  * @author Divanio Silva
  */
 public class Dummy {
-    
+    private String test;
 }
