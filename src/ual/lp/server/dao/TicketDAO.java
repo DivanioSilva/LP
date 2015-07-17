@@ -8,6 +8,7 @@ package ual.lp.server.dao;
 import java.sql.Types;
 import java.util.List;
 import javax.sql.DataSource;
+import org.springframework.asm.Type;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -116,6 +117,9 @@ public class TicketDAO {
     public String autoCreateTicket(String dept) {
         Ticket ticket = new Ticket();
         String sql, ticketNumber = null;
+        String curTime;
+        curTime = String.valueOf(System.currentTimeMillis());
+        //nivelar com o PT os novos parâmetros de retorno do ticket, foi adicionado o clientkey para a password do qrcode.
 
         try {
             sql = "select * from tickets join department on tickets.iddepartment=department.iddepartment\n"
@@ -123,12 +127,13 @@ public class TicketDAO {
 
             ticket = jdbcTemplate.queryForObject(sql, new Object[]{dept}, new SimpleTicketMapper());
 
-            sql = "insert into tickets(number, createhour, status, iddepartment) values(?, now(), 0, ?);";
+//            sql = "insert into tickets(number, createhour, status, iddepartment) values(?, now(), 0, ?);";
+            sql = "insert into tickets(number, createhour, status, iddepartment, clientkey) values(?, now(), 0, ?, ?);";
 
             int[] types = {
-                Types.INTEGER, Types.INTEGER
+                Types.INTEGER, Types.INTEGER, Types.VARCHAR
             };
-            jdbcTemplate.update(sql, new Object[]{ticket.getNumberticket() + 1, ticket.getDepartment().getId()}, types);
+            jdbcTemplate.update(sql, new Object[]{ticket.getNumberticket() + 1, ticket.getDepartment().getId(), curTime}, types);
             //S01
 //            ticketNumber = String.valueOf(ticket.getNumberticket() + 1);
             ticketNumber = ticket.getDepartment().getAbbreviation() + "" + String.valueOf(ticket.getNumberticket() + 1);
@@ -150,13 +155,13 @@ public class TicketDAO {
             department = jdbcTemplate.queryForObject(sql, new Object[]{dept}, new DepartmentMapper());
 
 //            System.out.println("Não existem tickets para serem atendidos nesta fila.");
-            sql = "insert into tickets(number, createhour, status, iddepartment) values(1, now(), 0, ?);";
+            sql = "insert into tickets(number, createhour, status, iddepartment, clientkey) values(1, now(), 0, ?, ?);";
 
             int[] typesForDepartId = {
-                Types.INTEGER
+                Types.INTEGER, Types.VARCHAR
             };
 
-            jdbcTemplate.update(sql, new Object[]{department.getId()}, typesForDepartId);
+            jdbcTemplate.update(sql, new Object[]{department.getId(), curTime}, typesForDepartId);
 
             System.out.println("Acabei de inserir um ticket com o numero" +department.getAbbreviation() +""+ 1);
 
