@@ -221,6 +221,12 @@ public class TicketDAO {
                 + "where tickets.status=0;";
 
         jdbcTemplate.update(sql);
+        
+        //fazer o reset em todos os tickets
+        sql = "update tickets set tickets.timecall=now(), tickets.reset=1\n"
+                + "where tickets.reset is null;";
+
+        jdbcTemplate.update(sql);
     }
 
     /**
@@ -242,7 +248,7 @@ public class TicketDAO {
         employee.getDepartment().setId(deptID);
         //encerrar todos os tickets que estão por atender.
         sql = "update tickets set tickets.timecall=now(), tickets.status=3, tickets.reset=1\n"
-                + "where tickets.status=0 and tickets.iddepartment=?;";
+                + "where tickets.iddepartment=?;";
 
         int[] typesUpdate = {
             Types.INTEGER
@@ -250,15 +256,11 @@ public class TicketDAO {
 
         jdbcTemplate.update(sql, new Object[]{employee.getDepartment().getId()}, typesUpdate);
         
-////        //inserir um ticket dummy com o número 0 para garantir que o próximo ticket criado será o 1.
-////        sql ="insert into tickets(number, createhour, status, timecall, iddepartment) values(0, now(), 4, now(), ?);";
-////        
-////        int[] typesInsert = {
-////            Types.INTEGER
-////        };
-////        
-////        jdbcTemplate.update(sql, new Object[]{department.getId()}, typesInsert);
-        
+        sql = "update tickets set tickets.timecall=now(), tickets.reset=1\n"
+                + "where tickets.reset is null;";
+
+        jdbcTemplate.update(sql);
+
     }
     
 //    public ticket showToDisplay(Department department){

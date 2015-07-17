@@ -24,6 +24,7 @@ public class MainTest {
         Employee employee;
         Manager mgr = new Manager(true);
         Department d = new Department();
+//        mgr.autoCreateTicket("Secretaria");
         
 //        //reset queue.
 //        d.setName("Tesouraria");
@@ -47,13 +48,14 @@ public class MainTest {
 
 //                        mgr.autoCreateTicket("Boss");
 //                employee = config.getEmployee();
-//        try {
-//            for (int i = 0; i < 10; i++) {
-//                mgr.autoCreateTicket("Secretaria");
-//                Thread.sleep(1000);
-//            }
-//        } catch (Exception e) {
-//
-//        }
+        try {
+            for (int i = 0; i < 10; i++) {
+                mgr.autoCreateTicket("Secretaria");
+                Thread.sleep(1000);
+            }
+            System.out.println("Ufa!!! Acabei de inserir todos os tickets.");
+        } catch (Exception e) {
+
+        }
     }
 }
