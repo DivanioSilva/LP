@@ -35,7 +35,7 @@ public class DisplayImpl extends UnicastRemoteObject implements DisplayInf {
         BufferedWriter writer = null;
         try {
             //Local do ficheiro será configurado pelo ficheiro de conf do display
-            writer = new BufferedWriter(new FileWriter("C:\\Tomcat\\webapps\\senhas\\madeira.txt"));
+            writer = new BufferedWriter(new FileWriter("C:\\xampp\\htdocs\\test\\madeira.txt"));
 
             for (Ticket ticket : tickets) {
                 writer.write(ticket.getDepartment().getName() + ": " + ticket.getDepartment().getAbbreviation() + "" 

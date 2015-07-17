@@ -138,6 +138,7 @@ public class Manager {
         try {
 
             this.displayInf.sourceToDisplay(tickets);
+            System.out.println("Lista de tickets enviada ao Display");
         } catch (RemoteException e) {
             System.err.println("Erro ao contactar o display.");
         } catch (NullPointerException e) {

@@ -30,6 +30,8 @@ public class DisplayRMI {
     public static final int PORT = 1099;
     public static final String MYIP = null;
     private CallerGUI callerGUI;
+    private DisplayApp displayApp;
+    private boolean serverOn = false;
 
     public DisplayRMI(CallerGUI callerGUI) throws RemoteException, NotBoundException {
         this.callerGUI = callerGUI;
@@ -41,7 +43,7 @@ public class DisplayRMI {
 
     }
 
-    public DisplayRMI() {
+    public DisplayRMI(DisplayApp displayApp) {
         try {
             System.setProperty("java.rmi.server.hostname", "localhost");//informar isso no relatório
             Registry registry = LocateRegistry.getRegistry(HOST, PORT);
@@ -53,18 +55,41 @@ public class DisplayRMI {
             } catch (InterruptedException ex) {
                 
             }
+            
             objRemoto.connect(callback);
+            this.serverOn = true;
+            System.out.println("Ligação ao servidor com sucesso");
 //            objRemoto.connect(callback);
             
 
             
 
         } catch (NotBoundException e) {
+            System.out.println("Não encontrada a referência para o objRemoto");
 //            System.out.println("Deu merda no client.");
             System.out.println(e.getMessage());
-        } catch (RemoteException e) {
+            this.serverOn = false;
+           
             
+        } catch (RemoteException e) {
+            System.out.println("Problema com a ligação ao servidor");
+            this.serverOn = false;
+         
         }
+    }
+
+    /**
+     * @return the serverOn
+     */
+    public boolean isServerOn() {
+        return serverOn;
+    }
+
+    /**
+     * @param serverOn the serverOn to set
+     */
+    public void setServerOn(boolean serverOn) {
+        this.serverOn = serverOn;
     }
 
 }

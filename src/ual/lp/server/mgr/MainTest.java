@@ -22,7 +22,7 @@ public class MainTest {
     public static void main(String[] args) {
         Config config = new Config();
         Employee employee;
-        Manager mgr = new Manager(false);
+        Manager mgr = new Manager(true);
         Department d = new Department();
         
 //        //reset queue.
@@ -47,13 +47,13 @@ public class MainTest {
 
 //                        mgr.autoCreateTicket("Boss");
 //                employee = config.getEmployee();
-        try {
-            for (int i = 0; i < 10; i++) {
-                mgr.autoCreateTicket("Tesouraria");
-                Thread.sleep(1000);
-            }
-        } catch (Exception e) {
-
-        }
+//        try {
+//            for (int i = 0; i < 10; i++) {
+//                mgr.autoCreateTicket("Secretaria");
+//                Thread.sleep(1000);
+//            }
+//        } catch (Exception e) {
+//
+//        }
     }
 }
