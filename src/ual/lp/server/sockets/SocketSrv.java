@@ -16,6 +16,7 @@ public class SocketSrv extends Thread {
     private PrintWriter out;
     private boolean running = true;
     private Manager manager;
+    private int port;
 
     /**
      * Constrói o obj
@@ -23,6 +24,9 @@ public class SocketSrv extends Thread {
     public SocketSrv() {
     }
 
+     public SocketSrv(int port) {
+      this.port=port;
+    }
     public SocketSrv(Manager manager) {
         this.manager = manager;
     }
@@ -125,7 +129,7 @@ public class SocketSrv extends Thread {
 
     @Override
     public void run(){
-         int port =5006;
+     //    int port =5006;
         
 		//Constrói o servior
 		SocketSrv servidor = new SocketSrv();

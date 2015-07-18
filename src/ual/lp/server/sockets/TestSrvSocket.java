@@ -5,13 +5,15 @@ package ual.lp.server.sockets;
 public class TestSrvSocket {
 
 	public static void main(String[] args){
+        
+        int port =5006;
 		
 //		if(args.length != 2 || args[0].compareTo("-p")!=0){
 //			System.out.println("-p <porto>");
 //			System.exit(-1);
 //		}
-      
-  new Thread(new SocketSrv()).start();
+       
+  new Thread(new SocketSrv(port)).start();
         
   /*      
         int port =5006;
