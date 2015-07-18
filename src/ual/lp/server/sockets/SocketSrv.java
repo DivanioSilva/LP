@@ -123,4 +123,21 @@ public class SocketSrv extends Thread {
 //            }
     }
 
+    @Override
+    public void run(){
+         int port =5006;
+        
+		//Constrói o servior
+		SocketSrv servidor = new SocketSrv();
+        
+         try{
+			//int port = Integer.parseInt(args[1]); //Faz o parse do porto
+			servidor.listenSocket(port);		  //Inicia o processo
+		}catch(NumberFormatException ex){
+			System.out.println("Porto inválido.");
+			System.exit(-1);
+		}
+        
+    }
+    
 }

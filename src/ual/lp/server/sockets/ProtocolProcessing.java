@@ -62,15 +62,14 @@ try {
                 //corrigir
 
                 // Pckg ual.lp.server.mgr/Manager.java
-                    // Metodo:autocreateticket (departamento) devolve numero
+                    // Metodo:autocreateticket (departamento) devolve Letra+ Numero (Ex. T23(
                     System.out.println("*** Antes de pedir ***" + splitedProtocol[1] + " ***");
+                    
                     msg = new Manager(false).autoCreateTicket(splitedProtocol[1]);
                     
                     System.out.println("*** Depois de pedir ***" + "TICKET:" + msg + " ***");
                     sktOut.println("TICKET:" + msg);
-
-               // new Manager(false).autoCreateTicket(splitedProtocol[1]);
-                    // new Manager(false).autoCreateTicket("Tesouraria");
+               
                     break;
                
             }

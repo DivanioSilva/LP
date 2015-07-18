@@ -1,5 +1,5 @@
 
-public class Servidor {
+public class _Servidor {
    
     public static boolean working = true;
    
@@ -12,7 +12,7 @@ public class Servidor {
 		}
 		//Constrói o servior
 		//SDPServerSocket servidor = new SDPServerSocket();
-		SDPMultiServerSocket servidor = new SDPMultiServerSocket();
+		_SDPMultiServerSocket servidor = new _SDPMultiServerSocket();
         
        
 		try{

@@ -10,6 +10,10 @@ public class TestSrvSocket {
 //			System.out.println("-p <porto>");
 //			System.exit(-1);
 //		}
+      
+  new Thread(new SocketSrv()).start();
+        
+  /*      
         int port =5006;
         
 		//Constrói o servior
@@ -23,7 +27,7 @@ public class TestSrvSocket {
 			System.out.println("Porto inválido.");
 			System.exit(-1);
 		}
-        
+    */    
         
 		 
 		

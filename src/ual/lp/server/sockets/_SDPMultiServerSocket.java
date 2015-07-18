@@ -7,13 +7,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class SDPMultiServerSocket {
+public class _SDPMultiServerSocket {
 	private  ServerSocket server;
 	private  Socket client;
 	private  boolean running;
 	private  LinkedList<ClientManager> clientList;
 	
-	public SDPMultiServerSocket(){
+	public _SDPMultiServerSocket(){
 		this.running = true;
 		this.clientList = new LinkedList<ClientManager>();
 	}
