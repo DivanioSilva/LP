@@ -114,17 +114,7 @@ public class SocketSrv extends Thread {
         running = true;
         } while (true);
           
-          //            System.out.println("A fechar socket servidor..");
-//            //Fechamos o socket do servidor
-//            if (!server.isClosed()) {
-//                 System.out.println("Como não está fechado, a fechar socket servidor..");
-//                try {
-//                    server.close();
-//                } catch (IOException e) {
-//                    System.out.println("Erro ao fechar o socket servior");
-//                    System.exit(-1);
-//                }
-//            }
+
     }
 
     @Override
@@ -132,11 +122,10 @@ public class SocketSrv extends Thread {
      //    int port =5006;
         
 		//Constrói o servior
-		SocketSrv servidor = new SocketSrv();
+        // 	SocketSrv servidor = new SocketSrv();
         
          try{
-			//int port = Integer.parseInt(args[1]); //Faz o parse do porto
-			servidor.listenSocket(port);		  //Inicia o processo
+			this.listenSocket(port);		  //Inicia o processo
 		}catch(NumberFormatException ex){
 			System.out.println("Porto inválido.");
 			System.exit(-1);
