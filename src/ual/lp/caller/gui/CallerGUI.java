@@ -184,7 +184,6 @@ public class CallerGUI extends javax.swing.JFrame {
         jLabel3.setText("Colegas");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
 
-        jComboBoxColleagues.setBackground(new java.awt.Color(255, 255, 255));
         jComboBoxColleagues.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jComboBoxColleagues.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
         jComboBoxColleagues.setPreferredSize(new java.awt.Dimension(35, 24));
@@ -258,7 +257,7 @@ public class CallerGUI extends javax.swing.JFrame {
 
         jLabelEmpDepartment.setText("Tesouraria");
 
-        jLabel7.setText("Secretaria:");
+        jLabel7.setText("Secretária:");
 
         jLabelEmpDesk.setText("jLabel6");
 
@@ -280,7 +279,7 @@ public class CallerGUI extends javax.swing.JFrame {
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelEmpDesk)))
-                .addGap(0, 26, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
