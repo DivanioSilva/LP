@@ -36,7 +36,7 @@ public class SocketSrv extends Thread {
      * ligação
      *
      * @param port
-     */
+     */ 
     public void listenSocket(int port) {
 
         System.out.println("A iniciar ..");
