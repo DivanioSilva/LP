@@ -1,5 +1,7 @@
 package ual.lp.server.sockets;
 
+import ual.lp.server.mgr.Manager;
+
 
 
 public class TestSrvSocket {
@@ -13,7 +15,9 @@ public class TestSrvSocket {
 //			System.exit(-1);
 //		}
        
-  new Thread(new SocketSrv(port)).start();
+        
+
+  new Thread(new SocketSrv(port,new Manager(false))).start();
         
   /*      
         int port =5006;

@@ -27,7 +27,8 @@ public class SocketSrv extends Thread {
      public SocketSrv(int port) {
       this.port=port;
     }
-    public SocketSrv(Manager manager) {
+    public SocketSrv(int port, Manager manager) {
+        this.port=port;
         this.manager = manager;
     }
 
@@ -39,16 +40,16 @@ public class SocketSrv extends Thread {
      */ 
     public void listenSocket(int port) {
 
-        System.out.println("A iniciar ..");
-      
+        System.out.println("#SocketSrv# - A iniciar ..");
+     
         String data =null;
         //Primeiro criamos o socket, vinculando-o no porto inserido
         try {
-            System.out.println("A criar socket ..");
+            System.out.println("#SocketSrv# - A criar socket ..");
             server = new ServerSocket(port);
-            System.out.println("Criado ..");
+            System.out.println("#SocketSrv# - Criado ..");
         } catch (IOException e) {
-            System.out.println("Não foi possível estabelecer o socket no porto " + port);
+            System.err.println("#SocketSrv# - Não foi possível estabelecer o socket no porto " + port);
             System.exit(-1);
         }
           do {
@@ -57,7 +58,7 @@ public class SocketSrv extends Thread {
                 //client=null;
                 client = server.accept();
             } catch (IOException e) {
-                System.out.println("Erro ao aceitar ligação de cliente em " + port);
+                System.err.println("#SocketSrv# - Erro ao aceitar ligação de cliente em " + port);
                 System.exit(-1);
             }
 
@@ -66,7 +67,7 @@ public class SocketSrv extends Thread {
                 in = new BufferedReader(new InputStreamReader(client.getInputStream()));
                 out = new PrintWriter(client.getOutputStream(), true);
             } catch (IOException e) {
-                System.out.println("Erro ao criar as streams de leitura e escrita em " + port);
+                System.err.println("#SocketSrv# - Erro ao criar as streams de leitura e escrita em " + port);
                 System.exit(-1);
             }
 
@@ -77,35 +78,38 @@ public class SocketSrv extends Thread {
                     if (data == null) {
                         running = false;
                     } else {
-                        System.out.println("Recebido: " + data);
+                        System.out.println("#SocketSrv# - Recebido: " + data);
 
                         new ProtocolProcessing(out, manager).inMessage(data);
                     }
 
                 } catch (IOException e) {
-                    System.out.println("Erro na leitura/escrita no socket em " + port);
-                    System.exit(-1);
+                    System.err.println("#SocketSrv# - Erro na leitura/escrita no socket em " + port);
+                    running = false;
+                    //System.exit(-1);
                 }
             }
 
-            System.out.println("A fechar streams..");
+            System.out.println("#SocketSrv# - A fechar streams..");
             //Ao terminar, fechamos as streams
             try {
                 in.close();
                 out.close();
             } catch (IOException e1) {
-                System.out.println("Erro ao fechar as streams");
+                System.err.println("#SocketSrv# - Erro ao fechar as streams");
                 System.exit(-1);
             }
 
-            System.out.println("A fechar socket cliente..");
+            System.out.println("#SocketSrv# - A verificar se o socket cliente está aberto");
             //Fechamos o socket do cliente
           if (!client.isClosed()) {
-            System.out.println("Como não está fechado, a fechar socket cliente..");
+            System.out.println("#SocketSrv# - Como não está fechado, a fechar socket cliente..");
                 try {
                     client.close();
                 } catch (IOException e) {
-                    System.out.println("Erro ao fechar o socket cliente");
+                    System.err.println("#SocketSrv# - Erro ao fechar o socket cliente");
+                   
+                    
                     System.exit(-1);
                 }
           }
@@ -124,10 +128,10 @@ public class SocketSrv extends Thread {
 		//Constrói o servior
         // 	SocketSrv servidor = new SocketSrv();
         
-         try{
+        try{
 			this.listenSocket(port);		  //Inicia o processo
 		}catch(NumberFormatException ex){
-			System.out.println("Porto inválido.");
+			System.err.println("#SocketSrv# - Porto inválido.");
 			System.exit(-1);
 		}
         
