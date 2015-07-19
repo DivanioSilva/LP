@@ -18,7 +18,7 @@ public class Ticket implements Serializable{
     private int numberticket;
     private Date createHour;
     private int status;
-    private Time timeCall;
+    private Time closedCall;
     private int transferId;
     private Employee employee;
     private Department department;
@@ -26,12 +26,12 @@ public class Ticket implements Serializable{
     public Ticket() {
     }
 
-    public Ticket(int idTicket, int numberticket, Date createHour, int status, Time timeCall, int transferId, Employee employee, Department department) {
+    public Ticket(int idTicket, int numberticket, Date createHour, int status, Time closedCall, int transferId, Employee employee, Department department) {
         this.idTicket = idTicket;
         this.numberticket = numberticket;
         this.createHour = createHour;
         this.status = status;
-        this.timeCall = timeCall;
+        this.closedCall = closedCall;
         this.transferId = transferId;
         this.employee = employee;
         this.department = department;
@@ -72,17 +72,17 @@ public class Ticket implements Serializable{
     }
 
     /**
-     * @return the timeCall
+     * @return the closedCall
      */
-    public Time getTimeCall() {
-        return timeCall;
+    public Time getclosedCall() {
+        return closedCall;
     }
 
     /**
-     * @param timeCall the timeCall to set
+     * @param closedCall the closedCall to set
      */
-    public void setTimeCall(Time timeCall) {
-        this.timeCall = timeCall;
+    public void setclosedCall(Time closedCall) {
+        this.closedCall = closedCall;
     }
 
     /**

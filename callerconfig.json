@@ -1,8 +1,8 @@
 {
-  "name": "Divanio Silva",
-  "deskNumber": "2",
-  "department": "Secretaria",
-  "abbreviation": "S",
+  "name": "Divanio",
+  "deskNumber": "1",
+  "department": "Tesouraria",
+  "abbreviation": "T",
   "myIP": "192.168.1.32",
   "serverIP": "172.16.214.237",
   "isAdmin": true,

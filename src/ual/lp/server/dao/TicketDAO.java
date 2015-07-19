@@ -60,7 +60,7 @@ public class TicketDAO {
             ticket = jdbcTemplate.queryForObject(sql, new Object[]{employee.getName()}, new TicketMapper());
 
             sqlUpdate = "update tickets \n"
-                    + "set tickets.idemployee=?, tickets.status=1\n"
+                    + "set tickets.idemployee=?, tickets.status=1, tickets.timecall=now()\n"
                     + "where tickets.idticket=?;";
 
             int[] types = {
@@ -89,7 +89,7 @@ public class TicketDAO {
             ticket = jdbcTemplate.queryForObject(sql, new Object[]{employee.getName()}, new TicketMapper());
 
             sqlUpdate = "update tickets \n"
-                    + "set tickets.idemployee=?, tickets.status=1\n"
+                    + "set tickets.idemployee=?, tickets.status=1, tickets.timecall=now()\n"
                     + "where tickets.idticket=?;";
 
             int[] types = {
@@ -197,7 +197,7 @@ public class TicketDAO {
      * @param ticket
      */
     public void closeTicket(Ticket ticket) {
-        String sql = "update tickets set tickets.status=2, tickets.timecall = now() where tickets.idticket=?;";
+        String sql = "update tickets set tickets.status=2, tickets.closedcall = now() where tickets.idticket=?;";
 
         int[] types = {
             Types.INTEGER
@@ -207,7 +207,7 @@ public class TicketDAO {
     }
 
     public List<Ticket> getTickets() {
-        String sql = "select * from tickets where timecall is null;";
+        String sql = "select * from tickets where closedcall is null;";
 
         return jdbcTemplate.query(sql, new TicketMapper());
     }
@@ -217,13 +217,13 @@ public class TicketDAO {
      * encontram-se em aberto.
      */
     public void closeDay() {
-        String sql = "update tickets set tickets.timecall=now(), tickets.status=3\n"
+        String sql = "update tickets set tickets.closedcall=now(), tickets.status=3\n"
                 + "where tickets.status=0;";
 
         jdbcTemplate.update(sql);
         
         //fazer o reset em todos os tickets
-        sql = "update tickets set tickets.timecall=now(), tickets.reset=1\n"
+        sql = "update tickets set tickets.closedcall=now(), tickets.reset=1\n"
                 + "where tickets.reset is null;";
 
         jdbcTemplate.update(sql);
@@ -247,7 +247,7 @@ public class TicketDAO {
 //        department.setId(deptID);
         employee.getDepartment().setId(deptID);
         //encerrar todos os tickets que estão por atender.
-        sql = "update tickets set tickets.timecall=now(), tickets.status=3, tickets.reset=1\n"
+        sql = "update tickets set tickets.closedcall=now(), tickets.status=3, tickets.reset=1\n"
                 + "where tickets.iddepartment=?;";
 
         int[] typesUpdate = {
@@ -256,7 +256,7 @@ public class TicketDAO {
 
         jdbcTemplate.update(sql, new Object[]{employee.getDepartment().getId()}, typesUpdate);
         
-        sql = "update tickets set tickets.timecall=now(), tickets.reset=1\n"
+        sql = "update tickets set tickets.closedcall=now(), tickets.reset=1\n"
                 + "where tickets.reset is null;";
 
         jdbcTemplate.update(sql);
@@ -307,6 +307,6 @@ public class TicketDAO {
 //    }
 //    
 //    public List<Ticket> getTicket(){
-//        String sql = "select * from tickets where timecall is null;";
+//        String sql = "select * from tickets where closedcall is null;";
 //        return jdbcTemplate.query(sql, new TicketMapper());
 //    }
