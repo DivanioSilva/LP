@@ -22,7 +22,7 @@ public class MainTest {
     public static void main(String[] args) {
         Config config = new Config();
         Employee employee;
-        Manager mgr = new Manager(false);
+        Manager mgr = new Manager(true);
         Department d = new Department();
 //        mgr.autoCreateTicket("Secretaria");
         

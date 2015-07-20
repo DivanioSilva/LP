@@ -5,6 +5,7 @@
  */
 package ual.lp.display;
 
+import java.awt.Toolkit;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class DisplayImpl extends UnicastRemoteObject implements DisplayInf {
     @Override
     public void sourceToDisplay(List<Ticket> tickets) throws RemoteException {
         //informar onde o ficheiro irá ser colocado por ficheiro de conf do client
-
+        Toolkit.getDefaultToolkit().beep();
         OutputStream outputStream = null;
 
         BufferedWriter writer = null;
