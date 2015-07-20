@@ -39,11 +39,14 @@ public class Manager {
     private ServerRMI serverRMI;
     private ApplicationContext context;
     private Serverconfig serverconfig;
+    private String serverIP;
+    private String closeDay;
+    private String remoteURL;
     private List<Department> departments;
     private List<Employee> employees;
     private DisplayInf displayInf;
     private List<Ticket> tickets;
-
+  
     public Manager(boolean rmi) {
 
         this.context = new ClassPathXmlApplicationContext("ual/lp/spring/bean.xml");
@@ -51,6 +54,9 @@ public class Manager {
         ticketDAO = (TicketDAO) context.getBean("ticketDAO");
         departmentDAO = (DepartmentDAO) context.getBean("departmentDAO");
         serverconfig = (Serverconfig) context.getBean("serverConfig");
+        serverIP = serverconfig.getServerIP();
+        closeDay = serverconfig.getCloseDay();
+        remoteURL = serverconfig.getRemoteURL();
         departments = serverconfig.getDepartments();
         departmentDAO.loadDepartmens(departments);
         employees = new LinkedList<>();
@@ -186,12 +192,20 @@ public class Manager {
     }
 
     public void addTicket(Ticket ticket) {
+        ticket.setLastCalled(true);
+        boolean foundOldTicket = false;
         for (int i = 0; i < this.tickets.size(); i++) {
             if (ticket.getDepartment().getName().equals(this.tickets.get(i).getDepartment().getName())) {
-                tickets.remove(i);
-            }
+                tickets.set(i, ticket);
+                foundOldTicket = true;
+            } else {
+                this.tickets.get(i).setLastCalled(false);
+            }       
         }
-        tickets.add(ticket);
+        if (!foundOldTicket) {
+            tickets.add(ticket);
+        }
+        
     }
 
     /**

@@ -38,8 +38,15 @@ public class DisplayImpl extends UnicastRemoteObject implements DisplayInf {
             writer = new BufferedWriter(new FileWriter("C:\\xampp\\htdocs\\test\\madeira.txt"));
 
             for (Ticket ticket : tickets) {
-                writer.write(ticket.getDepartment().getName() + ": " + ticket.getDepartment().getAbbreviation() + "" 
-                        + ticket.getNumberticket() + ". Balcão: "+ticket.getEmployee().getDeskNumber()+"<br>");
+                if (ticket.isLastCalled()) {
+                    writer.write("<p style=\"color: red\">" + ticket.getDepartment().getName() + ": " + ticket.getDepartment().getAbbreviation() + "" 
+                    + ticket.getNumberticket() + ". Balcão: "+ticket.getEmployee().getDeskNumber()+"</p>");
+                }
+                else {
+                   writer.write("<p>" + ticket.getDepartment().getName() + ": " + ticket.getDepartment().getAbbreviation() + "" 
+                   + ticket.getNumberticket() + ". Balcão: "+ticket.getEmployee().getDeskNumber()+"</p>"); 
+                }
+                
             }
             //writer.write(lista.get(i));
         } catch (IOException e) {

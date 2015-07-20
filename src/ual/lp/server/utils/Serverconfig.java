@@ -35,6 +35,8 @@ public class Serverconfig {
     private String serverIP = null;
     private String username = null;
     private String password = null;
+    private String closeDay = null;
+    private String remoteURL = null;
     
 
     public List<Department> getDepartments() {
@@ -123,6 +125,38 @@ public class Serverconfig {
         }
 
         return password;
+    }
+
+    /**
+     * @return the closeDay
+     */
+    public String getCloseDay() {
+        try {
+            jsonObject = (JSONObject) parser.parse(new FileReader("serverconfig.json"));
+            closeDay = (String) jsonObject.get("closeDay");
+            System.out.println(closeDay);
+
+        } catch (Exception e) {
+            System.err.println("Erro ao ler o ficheiro de configuração 'serverconfig.json' para obter a pass da DB.");
+        }
+
+        return closeDay;
+    }
+
+    /**
+     * @return the remoteURL
+     */
+    public String getRemoteURL() {
+        try {
+            jsonObject = (JSONObject) parser.parse(new FileReader("serverconfig.json"));
+            remoteURL = (String) jsonObject.get("remoteURL");
+            System.out.println(remoteURL);
+
+        } catch (Exception e) {
+            System.err.println("Erro ao ler o ficheiro de configuração 'serverconfig.json' para obter a pass da DB.");
+        }
+
+        return remoteURL;
     }
     
 }

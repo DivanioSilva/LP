@@ -22,6 +22,7 @@ public class Ticket implements Serializable{
     private int transferId;
     private Employee employee;
     private Department department;
+    private boolean lastCalled;
     
     public Ticket() {
     }
@@ -174,6 +175,20 @@ public class Ticket implements Serializable{
      */
     public void setNumberticket(int numberticket) {
         this.numberticket = numberticket;
+    }
+
+    /**
+     * @return the lastCalled
+     */
+    public boolean isLastCalled() {
+        return lastCalled;
+    }
+
+    /**
+     * @param lastCalled the lastCalled to set
+     */
+    public void setLastCalled(boolean lastCalled) {
+        this.lastCalled = lastCalled;
     }
 
 }
