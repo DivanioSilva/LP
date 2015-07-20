@@ -136,7 +136,10 @@ public class TicketDAO {
             jdbcTemplate.update(sql, new Object[]{ticket.getNumberticket() + 1, ticket.getDepartment().getId(), curTime}, types);
             //S01
 //            ticketNumber = String.valueOf(ticket.getNumberticket() + 1);
-            ticketNumber = ticket.getDepartment().getAbbreviation() + "" + String.valueOf(ticket.getNumberticket() + 1);
+//            ticketNumber = ticket.getDepartment().getAbbreviation() + "" + String.valueOf(ticket.getNumberticket() + 1);
+            ticketNumber = ticket.getDepartment().getAbbreviation() + "" + String.valueOf(ticket.getNumberticket() + 1 + ","+ curTime );
+//                        ticketNumber = ticket.getDepartment().getAbbreviation() + "" + String.valueOf(ticket.getNumberticket() + 1 + ",ola"+ curTime );
+            //,http://192.168.1.101:8081/LPWebExterno/Servlet?clientkey=
             //T01
             System.out.println("Irei inserir na db o seguinte ticket number: " + ticketNumber);
             return ticketNumber;
@@ -165,7 +168,7 @@ public class TicketDAO {
 
             System.out.println("Acabei de inserir um ticket com o numero" +department.getAbbreviation() +""+ 1);
 
-            return department.getAbbreviation() + "" + 1;
+            return department.getAbbreviation() + 1 + ","+ curTime ;
         }
     }
 

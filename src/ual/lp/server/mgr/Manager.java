@@ -103,7 +103,12 @@ public class Manager {
      * @return o número o ticket que ele irá imprimir.
      */
     public String autoCreateTicket(String dept) {
-        return this.getTicketDAO().autoCreateTicket(dept);
+//        String response[] = this.getTicketDAO().autoCreateTicket(dept).split(",");
+//        return response[0]+getRemoteURL()+response[1];
+//        System.out.println(response);
+        String response[]= this.getTicketDAO().autoCreateTicket(dept).split(",");
+//        System.out.println(response[0]+"," + getRemoteURL()+response[1]);
+        return response[0]+"," + getRemoteURL()+response[1];
     }
 
     public void transferTicket(Ticket ticket) {
@@ -360,6 +365,13 @@ public class Manager {
      */
     public void setDisplayInf(DisplayInf displayInf) {
         this.displayInf = displayInf;
+    }
+
+    /**
+     * @return the remoteURL
+     */
+    public String getRemoteURL() {
+        return remoteURL;
     }
 
 }

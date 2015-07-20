@@ -48,14 +48,14 @@ public class MainTest {
 
 //                        mgr.autoCreateTicket("Boss");
 //                employee = config.getEmployee();
-//        try {
-//            for (int i = 0; i < 10; i++) {
-//                mgr.autoCreateTicket("Boss");
-//                Thread.sleep(1000);
-//            }
-//            System.out.println("Ufa!!! Acabei de inserir todos os tickets.");
-//        } catch (Exception e) {
-//
-//        }
+        try {
+            for (int i = 0; i < 3; i++) {
+                mgr.autoCreateTicket("Tesouraria");
+                Thread.sleep(1000);
+            }
+            System.out.println("Ufa!!! Acabei de inserir todos os tickets.");
+        } catch (Exception e) {
+
+        }
     }
 }
