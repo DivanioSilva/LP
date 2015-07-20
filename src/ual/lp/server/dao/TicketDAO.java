@@ -118,7 +118,7 @@ public class TicketDAO {
         Ticket ticket = new Ticket();
         String sql, ticketNumber = null;
         String curTime;
-        curTime = String.valueOf(System.currentTimeMillis());
+        curTime = String.valueOf(System.currentTimeMillis()).substring(0, 10);
         //nivelar com o PT os novos parâmetros de retorno do ticket, foi adicionado o clientkey para a password do qrcode.
 
         try {

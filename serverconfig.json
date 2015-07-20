@@ -5,5 +5,5 @@
     {"department":"Rec.Humanos", "abbreviation":"RH"},
     {"department":"Boss", "abbreviation":"B"}
     ], "url":"jdbc:mysql://localhost:3306/isenhasdb", "username":"root", "password":"IloveSql83", "serverIP":"172.16.120.77", "closeDay":"22:00",
-    "remoteURL":"http://localhost:8080/test/Servlet?clientkey="
+    "remoteURL":"http://10.10.10.99:8081/is/?ck="
 }
