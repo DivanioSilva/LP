@@ -11,10 +11,11 @@ import java.util.List;
 import ual.lp.server.mgr.Manager;
 
 /**
- * 
+ *
  * Processamento do protocolo de comunicação entre o android e o servidor
+ *
  * @author Pedro Tomás
- * 
+ *
  */
 public class ProtocolProcessing {
 
@@ -35,10 +36,8 @@ public class ProtocolProcessing {
     // Recepção da mensagem
     void inMessage(String in) {
         this.in = in;
-        List<String> departamentos;
         String[] splitedProtocol;
 
-        
         //Separar a messagem do protocolo
         //Ex: Request:Tesouraria- >  splitedProtocol[0] Request  e splitedProtocol[1] Tesouraria
         try {
@@ -50,34 +49,41 @@ public class ProtocolProcessing {
 
                 // Inicio da comunicação - Asura espera os departamentos
                 case "Hello from Asura CPRN!":
-
+                    List<String> departamentos;
+                    
                     System.out.println("#ProtocolProcessing# - Asura iniciou o protocolo");
-                    
-                    departamentos = manager.getDepartmentsString(); 
-                    
+
+                    departamentos = manager.getDepartmentsString();
+
                     String list = departamentos.toString();
-                    
+
                     String departmentsCsv = list.substring(1, list.length() - 1).replace(", ", ",");
 
-                    System.out.println("#ProtocolProcessing# - Mensagem tratada, os departamentos serão" + departmentsCsv );
+                    System.out.println("#ProtocolProcessing# - Mensagem tratada, os departamentos serão " + departmentsCsv);
 
                     sktOut.println("BUTTONS;" + departmentsCsv);
 
                     break;
 
                 case "Request":
-                    String msg;
-
-                    // Pckg ual.lp.server.mgr/Manager.java
-                    // Metodo:autocreateticket (departamento) devolve Letra+ Numero (Ex. T23(
+                    
+                    
                     System.out.println("#ProtocolProcessing# - Pedido tickets - " + splitedProtocol[1]);
-
-                    msg = manager.autoCreateTicket(splitedProtocol[1]);
-
-                    System.out.println("#ProtocolProcessing# - Ticket a enviar - " + "TICKET;" + msg + " ***");
+                    String msg = manager.autoCreateTicket(splitedProtocol[1]);
                     sktOut.println("TICKET;" + msg);
-
+                    System.out.println("#ProtocolProcessing# - Enviar - " + "TICKET;" + msg);
+                    
+                    //sktOut.println("TICKET;" + manager.autoCreateTicket(splitedProtocol[1]));
+                    //sktOut.println("INACTIVE");
                     break;
+
+                case "KEEPALIVE":
+                    System.out.println("#ProtocolProcessing# - Enviado KEEPALIVE");
+                    sktOut.println("KEEPALIVE;");
+                    break;
+
+                default:
+                    System.out.println("#ProtocolProcessing# - Caiu no default");
 
             }
         } catch (Exception e) {

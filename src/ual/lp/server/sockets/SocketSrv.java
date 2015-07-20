@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ual.lp.server.mgr.Manager;
 
 public class SocketSrv extends Thread {
@@ -47,7 +49,7 @@ public class SocketSrv extends Thread {
         try {
             System.out.println("#SocketSrv# - A criar socket ..");
             server = new ServerSocket(port);
-            System.out.println("#SocketSrv# - Criado ..");
+            System.out.println("#SocketSrv# - Socket Criado com sucesso... A aguardar ligação da Asura");
         } catch (IOException e) {
             System.err.println("#SocketSrv# - Não foi possível estabelecer o socket no porto " + port);
             System.exit(-1);
@@ -70,7 +72,7 @@ public class SocketSrv extends Thread {
                 System.err.println("#SocketSrv# - Erro ao criar as streams de leitura e escrita em " + port);
                 System.exit(-1);
             }
-
+            
             //E finalmente comunicamos
             while (running) {
                 try {
@@ -81,6 +83,7 @@ public class SocketSrv extends Thread {
                         System.out.println("#SocketSrv# - Recebido: " + data);
 
                         new ProtocolProcessing(out, manager).inMessage(data);
+                        
                     }
 
                 } catch (IOException e) {
@@ -108,13 +111,11 @@ public class SocketSrv extends Thread {
                     client.close();
                 } catch (IOException e) {
                     System.err.println("#SocketSrv# - Erro ao fechar o socket cliente");
-                   
-                    
                     System.exit(-1);
                 }
           }
 
-
+        System.out.println("#SocketSrv# - Cliente desligado com sucesso !");
         running = true;
         } while (true);
           
