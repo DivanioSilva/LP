@@ -13,34 +13,31 @@ import java.util.logging.Logger;
  * @author Pedro
  */
 public class DisplayApp {
+
     private DisplayRMI displayRMI;
     private int sleepTime;
-
-   
 
     public DisplayApp(int sleepTime) {
         this.displayRMI = new DisplayRMI(this);
         this.sleepTime = sleepTime;
         checkConnection();
-      
+
     }
-    
-    public void checkConnection(){
-        while (true){
-            if (!this.displayRMI.isServerOn()){
+
+    private void checkConnection() {
+        while (true) {
+            if (!this.displayRMI.isServerOn()) {
                 this.displayRMI = new DisplayRMI(this);
             }
             try {
                 Thread.sleep(sleepTime);
             } catch (InterruptedException ex) {
-               
+
             }
-          
-            
+
         }
     }
-    
-    
+
     public static void main(String[] args) {
         DisplayApp displayApp = new DisplayApp(5000);
     }

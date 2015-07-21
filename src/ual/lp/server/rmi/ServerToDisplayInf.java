@@ -7,7 +7,9 @@ package ual.lp.server.rmi;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 import ual.lp.display.DisplayInf;
+import ual.lp.server.objects.Ticket;
 
 /**
  *
@@ -16,5 +18,9 @@ import ual.lp.display.DisplayInf;
 public interface ServerToDisplayInf extends Remote {
     
     public void connect (DisplayInf displayInf) throws RemoteException;
+    
+    public List<Ticket> getFirstTicketList () throws RemoteException;
+        
+    
         
 }

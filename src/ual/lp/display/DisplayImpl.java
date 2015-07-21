@@ -21,7 +21,8 @@ import ual.lp.server.objects.Ticket;
  * @author Divanio Silva
  */
 public class DisplayImpl extends UnicastRemoteObject implements DisplayInf {
-   private DisplayRMI displayRMI;
+
+    private DisplayRMI displayRMI;
 
     public DisplayImpl(DisplayRMI displayRMI) throws RemoteException {
         this.displayRMI = displayRMI;
@@ -37,17 +38,23 @@ public class DisplayImpl extends UnicastRemoteObject implements DisplayInf {
         try {
             //Local do ficheiro será configurado pelo ficheiro de conf do display
             writer = new BufferedWriter(new FileWriter("C:\\xampp\\htdocs\\test\\madeira.txt"));
-
+//
             for (Ticket ticket : tickets) {
                 if (ticket.isLastCalled()) {
-                    writer.write("<p style=\"color: red\">" + ticket.getDepartment().getName() + ": " + ticket.getDepartment().getAbbreviation() + "" 
-                    + ticket.getNumberticket() + ". Balcão: "+ticket.getEmployee().getDeskNumber()+"</p>");
+
+                    writer.write("<p style=\"color: red\">" + ticket.getDepartment().getName() + ": " + ticket.getDepartment().getAbbreviation() + ""
+                            + ticket.getNumberticket() + " Mesa: " + ticket.getEmployee().getDeskNumber() + "</p>");
+                } else {
+
+                    if (ticket.getNumberticket() == -1) {
+                        writer.write("<p>" + ticket.getDepartment().getName() + ": " + "</p>");
+                    } else {
+                        writer.write("<p>" + ticket.getDepartment().getName() + ": " + ticket.getDepartment().getAbbreviation() + ""
+                                + ticket.getNumberticket() + " Mesa: " + ticket.getEmployee().getDeskNumber() + "</p>");
+                    }
+
                 }
-                else {
-                   writer.write("<p>" + ticket.getDepartment().getName() + ": " + ticket.getDepartment().getAbbreviation() + "" 
-                   + ticket.getNumberticket() + ". Balcão: "+ticket.getEmployee().getDeskNumber()+"</p>"); 
-                }
-                
+
             }
             //writer.write(lista.get(i));
         } catch (IOException e) {
@@ -60,5 +67,10 @@ public class DisplayImpl extends UnicastRemoteObject implements DisplayInf {
                 System.err.println("Erro ao actualizar o ficheiro.");
             }
         }
+    }
+
+    @Override
+    public void pingPong() throws RemoteException {
+        System.out.println("Pingou!");; //To change body of generated methods, choose Tools | Templates.
     }
 }

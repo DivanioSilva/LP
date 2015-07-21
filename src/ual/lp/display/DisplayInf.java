@@ -16,7 +16,9 @@ import ual.lp.server.objects.Ticket;
  * @author Divanio Silva
  */
 public interface DisplayInf extends Remote {
-    
+
     public void sourceToDisplay(List<Ticket> tickets) throws RemoteException;
+
+    public void pingPong() throws RemoteException;
 
 }

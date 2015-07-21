@@ -45,7 +45,7 @@ public class Manager {
     private List<Department> departments;
     private List<Employee> employees;
     private DisplayInf displayInf;
-    private List<Ticket> tickets;
+    private List<Ticket> displayTickets;
   
     public Manager(boolean rmi) {
 
@@ -60,7 +60,8 @@ public class Manager {
         departments = serverconfig.getDepartments();
         departmentDAO.loadDepartmens(departments);
         employees = new LinkedList<>();
-        tickets = new LinkedList<>();
+        displayTickets = new LinkedList<>();
+        initDisplayTickets();
         if (rmi) {
             this.serverRMI = new ServerRMI(this);
         }
@@ -145,12 +146,14 @@ public class Manager {
         //employee.getDepartment().getId()
         ticket = this.getTicketDAO().getNextTicket(employee);
 
-        this.addTicket(ticket);
+        this.addDisplayTicket(ticket);
         try {
-
-            this.displayInf.sourceToDisplay(tickets);
+         
+            this.displayInf.sourceToDisplay(displayTickets);
+            
             System.out.println("Lista de tickets enviada ao Display");
         } catch (RemoteException e) {
+            this.displayInf = null;
             System.err.println("Erro ao contactar o display.");
         } catch (NullPointerException e) {
             System.err.println("O display ainda não esta disponível.");
@@ -196,22 +199,35 @@ public class Manager {
         employees.add(employee);
     }
 
-    public void addTicket(Ticket ticket) {
+    public void addDisplayTicket(Ticket ticket) {
+        
         ticket.setLastCalled(true);
         boolean foundOldTicket = false;
-        for (int i = 0; i < this.tickets.size(); i++) {
-            if (ticket.getDepartment().getName().equals(this.tickets.get(i).getDepartment().getName())) {
-                tickets.set(i, ticket);
+        for (int i = 0; i < this.displayTickets.size(); i++) {
+            if (ticket.getDepartment().getName().equals(this.displayTickets.get(i).getDepartment().getName())) {
+                displayTickets.set(i, ticket);
                 foundOldTicket = true;
             } else {
-                this.tickets.get(i).setLastCalled(false);
+                this.displayTickets.get(i).setLastCalled(false);
             }       
         }
         if (!foundOldTicket) {
-            tickets.add(ticket);
+            displayTickets.add(ticket);
         }
         
     }
+    
+    private void initDisplayTickets () {
+        
+        for (Department d: departments) {
+            Ticket ticket = new Ticket();
+            ticket.setDepartment(d);
+            ticket.setLastCalled(false);
+            ticket.setNumberticket(-1);
+            displayTickets.add(ticket);
+        }
+ 
+    } 
 
     /**
      * Método usado para o callback dos clientes com a lista de todos os
@@ -372,6 +388,20 @@ public class Manager {
      */
     public String getRemoteURL() {
         return remoteURL;
+    }
+
+    /**
+     * @return the displayTickets
+     */
+    public List<Ticket> getDisplayTickets() {
+        return displayTickets;
+    }
+
+    /**
+     * @param displayTickets the displayTickets to set
+     */
+    public void setDisplayTickets(List<Ticket> displayTickets) {
+        this.displayTickets = displayTickets;
     }
 
 }

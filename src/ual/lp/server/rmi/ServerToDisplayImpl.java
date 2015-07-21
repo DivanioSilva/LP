@@ -7,8 +7,10 @@ package ual.lp.server.rmi;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 import ual.lp.display.DisplayInf;
 import ual.lp.server.mgr.Manager;
+import ual.lp.server.objects.Ticket;
 
 /**
  *
@@ -26,6 +28,11 @@ public class ServerToDisplayImpl extends UnicastRemoteObject implements ServerTo
     @Override
     public void connect(DisplayInf displayInf) throws RemoteException {
         this.manager.setDisplayInf(displayInf);
+    }
+
+    @Override
+    public List<Ticket> getFirstTicketList() throws RemoteException {
+        return this.manager.getDisplayTickets();
     }
     
 }
