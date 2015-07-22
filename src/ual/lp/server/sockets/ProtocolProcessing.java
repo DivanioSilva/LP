@@ -66,14 +66,12 @@ public class ProtocolProcessing {
                     break;
 
                 case "Request":
-                    
-                    
+                                        
                     System.out.println("#ProtocolProcessing# - Pedido tickets - " + splitedProtocol[1]);
                     String msg = manager.autoCreateTicket(splitedProtocol[1]);
                     sktOut.println("TICKET;" + msg);
                     System.out.println("#ProtocolProcessing# - Enviar - " + "TICKET;" + msg);
-                    
-                    //sktOut.println("TICKET;" + manager.autoCreateTicket(splitedProtocol[1]));
+                 
                     //sktOut.println("INACTIVE");
                     break;
 
@@ -84,8 +82,9 @@ public class ProtocolProcessing {
 
                 default:
                     System.out.println("#ProtocolProcessing# - Caiu no default");
-
+            
             }
+           
         } catch (Exception e) {
             System.err.println("#ProtocolProcessing# - Cliente desligou-se " + e.getMessage());
             System.exit(-1);

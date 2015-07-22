@@ -73,6 +73,8 @@ public class SocketSrv extends Thread {
                 System.exit(-1);
             }
             
+            
+            ProtocolProcessing pp = new ProtocolProcessing(out, manager);
             //E finalmente comunicamos
             while (running) {
                 try {
@@ -82,7 +84,7 @@ public class SocketSrv extends Thread {
                     } else {
                         System.out.println("#SocketSrv# - Recebido: " + data);
 
-                        new ProtocolProcessing(out, manager).inMessage(data);
+                        pp.inMessage(data);
                         
                     }
 
@@ -124,8 +126,7 @@ public class SocketSrv extends Thread {
 
     @Override
     public void run(){
-     //    int port =5006;
-        
+          
 		//Constrói o servior
         // 	SocketSrv servidor = new SocketSrv();
         
