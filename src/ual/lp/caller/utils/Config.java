@@ -38,8 +38,8 @@ public class Config {
         try {
             
             jsonObject = (JSONObject) parser.parse(new FileReader("callerconfig.json"));
-//            employee.setName((String) jsonObject.get("name"));
-            employee.setName(System.getProperty("user.name"));
+            employee.setName((String) jsonObject.get("name"));
+//            employee.setName(System.getProperty("user.name"));
             employee.setDeskNumber((Integer) Integer.parseInt((String)jsonObject.get("deskNumber")));
             employee.setDepartment(new Department((String) jsonObject.get("department"), (String) jsonObject.get("abbreviation")));
             employee.setAdmin((Boolean) jsonObject.get("isAdmin"));

@@ -8,7 +8,7 @@ package ual.lp.server.dao;
 import java.sql.Types;
 import java.util.List;
 import javax.sql.DataSource;
-import org.springframework.asm.Type;
+import javax.swing.JOptionPane;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -17,7 +17,6 @@ import ual.lp.server.objects.Department;
 import ual.lp.server.objects.Employee;
 import ual.lp.server.objects.Ticket;
 import ual.lp.server.objects.rowmappers.DepartmentMapper;
-import ual.lp.server.objects.rowmappers.SimpleEmployeeMapper;
 import ual.lp.server.objects.rowmappers.SimpleTicketMapper;
 import ual.lp.server.objects.rowmappers.TicketMapper;
 
@@ -137,7 +136,7 @@ public class TicketDAO {
             //S01
 //            ticketNumber = String.valueOf(ticket.getNumberticket() + 1);
 //            ticketNumber = ticket.getDepartment().getAbbreviation() + "" + String.valueOf(ticket.getNumberticket() + 1);
-            ticketNumber = ticket.getDepartment().getAbbreviation() + "" + String.valueOf(ticket.getNumberticket() + 1 + ","+ curTime );
+            ticketNumber = ticket.getDepartment().getAbbreviation() + "" + String.valueOf(ticket.getNumberticket() + 1 + "," + curTime);
 //                        ticketNumber = ticket.getDepartment().getAbbreviation() + "" + String.valueOf(ticket.getNumberticket() + 1 + ",ola"+ curTime );
             //,http://192.168.1.101:8081/LPWebExterno/Servlet?clientkey=
             //T01
@@ -166,9 +165,9 @@ public class TicketDAO {
 
             jdbcTemplate.update(sql, new Object[]{department.getId(), curTime}, typesForDepartId);
 
-            System.out.println("Acabei de inserir um ticket com o numero" +department.getAbbreviation() +""+ 1);
+            System.out.println("Acabei de inserir um ticket com o numero" + department.getAbbreviation() + "" + 1);
 
-            return department.getAbbreviation() + 1 + ","+ curTime ;
+            return department.getAbbreviation() + 1 + "," + curTime;
         }
     }
 
@@ -224,7 +223,7 @@ public class TicketDAO {
                 + "where tickets.status=0;";
 
         jdbcTemplate.update(sql);
-        
+
         //fazer o reset em todos os tickets
         sql = "update tickets set tickets.closedcall=now(), tickets.reset=1\n"
                 + "where tickets.reset is null;";
@@ -234,12 +233,13 @@ public class TicketDAO {
 
     /**
      * Método para fazer o reset de uma determinada fila
+     *
      * @param department que será feito o reset
      */
     public void resetQueue(Employee employee) {
         //saber o id do department.
         String sql = null;
-        
+
         sql = "select department.iddepartment from department where department.department=?;";
 
         int[] types = {
@@ -258,14 +258,14 @@ public class TicketDAO {
         };
 
         jdbcTemplate.update(sql, new Object[]{employee.getDepartment().getId()}, typesUpdate);
-        
+
         sql = "update tickets set tickets.closedcall=now(), tickets.reset=1\n"
                 + "where tickets.reset is null;";
 
         jdbcTemplate.update(sql);
 
     }
-    
+
 //    public ticket showToDisplay(Department department){
 //        Ticket ticket;
 //        String sql = null;
@@ -278,16 +278,31 @@ public class TicketDAO {
 //
 //        int deptID = jdbcTemplate.queryForInt(sql, new Object[]{department.getName()}, types);
 //        department.setId(deptID);
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
 //        return ticket;
 //    }
+    /**
+     * @param department
+     * @return o último ticket criado para aquele departamento.
+     */
+    public Ticket getLastTicket(Department department) throws NoTicketsException{
+        Ticket ticket = new Ticket();
+
+        try {
+            String sql = "select * from tickets\n"
+                    + "join department on department.iddepartment=tickets.iddepartment\n"
+                    + "where department.department=? and tickets.status=0 order by tickets.createhour desc limit 1;";
+
+            ticket = jdbcTemplate.queryForObject(sql, new Object[]{department.getName()}, new SimpleTicketMapper());
+            
+            System.out.println("O último ticket é o: "+ ticket.getDepartment().getAbbreviation()+ticket.getNumberticket());
+        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, "Não existem tickets para serem atendidos.\nCaiu na exception!");
+//            ticket.setNumberticket(00);
+//            ticket.setDepartment(new Department(department.getAbbreviation()));
+            throw new NoTicketsException("Não existem tickets para serem atendidas.");
+        }
+        return ticket;
+    }
 
     public void setTransactionManager(DataSourceTransactionManager transactionManager) {
         this.transactionManager = transactionManager;

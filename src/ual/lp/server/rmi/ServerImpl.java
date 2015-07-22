@@ -64,4 +64,9 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInf {
         this.manager.resetQueue(employee);
     }
 
+    @Override
+    public Ticket getLastTicket(Employee employee) throws RemoteException, NoTicketsException{
+        return this.manager.getLastTicket(employee.getDepartment());
+    }
+    
 }

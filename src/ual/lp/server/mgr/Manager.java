@@ -312,6 +312,10 @@ public class Manager {
         serverLog.info("Reset da fila: " + employee.getDepartment().getName());
         this.ticketDAO.resetQueue(employee);
     }
+    
+    public Ticket getLastTicket(Department department) throws NoTicketsException{
+        return this.ticketDAO.getLastTicket(department);
+    }
 
     /**
      * @return the employeeDAO

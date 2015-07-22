@@ -32,6 +32,8 @@ public interface ServerInf extends Remote {
     
     public void resetQueue(Employee employee) throws RemoteException;
     
+    public Ticket getLastTicket(Employee employee)throws RemoteException, NoTicketsException;
+    
 }
 
 /*

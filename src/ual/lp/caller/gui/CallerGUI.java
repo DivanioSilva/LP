@@ -10,6 +10,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 import ual.lp.caller.mgr.CallerMGR;
@@ -34,17 +35,21 @@ public class CallerGUI extends javax.swing.JFrame {
     private CallerMGR callerMGR;
     private ClientRMI clientRMI;
     private ServerInf remoteObject;
-    Ticket ticket;
+    Ticket ticket, ticketLast;
     private CallerInf callerInf;
     private List<Employee> employees;
     private String closeCaller;
+    private Thread serviceThread;
+    
+    
 
     /**
      * Creates new form CallerPanel
      */
     public CallerGUI() {
+        this.serviceThread = new Thread(new ServiceThread(this));        
         this.getContentPane().setBackground(Color.white);
-
+        
         this.setLocationRelativeTo(null);
         this.employees = new LinkedList<>();
 
@@ -86,8 +91,13 @@ public class CallerGUI extends javax.swing.JFrame {
         employee.setCallerInf(this.callerInf);
         remoteObject.connect(employee);
         jLabelActualTicket.setText("");
+        jLabelLastTicket.setText("");
+        serviceThread.start();
 
         //chama o connect do rmi e mando o emp como argumento.
+        
+        
+        
     }
 
     /**
@@ -150,6 +160,8 @@ public class CallerGUI extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabelEmpDesk = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jLabelLastTicket = new javax.swing.JLabel();
 
         jMenuIResetQueu.setText("Reset");
         jMenuIResetQueu.addActionListener(new java.awt.event.ActionListener() {
@@ -165,6 +177,7 @@ public class CallerGUI extends javax.swing.JFrame {
         setBackground(new java.awt.Color(222, 222, 222));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setForeground(new java.awt.Color(222, 222, 222));
+        setMinimumSize(new java.awt.Dimension(400, 460));
         setName("iSenhas - Caller"); // NOI18N
         setPreferredSize(new java.awt.Dimension(420, 330));
         setResizable(false);
@@ -219,7 +232,7 @@ public class CallerGUI extends javax.swing.JFrame {
             .addComponent(jLabelActualTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 51, 120, 80));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 120, 80));
 
         jButtonRefresh.setForeground(new java.awt.Color(255, 255, 255));
         jButtonRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/refresh2.png"))); // NOI18N
@@ -231,7 +244,7 @@ public class CallerGUI extends javax.swing.JFrame {
                 jButtonRefreshActionPerformed(evt);
             }
         });
-        getContentPane().add(jButtonRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 120, 120));
+        getContentPane().add(jButtonRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 120, 120));
 
         jButtonCallNext.setForeground(new java.awt.Color(255, 255, 255));
         jButtonCallNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/Play-icon120x120.png"))); // NOI18N
@@ -243,7 +256,7 @@ public class CallerGUI extends javax.swing.JFrame {
                 jButtonCallNextActionPerformed(evt);
             }
         });
-        getContentPane().add(jButtonCallNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 160, 120, 120));
+        getContentPane().add(jButtonCallNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 230, 120, 120));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Colaborador", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
@@ -310,6 +323,31 @@ public class CallerGUI extends javax.swing.JFrame {
         });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, 80, 30));
 
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Último criado", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        jPanel4.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel4.setPreferredSize(new java.awt.Dimension(90, 61));
+
+        jLabelLastTicket.setFont(new java.awt.Font("Dialog", 1, 48)); // NOI18N
+        jLabelLastTicket.setForeground(new java.awt.Color(0, 0, 255));
+        jLabelLastTicket.setText("D99");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelLastTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabelLastTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 50, 120, 80));
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -325,7 +363,28 @@ public class CallerGUI extends javax.swing.JFrame {
 //
     }//GEN-LAST:event_jButtonRefreshActionPerformed
 
+    
+    
+    public void setLastTicket() {
+        
+        System.out.println("Estou a chamar o metodo setLastTicket.");
+        
+        try {
+            ticketLast = remoteObject.getLastTicket(employee);
+            jLabelLastTicket.setText(this.ticketLast.getDepartment().getAbbreviation() + String.valueOf(this.ticketLast.getNumberticket()));
+            
+        } catch (RemoteException ex) {
+            callerLog.error("Erro ao obter o último ticket criado.", ex);
+            JOptionPane.showMessageDialog(this, "Existe um problema de comunicação com o servidor.\nContacte o administrador do sistema!");
+            System.exit(1);
+        } catch(NoTicketsException no){
+            callerLog.info(no);
+            jLabelLastTicket.setText("");
+        }
+    }
+
     private void jButtonCallNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCallNextActionPerformed
+
 //        try {
 //
 //            if (jComboBoxColleagues.getSelectedItem() != "") {
@@ -381,7 +440,9 @@ public class CallerGUI extends javax.swing.JFrame {
             try {
                 this.ticket = remoteObject.getNextTicket(this.employee);
                 jComboBoxColleagues.setSelectedIndex(0);
-                jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
+                jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + String.valueOf(this.ticket.getNumberticket()));
+
+//             jLabelLastTicket.setText(this.ticketLast.getDepartment().getAbbreviation()+String.valueOf(this.ticketLast.getNumberticket()));
             } catch (RemoteException ex) {
                 JOptionPane.showMessageDialog(this, "Existe um problema de comunicação com o servidor.\nContacte o administrador do sistema!");
                 callerLog.error("Existe um problema de comunicação\n com o servidor", ex);
@@ -535,10 +596,12 @@ public class CallerGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelEmpDepartment;
     private javax.swing.JLabel jLabelEmpDesk;
     private javax.swing.JLabel jLabelEmpName;
+    private javax.swing.JLabel jLabelLastTicket;
     private javax.swing.JMenuItem jMenuIResetQueu;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPopupMenu jPopupAmin;
     // End of variables declaration//GEN-END:variables
 
