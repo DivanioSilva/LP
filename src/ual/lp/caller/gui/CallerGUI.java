@@ -179,9 +179,9 @@ public class CallerGUI extends javax.swing.JFrame {
         setBackground(new java.awt.Color(222, 222, 222));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setForeground(new java.awt.Color(222, 222, 222));
-        setMinimumSize(new java.awt.Dimension(488, 370));
+        setMinimumSize(new java.awt.Dimension(488, 380));
         setName("iSenhas - Caller"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(488, 370));
+        setPreferredSize(new java.awt.Dimension(488, 380));
         setResizable(false);
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
