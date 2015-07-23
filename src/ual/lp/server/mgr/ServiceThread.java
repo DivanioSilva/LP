@@ -35,8 +35,7 @@ public class ServiceThread implements Runnable {
                     manager.employeesCallback(manager.getDepartments().get(i));
                     log.debug(manager.getDepartments().get(i).getName());
                 }
-
-                Thread.sleep(1000);
+                Thread.sleep(10000);
             } catch (Exception e) {
             }
         }

@@ -6,6 +6,7 @@
 package ual.lp.caller.gui;
 
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.LinkedList;
@@ -30,6 +31,7 @@ import ual.lp.server.rmi.ServerInf;
 public class CallerGUI extends javax.swing.JFrame {
 
     static final Logger callerLog = Logger.getLogger("callerLogger");
+    static final Logger debugLog = Logger.getLogger("debugLogger");
     private Config config;
     private Employee employee;
     private CallerMGR callerMGR;
@@ -47,6 +49,8 @@ public class CallerGUI extends javax.swing.JFrame {
     public CallerGUI() {
         this.serviceThread = new Thread(new ServiceThread(this));
         this.getContentPane().setBackground(Color.white);
+        
+        insertIcon();
 
         this.setLocationRelativeTo(null);
         this.employees = new LinkedList<>();
@@ -143,10 +147,6 @@ public class CallerGUI extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jComboBoxColleagues = new javax.swing.JComboBox();
-        jPanel3 = new javax.swing.JPanel();
-        jLabelActualTicket = new javax.swing.JLabel();
-        jButtonRefresh = new javax.swing.JButton();
-        jButtonCallNext = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabelEmpName = new javax.swing.JLabel();
@@ -155,8 +155,15 @@ public class CallerGUI extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabelEmpDesk = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabelLastTicket = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabelActualTicket = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jButtonRefresh = new javax.swing.JButton();
+        jButtonCallNext = new javax.swing.JButton();
 
         jMenuIResetQueu.setText("Reset");
         jMenuIResetQueu.addActionListener(new java.awt.event.ActionListener() {
@@ -172,9 +179,9 @@ public class CallerGUI extends javax.swing.JFrame {
         setBackground(new java.awt.Color(222, 222, 222));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setForeground(new java.awt.Color(222, 222, 222));
-        setMinimumSize(new java.awt.Dimension(400, 460));
+        setMinimumSize(new java.awt.Dimension(400, 660));
         setName("iSenhas - Caller"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(420, 330));
+        setPreferredSize(new java.awt.Dimension(488, 338));
         setResizable(false);
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -184,13 +191,13 @@ public class CallerGUI extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Transferências", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 119, 163), 1, true), "Transferências", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 119, 163)));
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel3.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel3.setText("Colegas");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
         jComboBoxColleagues.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jComboBoxColleagues.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
@@ -200,73 +207,27 @@ public class CallerGUI extends javax.swing.JFrame {
                 jComboBoxColleaguesActionPerformed(evt);
             }
         });
-        jPanel2.add(jComboBoxColleagues, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 110, -1));
+        jPanel2.add(jComboBoxColleagues, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 110, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 130, 130));
-
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Actual", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
-        jPanel3.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel3.setPreferredSize(new java.awt.Dimension(90, 61));
-
-        jLabelActualTicket.setFont(new java.awt.Font("Dialog", 1, 48)); // NOI18N
-        jLabelActualTicket.setForeground(new java.awt.Color(0, 0, 255));
-        jLabelActualTicket.setText("D99");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelActualTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabelActualTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 120, 80));
-
-        jButtonRefresh.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/refresh2.png"))); // NOI18N
-        jButtonRefresh.setToolTipText("Teste do botão chamar");
-        jButtonRefresh.setContentAreaFilled(false);
-        jButtonRefresh.setFocusCycleRoot(true);
-        jButtonRefresh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonRefreshActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButtonRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 120, 120));
-
-        jButtonCallNext.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonCallNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/Play-icon120x120.png"))); // NOI18N
-        jButtonCallNext.setToolTipText("Teste do botão chamar");
-        jButtonCallNext.setContentAreaFilled(false);
-        jButtonCallNext.setFocusCycleRoot(true);
-        jButtonCallNext.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCallNextActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButtonCallNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 230, 120, 120));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 240, 160, 90));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Colaborador", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 119, 163)), "Colaborador", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 119, 163)));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setText("Nome:");
 
-        jLabelEmpName.setText("Pedro Maria Thomaz Reis de Almeida");
+        jLabelEmpName.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabelEmpName.setText("Pedro Almeida");
 
-        jLabel5.setText("Depart:");
+        jLabel5.setText("Departamento: ");
 
+        jLabelEmpDepartment.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabelEmpDepartment.setText("Tesouraria");
 
-        jLabel7.setText("Secretária:");
+        jLabel7.setText("Mesa:");
 
+        jLabelEmpDesk.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabelEmpDesk.setText("jLabel6");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -282,30 +243,30 @@ public class CallerGUI extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelEmpDepartment)
-                        .addGap(25, 25, 25)
+                        .addComponent(jLabelEmpDepartment))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelEmpDesk)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 14, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelEmpName, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelEmpDepartment)
+                    .addComponent(jLabelEmpDepartment))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelEmpDesk))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabelEmpDesk)))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 250, -1));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 190, -1));
 
         jButton1.setForeground(new java.awt.Color(51, 51, 55));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/ExitButtonBlue100x80.png"))); // NOI18N
@@ -316,32 +277,131 @@ public class CallerGUI extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, 80, 30));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, 80, 30));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/UAL_Logo.png"))); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 119, 163), 1, true), "Senhas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 119, 163)));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Último criado", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Último criado", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 119, 163)));
         jPanel4.setForeground(new java.awt.Color(255, 255, 255));
         jPanel4.setPreferredSize(new java.awt.Dimension(90, 61));
 
         jLabelLastTicket.setFont(new java.awt.Font("Dialog", 1, 48)); // NOI18N
-        jLabelLastTicket.setForeground(new java.awt.Color(0, 0, 255));
-        jLabelLastTicket.setText("D99");
+        jLabelLastTicket.setForeground(new java.awt.Color(40, 87, 226));
+        jLabelLastTicket.setText("D999");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelLastTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jLabelLastTicket)
+                .addGap(0, 2, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabelLastTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabelLastTicket))
         );
 
-        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 50, 120, 80));
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Actual", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 119, 163)));
+        jPanel3.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel3.setPreferredSize(new java.awt.Dimension(90, 61));
+
+        jLabelActualTicket.setFont(new java.awt.Font("Dialog", 1, 48)); // NOI18N
+        jLabelActualTicket.setForeground(new java.awt.Color(40, 87, 226));
+        jLabelActualTicket.setText("D999");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jLabelActualTicket)
+                .addGap(0, 2, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabelActualTicket))
+        );
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, 160, 210));
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 119, 163), 1, true));
+
+        jButtonRefresh.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/RefreshButton120x120.png"))); // NOI18N
+        jButtonRefresh.setToolTipText("Rechamar");
+        jButtonRefresh.setContentAreaFilled(false);
+        jButtonRefresh.setFocusCycleRoot(true);
+        jButtonRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRefreshActionPerformed(evt);
+            }
+        });
+
+        jButtonCallNext.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonCallNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/Play-icon120x120.png"))); // NOI18N
+        jButtonCallNext.setToolTipText("");
+        jButtonCallNext.setContentAreaFilled(false);
+        jButtonCallNext.setFocusCycleRoot(true);
+        jButtonCallNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCallNextActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButtonRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(jButtonCallNext, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonCallNext, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 280, 150));
 
         pack();
         setLocationRelativeTo(null);
@@ -377,55 +437,6 @@ public class CallerGUI extends javax.swing.JFrame {
 
     private void jButtonCallNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCallNextActionPerformed
 
-//        try {
-//
-//            if (jComboBoxColleagues.getSelectedItem() != "") {
-////                System.out.println("Transferir para " + jComboBoxColleagues.getSelectedItem());
-//                //correr o array dos emp para encontrar o que quero fazer a transf.
-//                for (int i = 0; i < this.employees.size(); i++) {
-//                    if (employees.get(i).getName().equals(jComboBoxColleagues.getSelectedItem())) {
-//                        this.employees.get(i);
-//                        System.out.println("Encontrei o gajo na lista.\nIrei transferir para " + employees.get(i).getName());
-//                        System.out.println(i);
-//                        this.ticket.setTransferId(this.employees.get(i).getEmpNumber());
-//                        remoteObject.transferTicket(ticket);
-//                        continue;
-//                    }
-//
-//                }
-//                remoteObject.getNextTicket(this.employee);
-////                jComboBoxColleagues.setSelectedIndex(0);
-//            } else {
-//
-//                if (jLabelActualTicket.getText().equals("")) {
-//
-//                    this.ticket = remoteObject.getNextTicket(this.employee);
-//
-//                    jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
-//                } else {
-//                    remoteObject.closeTicket(this.ticket);
-//                    this.ticket = remoteObject.getNextTicket(this.employee);
-//                    jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
-//                }
-//            }
-        //Fazer o close deste ticket.
-////////        if(jComboBoxDeptList.getSelectedItem()!=""&&jComboBoxColegasList.getSelectedItem()!=""){
-//////////            System.out.println("Tenho os dois selecionados.");
-////////            JOptionPane.showMessageDialog(this, "Você não pode transferir para um colega e\n para um departamento ao mesmo tempo");
-////////            jComboBoxColegasList.setSelectedIndex(o);
-////////            jComboBoxDeptList.setSelectedIndex(o);
-////////        }else if(jComboBoxDeptList.getSelectedItem()==""&&jComboBoxColegasList.getSelectedItem()==""){
-//////////            System.out.println("Não tenho nenhum selecionado");
-////////            jLabelNextTicket.setText(callerMGR.showNextCallTicket());
-////////            jLabelActualTicket.setText(callerMGR.showActualTicket());
-////////        }else{
-//////////            System.out.println("Valor do colega: "+ jComboBoxColegasList.getSelectedItem()+"\nValor do dept:"+jComboBoxDeptList.getSelectedItem());
-////////            JOptionPane.showMessageDialog(this, "Será feita a transferência para:\nColega "+ jComboBoxColegasList.getSelectedItem()+".\nDepartamento "+jComboBoxDeptList.getSelectedItem()+".");
-////////            jComboBoxColegasList.setSelectedIndex(o);
-////////            jComboBoxDeptList.setSelectedIndex(o);
-////////            jLabelNextTicket.setText(callerMGR.showNextCallTicket());
-////////            jLabelActualTicket.setText(callerMGR.showActualTicket());
-////////        }
         //Testando o callerMGR para ser se funciona.
         if (jLabelActualTicket.getText().equals("")) {
             try {
@@ -488,6 +499,16 @@ public class CallerGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxColleaguesActionPerformed
 
+    public void insertIcon(){
+        try {
+            this.setIconImage(Toolkit.getDefaultToolkit().getImage("images/UAL_Logo.png"));
+        } catch (Exception e) {
+            debugLog.info("A imagem não foi encontrada!" +e);
+                 
+        }
+        //ual/ci/pica2/config/allConfigs.xml
+    }
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         int option = JOptionPane.showConfirmDialog(this, "Gostaria realmente de encerrar o caller?", "iSenhas", JOptionPane.YES_NO_OPTION);
@@ -580,6 +601,7 @@ public class CallerGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButtonRefresh;
     private javax.swing.JComboBox jComboBoxColleagues;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
@@ -593,6 +615,8 @@ public class CallerGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPopupMenu jPopupAmin;
     // End of variables declaration//GEN-END:variables
 
