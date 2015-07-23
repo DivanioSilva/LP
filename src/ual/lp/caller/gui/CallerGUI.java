@@ -40,16 +40,14 @@ public class CallerGUI extends javax.swing.JFrame {
     private List<Employee> employees;
     private String closeCaller;
     private Thread serviceThread;
-    
-    
 
     /**
      * Creates new form CallerPanel
      */
     public CallerGUI() {
-        this.serviceThread = new Thread(new ServiceThread(this));        
+        this.serviceThread = new Thread(new ServiceThread(this));
         this.getContentPane().setBackground(Color.white);
-        
+
         this.setLocationRelativeTo(null);
         this.employees = new LinkedList<>();
 
@@ -95,9 +93,6 @@ public class CallerGUI extends javax.swing.JFrame {
         serviceThread.start();
 
         //chama o connect do rmi e mando o emp como argumento.
-        
-        
-        
     }
 
     /**
@@ -353,31 +348,28 @@ public class CallerGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefreshActionPerformed
+        try {
+            remoteObject.recallTicket(ticket);
+        } catch (RemoteException ex) {
+            callerLog.error("Existe um problema de comunicação\n com o servidor", ex);
+            System.exit(1);
+        }
 
-//        adminPanel.setVisible(true);
-//        try {
-//            JOptionPane.showMessageDialog(this, "Rechamar a senha "+this.ticket.getDepartment().getAbbreviation()+""+this.ticket.getNumberticket());
-//        } catch (NullPointerException e) {
-//            callerLog.error(employee.getName()+" rechamou um ticket sem tem um ticket atribuido", e);
-//        }
-//
     }//GEN-LAST:event_jButtonRefreshActionPerformed
 
-    
-    
     public void setLastTicket() {
-        
+
         System.out.println("Estou a chamar o metodo setLastTicket.");
-        
+
         try {
             ticketLast = remoteObject.getLastTicket(employee);
             jLabelLastTicket.setText(this.ticketLast.getDepartment().getAbbreviation() + String.valueOf(this.ticketLast.getNumberticket()));
-            
+
         } catch (RemoteException ex) {
             callerLog.error("Erro ao obter o último ticket criado.", ex);
             JOptionPane.showMessageDialog(this, "Existe um problema de comunicação com o servidor.\nContacte o administrador do sistema!");
             System.exit(1);
-        } catch(NoTicketsException no){
+        } catch (NoTicketsException no) {
             callerLog.info(no);
             jLabelLastTicket.setText("");
         }
@@ -416,7 +408,6 @@ public class CallerGUI extends javax.swing.JFrame {
 //                    jLabelActualTicket.setText(this.ticket.getDepartment().getAbbreviation() + "" + String.valueOf(this.ticket.getNumberticket()));
 //                }
 //            }
-
         //Fazer o close deste ticket.
 ////////        if(jComboBoxDeptList.getSelectedItem()!=""&&jComboBoxColegasList.getSelectedItem()!=""){
 //////////            System.out.println("Tenho os dois selecionados.");

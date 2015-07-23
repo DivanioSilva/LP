@@ -140,6 +140,24 @@ public class Manager {
 
         this.getTicketDAO().createTicket(number, idDept);
     }
+    
+    public void recallTicket(Ticket ticket){
+        
+        this.addDisplayTicket(ticket);
+        try {
+         
+            this.displayInf.sourceToDisplay(displayTickets);
+            
+            System.out.println("Lista de tickets enviada ao Display");
+        } catch (RemoteException e) {
+            this.displayInf = null;
+            System.err.println("Erro ao contactar o display.");
+        } catch (NullPointerException e) {
+            System.err.println("O display ainda não esta disponível.");
+
+        }
+    }
+    
 
     public Ticket getNextTicket(Employee employee) throws NoTicketsException {
         Ticket ticket = new Ticket();

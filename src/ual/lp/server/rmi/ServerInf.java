@@ -34,6 +34,8 @@ public interface ServerInf extends Remote {
     
     public Ticket getLastTicket(Employee employee)throws RemoteException, NoTicketsException;
     
+    public void recallTicket(Ticket ticket) throws RemoteException;
+    
 }
 
 /*
