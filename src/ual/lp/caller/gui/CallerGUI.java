@@ -179,9 +179,9 @@ public class CallerGUI extends javax.swing.JFrame {
         setBackground(new java.awt.Color(222, 222, 222));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setForeground(new java.awt.Color(222, 222, 222));
-        setMinimumSize(new java.awt.Dimension(400, 660));
+        setMinimumSize(new java.awt.Dimension(488, 370));
         setName("iSenhas - Caller"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(488, 338));
+        setPreferredSize(new java.awt.Dimension(488, 370));
         setResizable(false);
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -268,8 +268,9 @@ public class CallerGUI extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 190, -1));
 
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
         jButton1.setForeground(new java.awt.Color(51, 51, 55));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/ExitButtonBlue100x80.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/Exit_Circle_Blue60x60.png"))); // NOI18N
         jButton1.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         jButton1.setBorderPainted(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -277,7 +278,7 @@ public class CallerGUI extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, 80, 30));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 110, 70, 60));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/UAL_Logo.png"))); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
@@ -387,9 +388,9 @@ public class CallerGUI extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(jButtonCallNext, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -401,7 +402,7 @@ public class CallerGUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 280, 150));
+        getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 290, 150));
 
         pack();
         setLocationRelativeTo(null);
