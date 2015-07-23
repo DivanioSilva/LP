@@ -8,6 +8,7 @@ package ual.lp.server.mgr;
 import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -47,7 +48,8 @@ public class Manager {
     private DisplayInf displayInf;
     private List<Ticket> displayTickets;
     private Thread serviceThread;
-  
+    private Object remoteLock;
+
     public Manager(boolean rmi) {
 
         this.context = new ClassPathXmlApplicationContext("ual/lp/spring/bean.xml");
@@ -62,8 +64,9 @@ public class Manager {
         departmentDAO.loadDepartmens(departments);
         employees = new LinkedList<>();
         displayTickets = new LinkedList<>();
+        remoteLock = new Object();
         initDisplayTickets();
-        serviceThread = new Thread( new ServiceThread(this));
+        serviceThread = new Thread(new ServiceThread(this));
         serviceThread.start();
         if (rmi) {
             this.serverRMI = new ServerRMI(this);
@@ -84,20 +87,23 @@ public class Manager {
     }
 
     public void connect(Employee employee) throws BadConfigurationException {
+        synchronized (remoteLock) {
 
-        try {
-            this.verifyEmployeeConfig(employee);
-            this.verifyEmployee(employee);
-            //saber o id do gajo.
-            employee.setEmpNumber(this.getEmpID(employee));
+            try {
+                this.verifyEmployeeConfig(employee);
+                this.verifyEmployee(employee);
+                //saber o id do gajo.
+                employee.setEmpNumber(this.getEmpID(employee));
 
-            this.addEmployee(employee);
-            loginLog.info("Begin - Dept: " + employee.getDepartment().getName() + ". ID: " + employee.getEmpNumber() + " " + employee.getName());
-            this.employeesCallback(employee.getDepartment());
-        } catch (BadConfigurationException e) {
-            serverLog.error("O caller apresenta configurações inválidas.", e);
-            throw new BadConfigurationException("O caller apresenta configurações inválidas.");
+                this.addEmployee(employee);
+                loginLog.info("Begin - Dept: " + employee.getDepartment().getName() + ". ID: " + employee.getEmpNumber() + " " + employee.getName());
+                this.employeesCallback(employee.getDepartment());
+            } catch (BadConfigurationException e) {
+                serverLog.error("O caller apresenta configurações inválidas.", e);
+                throw new BadConfigurationException("O caller apresenta configurações inválidas.");
+            }
         }
+
     }
 
     /**
@@ -107,17 +113,23 @@ public class Manager {
      * @return o número o ticket que ele irá imprimir.
      */
     public String autoCreateTicket(String dept) {
-//        String response[] = this.getTicketDAO().autoCreateTicket(dept).split(",");
+        synchronized (remoteLock) {
+            //        String response[] = this.getTicketDAO().autoCreateTicket(dept).split(",");
 //        return response[0]+getRemoteURL()+response[1];
 //        System.out.println(response);
-        String response[]= this.getTicketDAO().autoCreateTicket(dept).split(",");
+            String response[] = this.getTicketDAO().autoCreateTicket(dept).split(",");
 //        System.out.println(response[0]+"," + getRemoteURL()+response[1]);
-        return response[0]+"," + getRemoteURL()+response[1];
+            return response[0] + "," + getRemoteURL() + response[1];
+        }
+
     }
 
     public void transferTicket(Ticket ticket) {
-        callerTransfLog.info("Transfer: from " + ticket.getEmployee().getName() + ", ticket " + ticket.getDepartment().getAbbreviation() + "" + ticket.getNumberticket() + " to " + ticket.getTransferId());
-        this.getTicketDAO().transferTicket(ticket);
+        synchronized (remoteLock) {
+            callerTransfLog.info("Transfer: from " + ticket.getEmployee().getName() + ", ticket " + ticket.getDepartment().getAbbreviation() + "" + ticket.getNumberticket() + " to " + ticket.getTransferId());
+            this.getTicketDAO().transferTicket(ticket);
+        }
+
     }
 
     public void insertTicket(Ticket ticket) {
@@ -125,12 +137,18 @@ public class Manager {
     }
 
     public void closeTicket(Ticket ticket) {
-        callerTicketCallLog.info("Closed: " + ticket.getEmployee().getName() + " ticket " + ticket.getDepartment().getAbbreviation() + "" + ticket.getNumberticket());
-        this.getTicketDAO().closeTicket(ticket);
+        synchronized (remoteLock) {
+            callerTicketCallLog.info("Closed: " + ticket.getEmployee().getName() + " ticket " + ticket.getDepartment().getAbbreviation() + "" + ticket.getNumberticket());
+            this.getTicketDAO().closeTicket(ticket);
+        }
+
     }
 
     public int getEmpID(Employee employee) {
-        return this.getEmployeeDAO().getEmployeeID(employee);
+        synchronized (remoteLock) {
+            return this.getEmployeeDAO().getEmployeeID(employee);
+        }
+
     }
 
     /**
@@ -140,53 +158,62 @@ public class Manager {
      * @param idDept do dispenser.
      */
     public void createTicket(int number, int idDept) {
-
-        this.getTicketDAO().createTicket(number, idDept);
-    }
-    
-    public void recallTicket(Ticket ticket){
-        
-        this.addDisplayTicket(ticket);
-        try {
-         
-            this.displayInf.sourceToDisplay(displayTickets);
-            
-            System.out.println("Lista de tickets enviada ao Display");
-        } catch (RemoteException e) {
-            this.displayInf = null;
-            System.err.println("Erro ao contactar o display.");
-        } catch (NullPointerException e) {
-            System.err.println("O display ainda não esta disponível.");
-
+        synchronized (remoteLock) {
+            this.getTicketDAO().createTicket(number, idDept);
         }
+
     }
-    
+
+    public void recallTicket(Ticket ticket) {
+        synchronized (remoteLock) {
+            this.addDisplayTicket(ticket);
+            try {
+
+                this.displayInf.sourceToDisplay(displayTickets);
+
+                System.out.println("Lista de tickets enviada ao Display");
+            } catch (RemoteException e) {
+                this.displayInf = null;
+                System.err.println("Erro ao contactar o display.");
+            } catch (NullPointerException e) {
+                System.err.println("O display ainda não esta disponível.");
+
+            }
+        }
+
+    }
 
     public Ticket getNextTicket(Employee employee) throws NoTicketsException {
-        Ticket ticket = new Ticket();
-        //employee.getDepartment().getId()
-        ticket = this.getTicketDAO().getNextTicket(employee);
+        synchronized (remoteLock) {
+            Ticket ticket = new Ticket();
+            //employee.getDepartment().getId()
+            ticket = this.getTicketDAO().getNextTicket(employee);
 
-        this.addDisplayTicket(ticket);
-        try {
-         
-            this.displayInf.sourceToDisplay(displayTickets);
-            
-            System.out.println("Lista de tickets enviada ao Display");
-        } catch (RemoteException e) {
-            this.displayInf = null;
-            System.err.println("Erro ao contactar o display.");
-        } catch (NullPointerException e) {
-            System.err.println("O display ainda não esta disponível.");
+            this.addDisplayTicket(ticket);
+            try {
 
+                this.displayInf.sourceToDisplay(displayTickets);
+
+                System.out.println("Lista de tickets enviada ao Display");
+            } catch (RemoteException e) {
+                this.displayInf = null;
+                System.err.println("Erro ao contactar o display.");
+            } catch (NullPointerException e) {
+                System.err.println("O display ainda não esta disponível.");
+
+            }
+
+            callerTicketCallLog.info("Call: " + employee.getName() + " ticket " + ticket.getDepartment().getAbbreviation() + "" + ticket.getNumberticket());
+            return ticket;
         }
 
-        callerTicketCallLog.info("Call: " + employee.getName() + " ticket " + ticket.getDepartment().getAbbreviation() + "" + ticket.getNumberticket());
-        return ticket;
     }
 
     public void verifyEmployee(Employee employee) {
-        this.getEmployeeDAO().verifyEmployee(employee);
+        synchronized (remoteLock) {
+            this.getEmployeeDAO().verifyEmployee(employee);
+        }
+
     }
 //    public void loadDepartments (List<Department> departments){
 //        
@@ -201,54 +228,61 @@ public class Manager {
      * configurações estiverem erradas
      */
     public void verifyEmployeeConfig(Employee employee) throws BadConfigurationException {
-
-        for (int i = 0; i < this.getDepartments().size(); i++) {
-            if (employee.getDepartment().getName().equals(this.getDepartments().get(i).getName())
-                    && employee.getDepartment().getAbbreviation().equals(this.getDepartments().get(i).getAbbreviation())) {
-                return;
+        synchronized (remoteLock) {
+            for (int i = 0; i < this.getDepartments().size(); i++) {
+                if (employee.getDepartment().getName().equals(this.getDepartments().get(i).getName())
+                        && employee.getDepartment().getAbbreviation().equals(this.getDepartments().get(i).getAbbreviation())) {
+                    return;
+                }
             }
+            throw new BadConfigurationException("Configurações incorrectas");
         }
-        throw new BadConfigurationException("Configurações incorrectas");
+
     }
 
     public void addEmployee(Employee employee) {
-        for (int i = 0; i < this.employees.size(); i++) {
-            if (employee.getName().equals(employees.get(i).getName())) {
-                employees.remove(i);
+        synchronized (remoteLock) {
+            for (int i = 0; i < this.employees.size(); i++) {
+                if (employee.getName().equals(employees.get(i).getName())) {
+                    employees.remove(i);
+                }
             }
+            employees.add(employee);
         }
-        employees.add(employee);
+
     }
 
     public void addDisplayTicket(Ticket ticket) {
-        
-        ticket.setLastCalled(true);
-        boolean foundOldTicket = false;
-        for (int i = 0; i < this.displayTickets.size(); i++) {
-            if (ticket.getDepartment().getName().equals(this.displayTickets.get(i).getDepartment().getName())) {
-                displayTickets.set(i, ticket);
-                foundOldTicket = true;
-            } else {
-                this.displayTickets.get(i).setLastCalled(false);
-            }       
+        synchronized (remoteLock) {
+            ticket.setLastCalled(true);
+            boolean foundOldTicket = false;
+            for (int i = 0; i < this.displayTickets.size(); i++) {
+                if (ticket.getDepartment().getName().equals(this.displayTickets.get(i).getDepartment().getName())) {
+                    displayTickets.set(i, ticket);
+                    foundOldTicket = true;
+                } else {
+                    this.displayTickets.get(i).setLastCalled(false);
+                }
+            }
+            if (!foundOldTicket) {
+                displayTickets.add(ticket);
+            }
         }
-        if (!foundOldTicket) {
-            displayTickets.add(ticket);
-        }
-        
+
     }
-    
-    private void initDisplayTickets () {
-        
-        for (Department d: getDepartments()) {
-            Ticket ticket = new Ticket();
-            ticket.setDepartment(d);
-            ticket.setLastCalled(false);
-            ticket.setNumberticket(-1);
-            displayTickets.add(ticket);
+
+    private void initDisplayTickets() {
+        synchronized (remoteLock) {
+            for (Department d : getDepartments()) {
+                Ticket ticket = new Ticket();
+                ticket.setDepartment(d);
+                ticket.setLastCalled(false);
+                ticket.setNumberticket(-1);
+                displayTickets.add(ticket);
+            }
         }
- 
-    } 
+
+    }
 
     /**
      * Método usado para o callback dos clientes com a lista de todos os
@@ -258,28 +292,31 @@ public class Manager {
      */
     public void employeesCallback(Department department) {
 
-        List<Employee> departmentEmployees = this.getDepartmentEmployees(department);
-        for (int i = 0; i < employees.size(); i++) {
-            if (employees.get(i).getDepartment().getName().equals(department.getName())) {
-                try {
-                    employees.get(i).getCallerInf().updateEmployees(departmentEmployees);
+        synchronized (remoteLock) {
+            List<Employee> departmentEmployees = this.getDepartmentEmployees(department);
+            for (int i = 0; i < employees.size(); i++) {
+                if (employees.get(i).getDepartment().getName().equals(department.getName())) {
+                    try {
+                        employees.get(i).getCallerInf().updateEmployees(departmentEmployees);
 
-                } catch (RemoteException ex) {
-                    serverLog.debug("A remover o " + employees.get(i).getName() + "da lista dos employees");
-                    System.out.println("A remover o " + employees.get(i).getName() + "da lista dos employees");
-                    employees.remove(i);
+                    } catch (RemoteException ex) {
+                        serverLog.debug("A remover o " + employees.get(i).getName() + "da lista dos employees");
+                        System.out.println("A remover o " + employees.get(i).getName() + "da lista dos employees");
+                        employees.remove(i);
 
-                    employeesCallback(department);
-                    return;
+                        employeesCallback(department);
+                        return;
 
+                    }
                 }
             }
+
+//        System.out.println("Lista a mandar para os employees: ");
+//        for (Employee emp : departmentEmployees) {
+//            System.out.println(emp.getName());
+//        }
         }
 
-        System.out.println("Lista a mandar para os employees: ");
-        for (Employee emp : departmentEmployees) {
-            System.out.println(emp.getName());
-        }
     }
 
     /**
@@ -290,14 +327,16 @@ public class Manager {
      * @return Lista de colaboradores
      */
     public List<Employee> getDepartmentEmployees(Department department) {
-
-        List<Employee> departmentEmployees = new LinkedList<>();
-        for (int i = 0; i < employees.size(); i++) {
-            if (employees.get(i).getDepartment().getName().equals(department.getName())) {
-                departmentEmployees.add(employees.get(i));
+        synchronized (remoteLock) {
+            List<Employee> departmentEmployees = new LinkedList<>();
+            for (int i = 0; i < employees.size(); i++) {
+                if (employees.get(i).getDepartment().getName().equals(department.getName())) {
+                    departmentEmployees.add(employees.get(i));
+                }
             }
+            return departmentEmployees;
         }
-        return departmentEmployees;
+
     }
 
     /**
@@ -307,11 +346,14 @@ public class Manager {
      * @return Uma lista de departamentos
      */
     public List<String> getDepartmentsString() {
-        List<String> depts = new LinkedList<>();
-        for (Department d : this.getDepartments()) {
-            depts.add(d.getName());
+        synchronized (remoteLock) {
+            List<String> depts = new LinkedList<>();
+            for (Department d : this.getDepartments()) {
+                depts.add(d.getName());
+            }
+            return depts;
         }
-        return depts;
+
     }
 
     /**
@@ -319,8 +361,11 @@ public class Manager {
      * final do dia. Uma thread para escutar o horário e acionar o método????
      */
     public void closeDay() {
-        serverLog.info("Feito reset das filas no final do dia.");
-        this.ticketDAO.closeDay();
+        synchronized (remoteLock) {
+            serverLog.info("Feito reset das filas no final do dia.");
+            this.ticketDAO.closeDay();
+        }
+
     }
 
     /**
@@ -330,12 +375,18 @@ public class Manager {
      * @param department
      */
     public void resetQueue(Employee employee) {
-        serverLog.info("Reset da fila: " + employee.getDepartment().getName());
-        this.ticketDAO.resetQueue(employee);
+        synchronized (remoteLock) {
+            serverLog.info("Reset da fila: " + employee.getDepartment().getName());
+            this.ticketDAO.resetQueue(employee);
+        }
+
     }
-    
-    public Ticket getLastTicket(Department department) throws NoTicketsException{
-        return this.ticketDAO.getLastTicket(department);
+
+    public Ticket getLastTicket(Department department) throws NoTicketsException {
+        synchronized (remoteLock) {
+            return this.ticketDAO.getLastTicket(department);
+        }
+
     }
 
     /**
@@ -434,6 +485,13 @@ public class Manager {
      */
     public List<Department> getDepartments() {
         return departments;
+    }
+
+    /**
+     * @return the employees
+     */
+    public List<Employee> getEmployees() {
+        return employees;
     }
 
 }

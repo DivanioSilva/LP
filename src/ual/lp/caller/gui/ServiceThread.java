@@ -23,10 +23,10 @@ public class ServiceThread implements Runnable {
 
     @Override
     public void run() {
-        while (running) {            
+        while (running) { 
+            callerGUI.setLastTicket();
             try {
-                callerGUI.setLastTicket();
-                System.out.println("");
+                
                 Thread.sleep(1000);
             } catch (Exception e) {
             }

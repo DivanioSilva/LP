@@ -43,6 +43,11 @@ public class CallerImpl extends UnicastRemoteObject implements CallerInf {
         this.callerGUI.updateEmployees(employees);
     }
 
+    @Override
+    public String keepAlive(String ping) throws RemoteException {
+        return "Pong";
+    }
+
     
 
 }

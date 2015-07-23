@@ -5,6 +5,8 @@
  */
 package ual.lp.caller.app;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ual.lp.caller.gui.CallerGUI;
 import ual.lp.caller.mgr.CallerMGR;
 
@@ -13,7 +15,7 @@ import ual.lp.caller.mgr.CallerMGR;
  * @author Divanio Silva
  */
 public class CallerApp {
-    public static void main(String[] args) {
+    public static void main(String[] args) {    
         CallerMGR mgr = new CallerMGR();
         CallerGUI caller = new CallerGUI();
         

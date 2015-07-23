@@ -5,7 +5,10 @@
  */
 package ual.lp.server.mgr;
 
+import java.rmi.RemoteException;
+import java.util.logging.Level;
 import org.apache.log4j.Logger;
+import ual.lp.server.objects.Department;
 
 /**
  *
@@ -29,13 +32,32 @@ public class ServiceThread implements Runnable {
     @Override
     public void run() {
         while (running) {
-            try {
-                log.debug("Tenho: " + manager.getDepartments().size());
-                for (int i = 0; i < manager.getDepartments().size(); i++) {
-                    manager.employeesCallback(manager.getDepartments().get(i));
-                    log.debug(manager.getDepartments().get(i).getName());
+
+            for (int i = 0; i < manager.getEmployees().size(); i++) {
+                try {
+                    //lembrar do null pointerException
+                    manager.getEmployees().get(i).getCallerInf().keepAlive("Ping");
+                } catch (RemoteException ex) {
+                    System.out.println("Problema a comunicar com o employee");
+                    Department department = manager.getEmployees().get(i).getDepartment();
+                    manager.getEmployees().remove(i);
+                    manager.employeesCallback(department);
+                    
                 }
-                Thread.sleep(10000);
+                
+            }
+ {
+                
+            }
+//            log.debug("Tenho: " + manager.getDepartments().size());
+//            for (int i = 0; i < manager.getDepartments().size(); i++) {
+//                manager.employeesCallback(manager.getDepartments().get(i));
+//                log.debug(manager.getDepartments().get(i).getName());
+//
+//            }
+            try {
+
+                Thread.sleep(1000);
             } catch (Exception e) {
             }
         }
