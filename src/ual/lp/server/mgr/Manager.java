@@ -46,6 +46,7 @@ public class Manager {
     private List<Employee> employees;
     private DisplayInf displayInf;
     private List<Ticket> displayTickets;
+    private Thread serviceThread;
   
     public Manager(boolean rmi) {
 
@@ -62,6 +63,8 @@ public class Manager {
         employees = new LinkedList<>();
         displayTickets = new LinkedList<>();
         initDisplayTickets();
+        serviceThread = new Thread( new ServiceThread(this));
+        serviceThread.start();
         if (rmi) {
             this.serverRMI = new ServerRMI(this);
         }
@@ -199,9 +202,9 @@ public class Manager {
      */
     public void verifyEmployeeConfig(Employee employee) throws BadConfigurationException {
 
-        for (int i = 0; i < this.departments.size(); i++) {
-            if (employee.getDepartment().getName().equals(this.departments.get(i).getName())
-                    && employee.getDepartment().getAbbreviation().equals(this.departments.get(i).getAbbreviation())) {
+        for (int i = 0; i < this.getDepartments().size(); i++) {
+            if (employee.getDepartment().getName().equals(this.getDepartments().get(i).getName())
+                    && employee.getDepartment().getAbbreviation().equals(this.getDepartments().get(i).getAbbreviation())) {
                 return;
             }
         }
@@ -237,7 +240,7 @@ public class Manager {
     
     private void initDisplayTickets () {
         
-        for (Department d: departments) {
+        for (Department d: getDepartments()) {
             Ticket ticket = new Ticket();
             ticket.setDepartment(d);
             ticket.setLastCalled(false);
@@ -305,7 +308,7 @@ public class Manager {
      */
     public List<String> getDepartmentsString() {
         List<String> depts = new LinkedList<>();
-        for (Department d : this.departments) {
+        for (Department d : this.getDepartments()) {
             depts.add(d.getName());
         }
         return depts;
@@ -424,6 +427,13 @@ public class Manager {
      */
     public void setDisplayTickets(List<Ticket> displayTickets) {
         this.displayTickets = displayTickets;
+    }
+
+    /**
+     * @return the departments
+     */
+    public List<Department> getDepartments() {
+        return departments;
     }
 
 }
