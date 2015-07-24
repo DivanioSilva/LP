@@ -290,7 +290,7 @@ public class TicketDAO {
         try {
             String sql = "select * from tickets\n"
                     + "join department on department.iddepartment=tickets.iddepartment\n"
-                    + "where department.department=? and tickets.status=0 order by tickets.createhour desc limit 1;";
+                    + "where department.department=? and tickets.status=0 and tickets.transferid is null order by tickets.createhour desc limit 1;";
 
             ticket = jdbcTemplate.queryForObject(sql, new Object[]{department.getName()}, new SimpleTicketMapper());
             

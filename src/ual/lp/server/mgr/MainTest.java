@@ -59,7 +59,7 @@ public class MainTest {
 //                        mgr.autoCreateTicket("Boss");
 //                employee = config.getEmployee();
         try {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 4; i++) {
                 mgr.autoCreateTicket("Secretaria");
                 Thread.sleep(1000);
             }

@@ -12,6 +12,7 @@ import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 import ual.lp.caller.mgr.CallerMGR;
@@ -49,11 +50,30 @@ public class CallerGUI extends javax.swing.JFrame {
     public CallerGUI() {
         this.serviceThread = new Thread(new ServiceThread(this));
         this.getContentPane().setBackground(Color.white);
-        
-        insertIcon();
+
+        try {
+//            this.setIconImage(new ImageIcon(getClass().getResource("UAL_Logo.png")).getImage());
+            this.setIconImage(new ImageIcon(getClass().getResource("logo.jpg")).getImage());
+        } catch (Exception e) {
+            debugLog.info("Não consegui encontrar o icon.\n"+e);
+        }
 
         this.setLocationRelativeTo(null);
         this.employees = new LinkedList<>();
+
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                try {
+                    remoteObject.closeTicket(ticket);
+                    System.out.println("Estou a fechar o ticket "+ ticket);
+                     debugLog.info("Fechei o programa.");
+                } catch (Exception e) {
+                    callerLog.error("Erro ao encerrar o ticket quando o caller é fechado."+e);
+                    System.exit(1);
+                }
+            }
+        });
 
         initComponents();
         try {
@@ -82,6 +102,23 @@ public class CallerGUI extends javax.swing.JFrame {
             System.exit(1);
         }
     }
+
+    /**
+     *
+     * @param operation
+     */
+//    public void setDefaultCloseOperation(int operation) { 
+//        System.out.println("OLA");
+////        JOptionPane.showMessageDialog("Olá", this);
+//        super.setDefaultCloseOperation(operation);
+//        
+//    }
+//    public int pjcMethod() {
+//
+//        System.out.println("OLE");
+//        debugLog.info("OLE");
+//        return EXIT_ON_CLOSE;
+//    }
 
     public void initData() throws RemoteException, BadConfigurationException {
 
@@ -154,7 +191,6 @@ public class CallerGUI extends javax.swing.JFrame {
         jLabelEmpDepartment = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabelEmpDesk = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -173,19 +209,23 @@ public class CallerGUI extends javax.swing.JFrame {
         });
         jPopupAmin.add(jMenuIResetQueu);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("UAL iSenhas");
         setAutoRequestFocus(false);
         setBackground(new java.awt.Color(222, 222, 222));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setForeground(new java.awt.Color(222, 222, 222));
-        setMinimumSize(new java.awt.Dimension(488, 380));
+        setMinimumSize(new java.awt.Dimension(492, 358));
         setName("iSenhas - Caller"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(488, 380));
+        setPreferredSize(new java.awt.Dimension(492, 358));
         setResizable(false);
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 formMouseReleased(evt);
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
             }
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -197,7 +237,7 @@ public class CallerGUI extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel3.setText("Colegas");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, -1, -1));
 
         jComboBoxColleagues.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jComboBoxColleagues.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
@@ -207,9 +247,9 @@ public class CallerGUI extends javax.swing.JFrame {
                 jComboBoxColleaguesActionPerformed(evt);
             }
         });
-        jPanel2.add(jComboBoxColleagues, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 110, -1));
+        jPanel2.add(jComboBoxColleagues, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 140, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 240, 160, 90));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, 160, 90));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 119, 163)), "Colaborador", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 119, 163)));
@@ -268,18 +308,6 @@ public class CallerGUI extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 190, -1));
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setForeground(new java.awt.Color(51, 51, 55));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/Exit_Circle_Blue60x60.png"))); // NOI18N
-        jButton1.setBorder(javax.swing.BorderFactory.createCompoundBorder());
-        jButton1.setBorderPainted(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 110, 70, 60));
-
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/UAL_Logo.png"))); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
@@ -287,7 +315,7 @@ public class CallerGUI extends javax.swing.JFrame {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 119, 163), 1, true), "Senhas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 119, 163)));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Último criado", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 119, 163)));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true), "Último criado", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 119, 163)));
         jPanel4.setForeground(new java.awt.Color(255, 255, 255));
         jPanel4.setPreferredSize(new java.awt.Dimension(90, 61));
 
@@ -301,7 +329,7 @@ public class CallerGUI extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jLabelLastTicket)
-                .addGap(0, 2, Short.MAX_VALUE))
+                .addGap(0, 4, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -311,7 +339,7 @@ public class CallerGUI extends javax.swing.JFrame {
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Actual", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 119, 163)));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true), "A atender", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 119, 163)));
         jPanel3.setForeground(new java.awt.Color(255, 255, 255));
         jPanel3.setPreferredSize(new java.awt.Dimension(90, 61));
 
@@ -325,7 +353,7 @@ public class CallerGUI extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jLabelActualTicket)
-                .addGap(0, 2, Short.MAX_VALUE))
+                .addGap(0, 4, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -347,14 +375,14 @@ public class CallerGUI extends javax.swing.JFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(0, 7, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, 160, 210));
+        getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, 160, 190));
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 119, 163), 1, true));
@@ -402,7 +430,7 @@ public class CallerGUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 290, 150));
+        getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 290, 150));
 
         pack();
         setLocationRelativeTo(null);
@@ -421,6 +449,7 @@ public class CallerGUI extends javax.swing.JFrame {
     public void setLastTicket() {
 
         System.out.println("Estou a chamar o metodo setLastTicket.");
+//        debugLog.info("Estou a chamar o metodo setLastTicket.");
 
         try {
             ticketLast = remoteObject.getLastTicket(employee);
@@ -499,20 +528,9 @@ public class CallerGUI extends javax.swing.JFrame {
     private void jComboBoxColleaguesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxColleaguesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxColleaguesActionPerformed
-
-    public void insertIcon(){
-        try {
-            this.setIconImage(Toolkit.getDefaultToolkit().getImage("images/UAL_Logo.png"));
-        } catch (Exception e) {
-            debugLog.info("A imagem não foi encontrada!" +e);
-                 
-        }
-        //ual/ci/pica2/config/allConfigs.xml
-    }
     
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        int option = JOptionPane.showConfirmDialog(this, "Gostaria realmente de encerrar o caller?", "iSenhas", JOptionPane.YES_NO_OPTION);
+    /*Antigo método para sair da aplicação, funciona perfeitamente mas foi decidido sair pela cruz.
+    int option = JOptionPane.showConfirmDialog(this, "Gostaria realmente de encerrar o caller?", "iSenhas", JOptionPane.YES_NO_OPTION);
 
         if (option == JOptionPane.YES_OPTION) {
 //            System.out.println("Encerrando o caller");
@@ -534,10 +552,9 @@ public class CallerGUI extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Operação anulada!");
         }
-
-
-    }//GEN-LAST:event_jButton1ActionPerformed
-
+    */
+    
+    
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
         if (evt.isPopupTrigger()) {
             jPopupAmin.show(this, evt.getX(), evt.getY());
@@ -559,6 +576,10 @@ public class CallerGUI extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jMenuIResetQueuActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosed
 
 //    /**
 //     * @param args the command line arguments
@@ -597,7 +618,6 @@ public class CallerGUI extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCallNext;
     private javax.swing.JButton jButtonRefresh;
     private javax.swing.JComboBox jComboBoxColleagues;
