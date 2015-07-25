@@ -31,27 +31,32 @@ public class DisplayRMI {
 
     //172.16.214.237
     //172.16.120.77
-    public static final String HOST = "localhost";
+    private String host;
     public static final int PORT = 1099;
-    public static final String MYIP = null;
+    private String myIP;
+    private String filePath;
     private CallerGUI callerGUI;
     private DisplayApp displayApp;
     private boolean serverOn = false;
 
-    public DisplayRMI(CallerGUI callerGUI) throws RemoteException, NotBoundException {
-        this.callerGUI = callerGUI;
-        System.setProperty("java.rmi.server.hostname", "localhost");//informar isso no relatório
-
-        Registry registry = LocateRegistry.getRegistry(HOST, PORT);
-        ServerInf objRemoto = (ServerInf) registry.lookup("response");
-        this.callerGUI.setRemoteObject(objRemoto);
-
-    }
+//    public DisplayRMI(CallerGUI callerGUI) throws RemoteException, NotBoundException {
+//        this.callerGUI = callerGUI;
+//        
+//        System.setProperty("java.rmi.server.hostname", "localhost");//informar isso no relatório
+//
+//        Registry registry = LocateRegistry.getRegistry(HOST, PORT);
+//        ServerInf objRemoto = (ServerInf) registry.lookup("response");
+//        this.callerGUI.setRemoteObject(objRemoto);
+//
+//    }
 
     public DisplayRMI(DisplayApp displayApp) {
+        this.myIP = displayApp.getMyIP();
+        this.host = displayApp.getServerIP();
+        this.filePath = displayApp.getFilePath();
         try {
-            System.setProperty("java.rmi.server.hostname", "localhost");//informar isso no relatório
-            Registry registry = LocateRegistry.getRegistry(HOST, PORT);
+            System.setProperty("java.rmi.server.hostname", myIP);//informar isso no relatório
+            Registry registry = LocateRegistry.getRegistry(host, PORT);
             ServerToDisplayInf objRemoto = (ServerToDisplayInf) registry.lookup("display");
 
             DisplayInf callback = new DisplayImpl(this);
@@ -87,7 +92,7 @@ public class DisplayRMI {
         BufferedWriter writer = null;
         try {
             //Local do ficheiro será configurado pelo ficheiro de conf do display
-            writer = new BufferedWriter(new FileWriter("C:\\xampp\\htdocs\\test\\madeira.txt"));
+            writer = new BufferedWriter(new FileWriter(filePath));
 //
             for (Ticket ticket : tickets) {
                 if (ticket.isLastCalled()) {
@@ -131,6 +136,13 @@ public class DisplayRMI {
      */
     public void setServerOn(boolean serverOn) {
         this.serverOn = serverOn;
+    }
+
+    /**
+     * @return the filePath
+     */
+    public String getFilePath() {
+        return filePath;
     }
 
 }

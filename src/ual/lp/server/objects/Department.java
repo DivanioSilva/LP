@@ -16,6 +16,7 @@ public class Department implements Serializable{
     private int id;
     private String name;
     private String abbreviation;
+    private boolean stopped = false;
 
     public Department() {
     }
@@ -90,6 +91,20 @@ public class Department implements Serializable{
      */
     public void setAbbreviation(String abbreviation) {
         this.abbreviation = abbreviation;
+    }
+
+    /**
+     * @return the stopped
+     */
+    public boolean isStopped() {
+        return stopped;
+    }
+
+    /**
+     * @param stopped the stopped to set
+     */
+    public void setStopped(boolean stopped) {
+        this.stopped = stopped;
     }
 
 }

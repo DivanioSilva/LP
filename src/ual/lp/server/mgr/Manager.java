@@ -43,12 +43,14 @@ public class Manager {
     private String serverIP;
     private String closeDay;
     private String remoteURL;
+    private String remoteForm;
     private List<Department> departments;
     private List<Employee> employees;
     private DisplayInf displayInf;
     private List<Ticket> displayTickets;
     private Thread serviceThread;
     private Object remoteLock;
+    
 
     public Manager(boolean rmi) {
 
@@ -60,6 +62,7 @@ public class Manager {
         serverIP = serverconfig.getServerIP();
         closeDay = serverconfig.getCloseDay();
         remoteURL = serverconfig.getRemoteURL();
+        remoteForm = serverconfig.getRemoteForm();
         departments = serverconfig.getDepartments();
         departmentDAO.loadDepartmens(departments);
         employees = new LinkedList<>();
@@ -114,12 +117,23 @@ public class Manager {
      */
     public String autoCreateTicket(String dept) {
         synchronized (remoteLock) {
+            
+            for (Department d: departments) {
+                if (d.getName().equals(dept)) {
+                    if (d.isStopped()) {
+                        System.out.println("INACTIVE");
+                        return "INACTIVE";
+                    }
+                }
+            }
+            
             //        String response[] = this.getTicketDAO().autoCreateTicket(dept).split(",");
 //        return response[0]+getRemoteURL()+response[1];
 //        System.out.println(response);
+            
             String response[] = this.getTicketDAO().autoCreateTicket(dept).split(",");
-//        System.out.println(response[0]+"," + getRemoteURL()+response[1]);
-            return response[0] + "," + getRemoteURL() + response[1];
+            System.out.println(response[0] + "," + getRemoteURL() + response[1] + "," +getRemoteForm());
+            return response[0] + "," + getRemoteURL() + response[1] + "," +getRemoteForm();
         }
 
     }
@@ -338,6 +352,39 @@ public class Manager {
         }
 
     }
+    /**
+     * Método para parar/pausar um departamento
+     * @param department 
+     */
+    public void stopDepartment(Department department) {
+        synchronized (remoteLock) {
+            for (Department d : departments) {
+                if (d.getName().equals(department.getName())) {
+                    d.setStopped(true);
+                    break;
+                }
+            }
+        }
+
+    }
+    /**
+     * Método para resumir o funcionamento de um departamento
+     * (após uma pausa)
+     * @param department 
+     */
+    public void startDepartment(Department department) {
+        synchronized (remoteLock) {
+            for (Department d : departments) {
+                if (d.getName().equals(department.getName())) {
+                    d.setStopped(false);
+                    break;
+                }
+            }
+        }
+
+    }
+    
+    
 
     /**
      * Método usado para receber os nomes de todos os departamentos em formato
@@ -381,7 +428,12 @@ public class Manager {
         }
 
     }
-
+    /**
+     * devolve o ultimo ticket tirado por um cliente para um determinado departamento
+     * @param department
+     * @return
+     * @throws NoTicketsException 
+     */
     public Ticket getLastTicket(Department department) throws NoTicketsException {
         synchronized (remoteLock) {
             return this.ticketDAO.getLastTicket(department);
@@ -464,6 +516,20 @@ public class Manager {
      */
     public String getRemoteURL() {
         return remoteURL;
+    }
+
+    /**
+     * @return the remoteForm
+     */
+    public String getRemoteForm() {
+        return remoteForm;
+    }
+
+    /**
+     * @return the serverIP
+     */
+    public String getServerIP() {
+        return serverIP;
     }
 
     /**

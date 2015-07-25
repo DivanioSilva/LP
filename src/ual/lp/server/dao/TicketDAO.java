@@ -225,7 +225,7 @@ public class TicketDAO {
         jdbcTemplate.update(sql);
 
         //fazer o reset em todos os tickets
-        sql = "update tickets set tickets.closedcall=now(), tickets.reset=1\n"
+        sql = "update tickets set tickets.closedcall=now(), tickets.reset=2\n"
                 + "where tickets.reset is null;";
 
         jdbcTemplate.update(sql);
@@ -263,6 +263,36 @@ public class TicketDAO {
                 + "where tickets.reset is null;";
 
         jdbcTemplate.update(sql);
+
+    }
+    
+    public void hardResetQueue(Employee employee) {
+        //saber o id do department.
+        String sql = null;
+
+        sql = "select department.iddepartment from department where department.department=?;";
+
+        int[] types = {
+            Types.VARCHAR
+        };
+
+        int deptID = jdbcTemplate.queryForInt(sql, new Object[]{employee.getDepartment().getName()}, types);
+//        department.setId(deptID);
+        employee.getDepartment().setId(deptID);
+        //encerrar todos os tickets que estão por atender.
+        sql = "update tickets set tickets.closedcall=now(), tickets.status=3, tickets.reset=2\n"
+                + "where tickets.iddepartment=?;";
+
+        int[] typesUpdate = {
+            Types.INTEGER
+        };
+
+        jdbcTemplate.update(sql, new Object[]{employee.getDepartment().getId()}, typesUpdate);
+//
+//        sql = "update tickets set tickets.closedcall=now(), tickets.reset=1\n"
+//                + "where tickets.reset is null;";
+//
+//        jdbcTemplate.update(sql);
 
     }
 

@@ -20,16 +20,18 @@ import ual.lp.server.rmi.ServerInf;
 public class ClientRMI {
     //172.16.214.237
     //172.16.120.77
-    public static final String HOST = "localhost";
+    private String host = null;
     public static final int PORT = 1099;
-    public static final String MYIP = null;
+   private String myIP = null;
     private CallerGUI callerGUI;
 
     public ClientRMI(CallerGUI callerGUI) throws RemoteException, NotBoundException{
         this.callerGUI = callerGUI;
-        System.setProperty("java.rmi.server.hostname", "localhost");//informar isso no relatório
+        this.host = callerGUI.getServerIP();
+        this.myIP = callerGUI.getMyIP();
+        System.setProperty("java.rmi.server.hostname", myIP);//informar isso no relatório
             
-            Registry registry = LocateRegistry.getRegistry(HOST, PORT);
+            Registry registry = LocateRegistry.getRegistry(host, PORT);
             ServerInf objRemoto = (ServerInf) registry.lookup("response");
             this.callerGUI.setRemoteObject(objRemoto);
             this.callerGUI.setCallerInf(new CallerImpl(this.callerGUI));
@@ -37,24 +39,24 @@ public class ClientRMI {
     }
     
 
-    public ClientRMI() {
-        try {
-            System.setProperty("java.rmi.server.hostname", "localhost");//informar isso no relatório
-            Registry registry = LocateRegistry.getRegistry(HOST, PORT);
-            ServerInf objRemoto = (ServerInf) registry.lookup("response");
-            System.out.println(objRemoto.printMessage());
-            CallerImpl callback = new CallerImpl(this.callerGUI);
-//            objRemoto.connect(callback);
-            objRemoto.TockTock(new Config().getEmployee());
-             
-            System.out.println((objRemoto.getNextTicket(new Config().getEmployee())).getNumberticket());
-            
-
-        } catch (Exception e) {
-//            System.out.println("Deu merda no client.");
-            System.out.println(e.getMessage());
-        }
-    }
+//    public ClientRMI() {
+//        try {
+//            System.setProperty("java.rmi.server.hostname", "localhost");//informar isso no relatório
+//            Registry registry = LocateRegistry.getRegistry(HOST, PORT);
+//            ServerInf objRemoto = (ServerInf) registry.lookup("response");
+//            System.out.println(objRemoto.printMessage());
+//            CallerImpl callback = new CallerImpl(this.callerGUI);
+////            objRemoto.connect(callback);
+//            objRemoto.TockTock(new Config().getEmployee());
+//             
+//            System.out.println((objRemoto.getNextTicket(new Config().getEmployee())).getNumberticket());
+//            
+//
+//        } catch (Exception e) {
+////            System.out.println("Deu merda no client.");
+//            System.out.println(e.getMessage());
+//        }
+//    }
     
     
 }

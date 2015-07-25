@@ -16,9 +16,9 @@ public class Teste {
 
     public static void main(String[] args) {
 
-        String url = "http://10.10.10.99:8081/is/?ck=1234567890123456";
+        String url = "1234567890";
         int size = url.length();
-        int maxSize = 10;
+        int maxSize = 3;
         int blocks = size / maxSize;
         int pos1 = 0;
         int pos2 = maxSize;

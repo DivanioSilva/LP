@@ -28,6 +28,8 @@ public class MainTest {
 //        Ticket t = new Ticket();
 //        Department dept = new Department("Secretaria", "S");
 //        
+//        mgr.stopDepartment(dept);
+//        
 //        Ticket ticket = mgr.getLastTicket(dept);
 //        
 //        System.out.println("O último ticket é: "+ticket.getDepartment().getAbbreviation()+ticket.getNumberticket());
@@ -58,14 +60,14 @@ public class MainTest {
 
 //                        mgr.autoCreateTicket("Boss");
 //                employee = config.getEmployee();
-        try {
-            for (int i = 0; i < 4; i++) {
-                mgr.autoCreateTicket("Secretaria");
-                Thread.sleep(1000);
-            }
-            System.out.println("Ufa!!! Acabei de inserir todos os tickets.");
-        } catch (Exception e) {
-
-        }
+//        try {
+//            for (int i = 0; i < 4; i++) {
+//                mgr.autoCreateTicket("Tesouraria");
+//                Thread.sleep(1000);
+//            }
+//            System.out.println("Ufa!!! Acabei de inserir todos os tickets.");
+//        } catch (Exception e) {
+//
+//        }
     }
 }

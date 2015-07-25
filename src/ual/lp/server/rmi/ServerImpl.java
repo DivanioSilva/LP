@@ -11,6 +11,7 @@ import ual.lp.caller.rmi.CallerInf;
 import ual.lp.exceptions.BadConfigurationException;
 import ual.lp.exceptions.NoTicketsException;
 import ual.lp.server.mgr.Manager;
+import ual.lp.server.objects.Department;
 import ual.lp.server.objects.Employee;
 import ual.lp.server.objects.Ticket;
 
@@ -72,5 +73,10 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInf {
     @Override
     public void recallTicket(Ticket ticket) throws RemoteException {
         this.manager.recallTicket(ticket);
+    }
+
+    @Override
+    public void stopDepartment(Department department) throws RemoteException {
+        this.manager.stopDepartment(department);
     }
 }

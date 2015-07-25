@@ -23,9 +23,11 @@ import ual.lp.server.objects.Ticket;
 public class DisplayImpl extends UnicastRemoteObject implements DisplayInf {
 
     private DisplayRMI displayRMI;
+    private String filePath;
 
     public DisplayImpl(DisplayRMI displayRMI) throws RemoteException {
         this.displayRMI = displayRMI;
+        this.filePath = displayRMI.getFilePath();
     }
 
     @Override
@@ -37,7 +39,7 @@ public class DisplayImpl extends UnicastRemoteObject implements DisplayInf {
         BufferedWriter writer = null;
         try {
             //Local do ficheiro será configurado pelo ficheiro de conf do display
-            writer = new BufferedWriter(new FileWriter("C:\\xampp\\htdocs\\test\\madeira.txt"));
+            writer = new BufferedWriter(new FileWriter(filePath));
 //
             for (Ticket ticket : tickets) {
                 if (ticket.isLastCalled()) {

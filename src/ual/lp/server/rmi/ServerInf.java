@@ -9,6 +9,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import ual.lp.exceptions.BadConfigurationException;
 import ual.lp.exceptions.NoTicketsException;
+import ual.lp.server.objects.Department;
 import ual.lp.server.objects.Employee;
 import ual.lp.server.objects.Ticket;
 
@@ -35,6 +36,8 @@ public interface ServerInf extends Remote {
     public Ticket getLastTicket(Employee employee)throws RemoteException, NoTicketsException;
     
     public void recallTicket(Ticket ticket) throws RemoteException;
+    
+    public void stopDepartment (Department department) throws RemoteException;
     
 }
 

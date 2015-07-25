@@ -43,6 +43,8 @@ public class CallerGUI extends javax.swing.JFrame {
     private List<Employee> employees;
     private String closeCaller;
     private Thread serviceThread;
+    private String myIP;
+    private String serverIP;
 
     /**
      * Creates new form CallerPanel
@@ -50,32 +52,23 @@ public class CallerGUI extends javax.swing.JFrame {
     public CallerGUI() {
         this.serviceThread = new Thread(new ServiceThread(this));
         this.getContentPane().setBackground(Color.white);
+        config = new Config();
+        employee = config.getEmployee();
+        myIP = config.getMyIP();
+        serverIP = config.getServerIP();
 
         try {
 //            this.setIconImage(new ImageIcon(getClass().getResource("UAL_Logo.png")).getImage());
             this.setIconImage(new ImageIcon(getClass().getResource("logo.jpg")).getImage());
         } catch (Exception e) {
-            debugLog.info("Não consegui encontrar o icon.\n"+e);
+            debugLog.info("Não consegui encontrar o icon.\n" + e);
         }
 
         this.setLocationRelativeTo(null);
         this.employees = new LinkedList<>();
 
-        this.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                try {
-                    remoteObject.closeTicket(ticket);
-                    System.out.println("Estou a fechar o ticket "+ ticket);
-                     debugLog.info("Fechei o programa.");
-                } catch (Exception e) {
-                    callerLog.error("Erro ao encerrar o ticket quando o caller é fechado."+e);
-                    System.exit(1);
-                }
-            }
-        });
-
         initComponents();
+
         try {
 
             this.clientRMI = new ClientRMI(this);
@@ -107,23 +100,20 @@ public class CallerGUI extends javax.swing.JFrame {
      *
      * @param operation
      */
-//    public void setDefaultCloseOperation(int operation) { 
-//        System.out.println("OLA");
-////        JOptionPane.showMessageDialog("Olá", this);
-//        super.setDefaultCloseOperation(operation);
-//        
-//    }
-//    public int pjcMethod() {
-//
-//        System.out.println("OLE");
-//        debugLog.info("OLE");
-//        return EXIT_ON_CLOSE;
-//    }
-
+    //    public void setDefaultCloseOperation(int operation) { 
+    //        System.out.println("OLA");
+    ////        JOptionPane.showMessageDialog("Olá", this);
+    //        super.setDefaultCloseOperation(operation);
+    //        
+    //    }
+    //    public int pjcMethod() {
+    //
+    //        System.out.println("OLE");
+    //        debugLog.info("OLE");
+    //        return EXIT_ON_CLOSE;
+    //    }
     public void initData() throws RemoteException, BadConfigurationException {
 
-        config = new Config();
-        employee = config.getEmployee();
         jLabelEmpName.setText(employee.getName());
         jLabelEmpDepartment.setText(employee.getDepartment().getName());
         jLabelEmpDesk.setText(String.valueOf(employee.getDeskNumber()));
@@ -132,6 +122,54 @@ public class CallerGUI extends javax.swing.JFrame {
         jLabelActualTicket.setText("");
         jLabelLastTicket.setText("");
         serviceThread.start();
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if (jLabelActualTicket.getText().equals("")) {
+                    System.exit(0);
+                } else {
+                    try {
+                        if (jComboBoxColleagues.getSelectedItem() != "") {
+//                System.out.println("Transferir para " + jComboBoxColleagues.getSelectedItem());
+                            //correr o array dos emp para encontrar o que quero fazer a transf.
+                            for (int i = 0; i < employees.size(); i++) {
+                                if (employees.get(i).getName().equals(jComboBoxColleagues.getSelectedItem())) {
+//                                    employees.get(i);
+                                    System.out.println("Encontrei o gajo na lista.\nIrei transferir para " + employees.get(i).getName());
+                                    System.out.println(i);
+                                    ticket.setTransferId(employees.get(i).getEmpNumber());
+                                    remoteObject.transferTicket(ticket);
+                                    break;
+
+                                }
+                            }
+                            System.exit(0);
+
+                        } else {
+
+                            remoteObject.closeTicket(ticket);
+                            System.exit(0);
+
+                        }
+                    } catch (RemoteException ex) {
+
+                        callerLog.error("Erro ao encerrar o ticket quando o caller é fechado", ex);
+                        System.exit(1);
+                    }
+
+//                try {
+//                    remoteObject.closeTicket(ticket);
+//                    System.out.println("Estou a fechar o ticket "+ ticket);
+//                     debugLog.info("Fechei o programa.");
+//                     System.exit(0);
+//                } catch (Exception e) {
+//                    callerLog.error("Erro ao encerrar o ticket quando o caller é fechado."+e);
+//                    System.exit(1);
+//                }
+                }
+            }
+        }
+        );
 
         //chama o connect do rmi e mando o emp como argumento.
     }
@@ -528,33 +566,32 @@ public class CallerGUI extends javax.swing.JFrame {
     private void jComboBoxColleaguesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxColleaguesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxColleaguesActionPerformed
-    
-    /*Antigo método para sair da aplicação, funciona perfeitamente mas foi decidido sair pela cruz.
-    int option = JOptionPane.showConfirmDialog(this, "Gostaria realmente de encerrar o caller?", "iSenhas", JOptionPane.YES_NO_OPTION);
 
-        if (option == JOptionPane.YES_OPTION) {
-//            System.out.println("Encerrando o caller");
-            try {
-                remoteObject.closeTicket(this.ticket);
-//                JOptionPane.showMessageDialog(this, "A aplicação foi encerrada com sucesso.");
-                System.exit(0);
-            } catch (RemoteException e) {
-                System.err.println("O server esta off-line.\n" + e.getMessage());
-                callerLog.error("O server esta off-line.", e);
-                JOptionPane.showMessageDialog(this, "O servidor esta off-line.\nContacte o administrador do sistema.");
-                System.exit(1);
-            } catch (NullPointerException e) {
-//            System.err.println("O server esta off-line.\n" + e.getMessage());
-                callerLog.error("O server esta off-line.", e);
-//                JOptionPane.showMessageDialog(this, "A aplicação foi encerrada com sucesso.");
-                System.exit(0);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Operação anulada!");
-        }
-    */
-    
-    
+    /*Antigo método para sair da aplicação, funciona perfeitamente mas foi decidido sair pela cruz.
+     int option = JOptionPane.showConfirmDialog(this, "Gostaria realmente de encerrar o caller?", "iSenhas", JOptionPane.YES_NO_OPTION);
+
+     if (option == JOptionPane.YES_OPTION) {
+     //            System.out.println("Encerrando o caller");
+     try {
+     remoteObject.closeTicket(this.ticket);
+     //                JOptionPane.showMessageDialog(this, "A aplicação foi encerrada com sucesso.");
+     System.exit(0);
+     } catch (RemoteException e) {
+     System.err.println("O server esta off-line.\n" + e.getMessage());
+     callerLog.error("O server esta off-line.", e);
+     JOptionPane.showMessageDialog(this, "O servidor esta off-line.\nContacte o administrador do sistema.");
+     System.exit(1);
+     } catch (NullPointerException e) {
+     //            System.err.println("O server esta off-line.\n" + e.getMessage());
+     callerLog.error("O server esta off-line.", e);
+     //                JOptionPane.showMessageDialog(this, "A aplicação foi encerrada com sucesso.");
+     System.exit(0);
+     }
+     } else {
+     JOptionPane.showMessageDialog(this, "Operação anulada!");
+     }
+     */
+
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
         if (evt.isPopupTrigger()) {
             jPopupAmin.show(this, evt.getX(), evt.getY());
@@ -667,6 +704,20 @@ public class CallerGUI extends javax.swing.JFrame {
      */
     public void setCallerInf(CallerInf callerInf) {
         this.callerInf = callerInf;
+    }
+
+    /**
+     * @return the myIP
+     */
+    public String getMyIP() {
+        return myIP;
+    }
+
+    /**
+     * @return the serverIP
+     */
+    public String getServerIP() {
+        return serverIP;
     }
 
 }

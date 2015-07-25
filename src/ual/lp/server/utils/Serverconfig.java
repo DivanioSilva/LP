@@ -14,9 +14,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-
 import ual.lp.server.objects.Department;
-
 
 /**
  *
@@ -26,7 +24,7 @@ public class Serverconfig {
 
     JSONObject jsonObject = new JSONObject();
     JSONParser parser = new JSONParser();
-    
+
     Properties prop = new Properties();
     InputStream input = null;
 
@@ -37,7 +35,7 @@ public class Serverconfig {
     private String password = null;
     private String closeDay = null;
     private String remoteURL = null;
-    
+    private String remoteForm = null;
 
     public List<Department> getDepartments() {
 
@@ -45,29 +43,23 @@ public class Serverconfig {
 
         try {
             jsonObject = (JSONObject) parser.parse(new FileReader("serverconfig.json"));
-            JSONArray jSONArray= (JSONArray) jsonObject.get("Departments");
-            
-            for(int i = 0 ; i < jSONArray.size() ; i++){
-                JSONObject object = (JSONObject)jSONArray.get(i);
+            JSONArray jSONArray = (JSONArray) jsonObject.get("Departments");
+
+            for (int i = 0; i < jSONArray.size(); i++) {
+                JSONObject object = (JSONObject) jSONArray.get(i);
                 String department = (String) object.get("department");
                 String abbreviation = (String) object.get("abbreviation");
                 departments.add(new Department(department, abbreviation));
-               
+
                 System.out.println(department);
                 System.out.println(abbreviation);
-                
+
             }
             return departments;
-            
-   
-            
-            
-  
-            
+
 //            employee.setName((String) jsonObject.get("name"));
 //            employee.setDeskNumber(Integer.parseInt((String) jsonObject.get("deskNumber")));
 //            employee.setDepartment(new Department((String) jsonObject.get("department"), (String) jsonObject.get("abbreviation")));
-
         } catch (Exception e) {
             System.err.println("Erro ao ler o ficheiro de configuração 'serverconfig.json' para construir os departments do server.");
         }
@@ -78,7 +70,7 @@ public class Serverconfig {
     public String getServerIP() {
         try {
             jsonObject = (JSONObject) parser.parse(new FileReader("serverconfig.json"));
-            serverIP= (String) jsonObject.get("serverIP");
+            serverIP = (String) jsonObject.get("serverIP");
             System.out.println(serverIP);
 
         } catch (Exception e) {
@@ -88,6 +80,7 @@ public class Serverconfig {
         return serverIP;
     }
 //
+
     public String getUrl() {
         try {
             jsonObject = (JSONObject) parser.parse(new FileReader("serverconfig.json"));
@@ -100,7 +93,7 @@ public class Serverconfig {
 
         return url;
     }
-    
+
     public String getUsername() {
         try {
             jsonObject = (JSONObject) parser.parse(new FileReader("serverconfig.json"));
@@ -113,7 +106,7 @@ public class Serverconfig {
 
         return username;
     }
-    
+
     public String getPassword() {
         try {
             jsonObject = (JSONObject) parser.parse(new FileReader("serverconfig.json"));
@@ -137,7 +130,7 @@ public class Serverconfig {
             System.out.println(closeDay);
 
         } catch (Exception e) {
-            System.err.println("Erro ao ler o ficheiro de configuração 'serverconfig.json' para obter a pass da DB.");
+            System.err.println("Erro ao ler o ficheiro de configuração 'serverconfig.json' para obter a hora do fecho do servidor.");
         }
 
         return closeDay;
@@ -153,10 +146,23 @@ public class Serverconfig {
             System.out.println(remoteURL);
 
         } catch (Exception e) {
-            System.err.println("Erro ao ler o ficheiro de configuração 'serverconfig.json' para obter a pass da DB.");
+            System.err.println("Erro ao ler o ficheiro de configuração 'serverconfig.json' para obter o endereço da pagina web remota.");
         }
 
         return remoteURL;
     }
-    
+
+    public String getRemoteForm() {
+        try {
+            jsonObject = (JSONObject) parser.parse(new FileReader("serverconfig.json"));
+            remoteForm= (String) jsonObject.get("remoteForm");
+            System.out.println(remoteURL);
+
+        } catch (Exception e) {
+            System.err.println("Erro ao ler o ficheiro de configuração 'serverconfig.json' para obter o form da pagina web remota");
+        }
+
+        return remoteForm;
+    }
+
 }
