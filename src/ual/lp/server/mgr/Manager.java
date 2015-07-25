@@ -22,6 +22,7 @@ import ual.lp.server.objects.Department;
 import ual.lp.server.objects.Employee;
 import ual.lp.server.objects.Ticket;
 import ual.lp.server.rmi.ServerRMI;
+import ual.lp.server.sockets.SocketSrv;
 import ual.lp.server.utils.Serverconfig;
 
 /**
@@ -50,6 +51,7 @@ public class Manager {
     private List<Ticket> displayTickets;
     private Thread serviceThread;
     private Object remoteLock;
+    private Thread socketThread;
     
 
     public Manager(boolean rmi) {
@@ -70,7 +72,9 @@ public class Manager {
         remoteLock = new Object();
         initDisplayTickets();
         serviceThread = new Thread(new ServiceThread(this));
+        socketThread = new Thread(new SocketSrv(5007, this));
         serviceThread.start();
+        socketThread.start();
         if (rmi) {
             this.serverRMI = new ServerRMI(this);
         }

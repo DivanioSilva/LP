@@ -22,7 +22,7 @@ public class MainTest {
     public static void main(String[] args) {
         Config config = new Config();
         Employee employee;
-        Manager mgr = new Manager(true);
+        Manager mgr = new Manager(false);
         Department d = new Department();
         
 //        Ticket t = new Ticket();
@@ -60,14 +60,14 @@ public class MainTest {
 
 //                        mgr.autoCreateTicket("Boss");
 //                employee = config.getEmployee();
-//        try {
-//            for (int i = 0; i < 4; i++) {
-//                mgr.autoCreateTicket("Tesouraria");
-//                Thread.sleep(1000);
-//            }
-//            System.out.println("Ufa!!! Acabei de inserir todos os tickets.");
-//        } catch (Exception e) {
-//
-//        }
+        try {
+            for (int i = 0; i < 4; i++) {
+                mgr.autoCreateTicket("Secretaria");
+                Thread.sleep(1000);
+            }
+            System.out.println("Ufa!!! Acabei de inserir todos os tickets.");
+        } catch (Exception e) {
+
+        }
     }
 }

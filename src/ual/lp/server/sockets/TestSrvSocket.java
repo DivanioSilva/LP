@@ -8,7 +8,7 @@ public class TestSrvSocket {
 
 	public static void main(String[] args){
         
-        int port =5006;
+        int port =5007;
 		
 //		if(args.length != 2 || args[0].compareTo("-p")!=0){
 //			System.out.println("-p <porto>");

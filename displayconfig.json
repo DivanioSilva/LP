@@ -1,3 +1,3 @@
 {
-    "serverIP": "localhost", "myIP": "localhost", "filePath": "C:\\xampp\\htdocs\\test\\isenhas.txt"
+    "serverIP": "192.168.1.105", "myIP": "192.168.1.105", "filePath": "C:\\Tomcat\\webapps\\ds\\isenhas.txt"
 }

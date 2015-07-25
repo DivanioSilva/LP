@@ -1,9 +1,8 @@
 {
     "Departments":[
-    {"department":"Tesouraria", "abbreviation":"T"},
-    {"department":"Secretaria", "abbreviation":"S"},
-    {"department":"Rec.Humanos", "abbreviation":"RH"},
-    {"department":"Boss", "abbreviation":"B"}
-    ], "url":"jdbc:mysql://localhost:3306/isenhasdb", "username":"root", "password":"IloveSql83", "serverIP": "localhost", "closeDay":"22:00",
-    "remoteURL":"http://10.10.10.99:8081/is/?ck=", "remoteForm":"http://10.10.10.99:8081/is/"
+    {"department":"Tesouraria", "abbreviation":"A"},
+    {"department":"Secretaria", "abbreviation":"B"},
+    {"department":"Boss", "abbreviation":"C"}
+    ], "url":"jdbc:mysql://localhost:3306/isenhasdb", "username":"root", "password":"root", "serverIP": "192.168.1.105", "closeDay":"22:00",
+    "remoteURL":"http://192.168.1.105:8080/is/?ck=", "remoteForm":"http://192.168.1.105:8080/is/"
 }

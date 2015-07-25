@@ -1,10 +1,10 @@
 {
-  "name": "Canha",
-  "deskNumber": "2",
+  "name": "Divanio",
+  "deskNumber": "1",
   "department": "Secretaria",
-  "abbreviation": "S",
-  "myIP": "localhost",
-  "serverIP": "localhost",
+  "abbreviation": "B",
+  "myIP": "192.168.1.105",
+  "serverIP": "192.168.1.105",
   "isAdmin": true,
   "ATENÇÃO!!! -->O campo isAdmin recebe um booleano": "true para admin e false para não admin"
 }
