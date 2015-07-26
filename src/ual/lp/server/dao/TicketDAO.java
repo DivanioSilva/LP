@@ -119,6 +119,8 @@ public class TicketDAO {
         String sql, ticketNumber = null;
         String curTime;
         curTime = String.valueOf(System.currentTimeMillis()).substring(0, 10);
+        long curTimeTmp = Long.parseLong(curTime);
+        String curTimeHex = Long.toHexString(curTimeTmp);
         //nivelar com o PT os novos parâmetros de retorno do ticket, foi adicionado o clientkey para a password do qrcode.
 
         try {
@@ -133,11 +135,11 @@ public class TicketDAO {
             int[] types = {
                 Types.INTEGER, Types.INTEGER, Types.VARCHAR
             };
-            jdbcTemplate.update(sql, new Object[]{ticket.getNumberticket() + 1, ticket.getDepartment().getId(), curTime}, types);
+            jdbcTemplate.update(sql, new Object[]{ticket.getNumberticket() + 1, ticket.getDepartment().getId(), curTimeHex}, types);
             //S01
 //            ticketNumber = String.valueOf(ticket.getNumberticket() + 1);
 //            ticketNumber = ticket.getDepartment().getAbbreviation() + "" + String.valueOf(ticket.getNumberticket() + 1);
-            ticketNumber = ticket.getDepartment().getAbbreviation() + "" + String.valueOf(ticket.getNumberticket() + 1 + "," + curTime);
+            ticketNumber = ticket.getDepartment().getAbbreviation() + "" + String.valueOf(ticket.getNumberticket() + 1 + "," + curTimeHex);
 //                        ticketNumber = ticket.getDepartment().getAbbreviation() + "" + String.valueOf(ticket.getNumberticket() + 1 + ",ola"+ curTime );
             //,http://192.168.1.101:8081/LPWebExterno/Servlet?clientkey=
             //T01
@@ -164,11 +166,11 @@ public class TicketDAO {
                 Types.INTEGER, Types.VARCHAR
             };
 
-            jdbcTemplate.update(sql, new Object[]{department.getId(), curTime}, typesForDepartId);
+            jdbcTemplate.update(sql, new Object[]{department.getId(), curTimeHex}, typesForDepartId);
 
             System.out.println("Acabei de inserir um ticket com o numero" + department.getAbbreviation() + "" + 1);
 
-            return department.getAbbreviation() + 1 + "," + curTime;
+            return department.getAbbreviation() + 1 + "," + curTimeHex;
         }
     }
 
