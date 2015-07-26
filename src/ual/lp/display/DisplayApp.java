@@ -5,6 +5,7 @@
  */
 package ual.lp.display;
 
+import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import ual.lp.display.utils.DisplayConfig;
@@ -36,6 +37,14 @@ public class DisplayApp {
         while (true) {
             if (!this.displayRMI.isServerOn()) {
                 this.displayRMI = new DisplayRMI(this);
+            }
+            try {
+                if (this.displayRMI.getRemoteObj() != null) {
+                    System.out.println(this.displayRMI.getRemoteObj().keepAlive("Ping"));
+                }
+                
+            } catch (RemoteException e) {
+                this.displayRMI.setServerOn(false);
             }
             try {
                 Thread.sleep(sleepTime);

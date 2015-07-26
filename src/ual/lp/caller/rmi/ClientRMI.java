@@ -32,8 +32,8 @@ public class ClientRMI {
         System.setProperty("java.rmi.server.hostname", myIP);//informar isso no relatório
             
             Registry registry = LocateRegistry.getRegistry(host, PORT);
-            ServerInf objRemoto = (ServerInf) registry.lookup("response");
-            this.callerGUI.setRemoteObject(objRemoto);
+            ServerInf remoteObj = (ServerInf) registry.lookup("response");
+            this.callerGUI.setRemoteObject(remoteObj);
             this.callerGUI.setCallerInf(new CallerImpl(this.callerGUI));
                      
     }

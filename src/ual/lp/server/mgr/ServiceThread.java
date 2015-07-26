@@ -32,23 +32,23 @@ public class ServiceThread implements Runnable {
     @Override
     public void run() {
         while (running) {
+            synchronized (manager.getRemoteLock()) {
+                for (int i = 0; i < manager.getEmployees().size(); i++) {
+                    try {
+                        //lembrar do null pointerException
+                        manager.getEmployees().get(i).getCallerInf().keepAlive("Ping");
+                    } catch (RemoteException ex) {
+                        System.out.println("Problema a comunicar com o employee");
+                        Department department = manager.getEmployees().get(i).getDepartment();
+                        manager.getEmployees().remove(i);
+                        manager.employeesCallback(department);
 
-            for (int i = 0; i < manager.getEmployees().size(); i++) {
-                try {
-                    //lembrar do null pointerException
-                    manager.getEmployees().get(i).getCallerInf().keepAlive("Ping");
-                } catch (RemoteException ex) {
-                    System.out.println("Problema a comunicar com o employee");
-                    Department department = manager.getEmployees().get(i).getDepartment();
-                    manager.getEmployees().remove(i);
-                    manager.employeesCallback(department);
-                    
+                    }
+
                 }
-                
+
             }
- {
-                
-            }
+
 //            log.debug("Tenho: " + manager.getDepartments().size());
 //            for (int i = 0; i < manager.getDepartments().size(); i++) {
 //                manager.employeesCallback(manager.getDepartments().get(i));

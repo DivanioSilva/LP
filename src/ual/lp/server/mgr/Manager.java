@@ -564,4 +564,11 @@ public class Manager {
         return employees;
     }
 
+    /**
+     * @return the remoteLock
+     */
+    public Object getRemoteLock() {
+        return remoteLock;
+    }
+
 }

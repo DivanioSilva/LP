@@ -45,6 +45,7 @@ public class TicketDAO {
      *
      * @return
      */
+    //neste metodo talvez incluir "and" tickets.reset!=2 por cautela
     public Ticket getNextTicket(Employee employee) throws NoTicketsException {
         String sql, sqlUpdate = null;
         Ticket ticket;
@@ -177,7 +178,7 @@ public class TicketDAO {
      * @param employee
      */
     public void transferTicket(Ticket ticket) {
-
+        //possivelmente ter um status para transferências no caso de alguem
         String sql = "update tickets \n"
                 + "set tickets.transferid=?, tickets.status=0\n"
                 + "where tickets.idticket=?;";
@@ -219,14 +220,28 @@ public class TicketDAO {
      * encontram-se em aberto.
      */
     public void closeDay() {
-        String sql = "update tickets set tickets.closedcall=now(), tickets.status=3\n"
-                + "where tickets.status=0;";
+//        String sql = "update tickets set tickets.closedcall=now(), tickets.status=3\n"
+//                + "where tickets.status=0;";
+//
+//        jdbcTemplate.update(sql);
+//
+//        //fazer o reset em todos os tickets
+//        sql = "update tickets set tickets.closedcall=now(), tickets.reset=2\n"
+//                + "where tickets.reset is null;";
+//
+//        jdbcTemplate.update(sql);
+        String sql = null;
+        sql = "update tickets set tickets.closedcall=now(), tickets.status=3, tickets.reset=2\n"
+                + "where tickets.status!=2;";
+
+        int[] typesUpdate = {
+            Types.INTEGER
+        };
 
         jdbcTemplate.update(sql);
 
-        //fazer o reset em todos os tickets
-        sql = "update tickets set tickets.closedcall=now(), tickets.reset=2\n"
-                + "where tickets.reset is null;";
+        sql = "update tickets set tickets.reset=2\n"
+                + "where tickets.status=2;";
 
         jdbcTemplate.update(sql);
     }
@@ -250,8 +265,10 @@ public class TicketDAO {
 //        department.setId(deptID);
         employee.getDepartment().setId(deptID);
         //encerrar todos os tickets que estão por atender.
-        sql = "update tickets set tickets.closedcall=now(), tickets.status=3, tickets.reset=1\n"
-                + "where tickets.iddepartment=?;";
+//        sql = "update tickets set tickets.closedcall=now(), tickets.status=3, tickets.reset=1\n"
+//                + "where tickets.iddepartment=? and tickets.status=0;";
+        sql = "update tickets set tickets.reset=1\n"
+                + "where tickets.iddepartment=? and (tickets.reset!=2 or tickets.reset is null);";
 
         int[] typesUpdate = {
             Types.INTEGER
@@ -259,13 +276,12 @@ public class TicketDAO {
 
         jdbcTemplate.update(sql, new Object[]{employee.getDepartment().getId()}, typesUpdate);
 
-        sql = "update tickets set tickets.closedcall=now(), tickets.reset=1\n"
-                + "where tickets.reset is null;";
-
-        jdbcTemplate.update(sql);
-
+//        sql = "update tickets set tickets.closedcall=now(), tickets.reset=1\n"
+//                + "where tickets.reset is null;";
+//
+//        jdbcTemplate.update(sql);
     }
-    
+
     public void hardResetQueue(Employee employee) {
         //saber o id do department.
         String sql = null;
@@ -281,14 +297,18 @@ public class TicketDAO {
         employee.getDepartment().setId(deptID);
         //encerrar todos os tickets que estão por atender.
         sql = "update tickets set tickets.closedcall=now(), tickets.status=3, tickets.reset=2\n"
-                + "where tickets.iddepartment=?;";
+                + "where tickets.iddepartment=? and tickets.status!=2;";
 
         int[] typesUpdate = {
             Types.INTEGER
         };
 
         jdbcTemplate.update(sql, new Object[]{employee.getDepartment().getId()}, typesUpdate);
-//
+
+        sql = "update tickets set tickets.reset=2\n"
+                + "where tickets.iddepartment=? and tickets.status=2;";
+
+        jdbcTemplate.update(sql, new Object[]{employee.getDepartment().getId()}, typesUpdate);
 //        sql = "update tickets set tickets.closedcall=now(), tickets.reset=1\n"
 //                + "where tickets.reset is null;";
 //
@@ -314,7 +334,7 @@ public class TicketDAO {
      * @param department
      * @return o último ticket criado para aquele departamento.
      */
-    public Ticket getLastTicket(Department department) throws NoTicketsException{
+    public Ticket getLastTicket(Department department) throws NoTicketsException {
         Ticket ticket = new Ticket();
 
         try {
@@ -323,9 +343,9 @@ public class TicketDAO {
                     + "where department.department=? and tickets.status=0 and tickets.transferid is null order by tickets.createhour desc limit 1;";
 
             ticket = jdbcTemplate.queryForObject(sql, new Object[]{department.getName()}, new SimpleTicketMapper());
-            
-            System.out.println("O último ticket é o: "+ ticket.getDepartment().getAbbreviation()+ticket.getNumberticket());
-        } catch (Exception e) {
+
+            System.out.println("O último ticket é o: " + ticket.getDepartment().getAbbreviation() + ticket.getNumberticket());
+        } catch (EmptyResultDataAccessException e) {
 //            JOptionPane.showMessageDialog(null, "Não existem tickets para serem atendidos.\nCaiu na exception!");
 //            ticket.setNumberticket(00);
 //            ticket.setDepartment(new Department(department.getAbbreviation()));

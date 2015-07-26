@@ -34,5 +34,10 @@ public class ServerToDisplayImpl extends UnicastRemoteObject implements ServerTo
     public List<Ticket> getFirstTicketList() throws RemoteException {
         return this.manager.getDisplayTickets();
     }
+
+    @Override
+    public String keepAlive(String ping) throws RemoteException {
+        return "Pong";
+    }
     
 }

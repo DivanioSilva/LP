@@ -38,6 +38,7 @@ public class DisplayRMI {
     private CallerGUI callerGUI;
     private DisplayApp displayApp;
     private boolean serverOn = false;
+    private ServerToDisplayInf remoteObj;
 
 //    public DisplayRMI(CallerGUI callerGUI) throws RemoteException, NotBoundException {
 //        this.callerGUI = callerGUI;
@@ -57,7 +58,7 @@ public class DisplayRMI {
         try {
             System.setProperty("java.rmi.server.hostname", myIP);//informar isso no relatório
             Registry registry = LocateRegistry.getRegistry(host, PORT);
-            ServerToDisplayInf objRemoto = (ServerToDisplayInf) registry.lookup("display");
+            remoteObj = (ServerToDisplayInf) registry.lookup("display");
 
             DisplayInf callback = new DisplayImpl(this);
             try {
@@ -66,8 +67,8 @@ public class DisplayRMI {
 
             }
 
-            objRemoto.connect(callback);
-            this.displayFirstTicketList(objRemoto.getFirstTicketList());
+            remoteObj.connect(callback);
+            this.displayFirstTicketList(remoteObj.getFirstTicketList());
             this.serverOn = true;
             System.out.println("Ligação ao servidor com sucesso");
 //            objRemoto.connect(callback);
@@ -143,6 +144,13 @@ public class DisplayRMI {
      */
     public String getFilePath() {
         return filePath;
+    }
+
+    /**
+     * @return the remoteObj
+     */
+    public ServerToDisplayInf getRemoteObj() {
+        return remoteObj;
     }
 
 }

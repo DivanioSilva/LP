@@ -20,6 +20,10 @@ public interface ServerToDisplayInf extends Remote {
     public void connect (DisplayInf displayInf) throws RemoteException;
     
     public List<Ticket> getFirstTicketList () throws RemoteException;
+    
+    public String keepAlive (String ping) throws RemoteException;
+       
+    
         
     
         

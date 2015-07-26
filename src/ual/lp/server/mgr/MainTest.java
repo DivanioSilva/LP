@@ -22,8 +22,9 @@ public class MainTest {
     public static void main(String[] args) {
         Config config = new Config();
         Employee employee;
-        Manager mgr = new Manager(false);
+        Manager mgr = new Manager(true);
         Department d = new Department();
+        mgr.closeDay();
         
 //        Ticket t = new Ticket();
 //        Department dept = new Department("Secretaria", "S");
@@ -59,7 +60,7 @@ public class MainTest {
 ////        mgr.transferTicket(t);
 
 //                        mgr.autoCreateTicket("Boss");
-//                employee = config.getEmployee();
+////                employee = config.getEmployee();
         try {
             for (int i = 0; i < 4; i++) {
                 mgr.autoCreateTicket("Secretaria");
