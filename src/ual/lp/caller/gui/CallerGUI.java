@@ -219,6 +219,9 @@ public class CallerGUI extends javax.swing.JFrame {
 
         jPopupAmin = new javax.swing.JPopupMenu();
         jMenuIResetQueu = new javax.swing.JMenuItem();
+        jMenuIHardReset = new javax.swing.JMenuItem();
+        jMenuIPause = new javax.swing.JMenuItem();
+        jMenuIResume = new javax.swing.JMenuItem();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jComboBoxColleagues = new javax.swing.JComboBox();
@@ -247,6 +250,16 @@ public class CallerGUI extends javax.swing.JFrame {
         });
         jPopupAmin.add(jMenuIResetQueu);
 
+        jMenuIHardReset.setText("Hard reset");
+        jMenuIHardReset.setToolTipText("");
+        jPopupAmin.add(jMenuIHardReset);
+
+        jMenuIPause.setText("Pause");
+        jPopupAmin.add(jMenuIPause);
+
+        jMenuIResume.setText("Resume");
+        jPopupAmin.add(jMenuIResume);
+
         setTitle("UAL iSenhas");
         setAutoRequestFocus(false);
         setBackground(new java.awt.Color(222, 222, 222));
@@ -268,7 +281,7 @@ public class CallerGUI extends javax.swing.JFrame {
         });
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 119, 163), 1, true), "Transferências", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 119, 163)));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 119, 163), 1, true), "Transferências", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 13), new java.awt.Color(0, 119, 163))); // NOI18N
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -287,7 +300,7 @@ public class CallerGUI extends javax.swing.JFrame {
         jPanel2.add(jComboBoxColleagues, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 140, -1));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 119, 163)), "Colaborador", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 119, 163)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 119, 163)), "Colaborador", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 13), new java.awt.Color(0, 119, 163))); // NOI18N
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setText("Nome:");
@@ -344,10 +357,10 @@ public class CallerGUI extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ual/lp/caller/images/UAL_Logo.png"))); // NOI18N
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 119, 163), 1, true), "Senhas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 119, 163)));
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 119, 163), 1, true), "Senhas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 13), new java.awt.Color(0, 119, 163))); // NOI18N
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true), "Último criado", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 119, 163)));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true), "Último criado", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 13), new java.awt.Color(0, 119, 163))); // NOI18N
         jPanel4.setForeground(new java.awt.Color(255, 255, 255));
         jPanel4.setPreferredSize(new java.awt.Dimension(90, 61));
 
@@ -371,7 +384,7 @@ public class CallerGUI extends javax.swing.JFrame {
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true), "A atender", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 119, 163)));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true), "A atender", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 13), new java.awt.Color(0, 119, 163))); // NOI18N
         jPanel3.setForeground(new java.awt.Color(255, 255, 255));
         jPanel3.setPreferredSize(new java.awt.Dimension(90, 61));
 
@@ -692,7 +705,10 @@ public class CallerGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelEmpDesk;
     private javax.swing.JLabel jLabelEmpName;
     private javax.swing.JLabel jLabelLastTicket;
+    private javax.swing.JMenuItem jMenuIHardReset;
+    private javax.swing.JMenuItem jMenuIPause;
     private javax.swing.JMenuItem jMenuIResetQueu;
+    private javax.swing.JMenuItem jMenuIResume;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

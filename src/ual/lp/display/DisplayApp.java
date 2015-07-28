@@ -21,6 +21,7 @@ public class DisplayApp {
     private String myIP;
     private String serverIP;
     private String filePath;
+    static final org.apache.log4j.Logger displayLog = org.apache.log4j.Logger.getLogger("displayLogger");
 
     public DisplayApp(int sleepTime) {
         DisplayConfig displayConfig = new DisplayConfig();
@@ -44,11 +45,13 @@ public class DisplayApp {
                 }
                 
             } catch (RemoteException e) {
+                displayLog.error("O server não esta contactável!"+e);
                 this.displayRMI.setServerOn(false);
             }
             try {
                 Thread.sleep(sleepTime);
             } catch (InterruptedException ex) {
+                
 
             }
 

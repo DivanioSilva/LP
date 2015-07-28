@@ -39,6 +39,7 @@ public class DisplayRMI {
     private DisplayApp displayApp;
     private boolean serverOn = false;
     private ServerToDisplayInf remoteObj;
+    static final org.apache.log4j.Logger displayLog = org.apache.log4j.Logger.getLogger("displayLogger");
 
 //    public DisplayRMI(CallerGUI callerGUI) throws RemoteException, NotBoundException {
 //        this.callerGUI = callerGUI;
@@ -64,7 +65,7 @@ public class DisplayRMI {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException ex) {
-
+                
             }
 
             remoteObj.connect(callback);
@@ -77,10 +78,12 @@ public class DisplayRMI {
             System.out.println("Não encontrada a referência para o objRemoto");
 //            System.out.println("Deu merda no client.");
             System.out.println(e.getMessage());
+            displayLog.error("Não encontrada a referência para o objRemoto"+e);
             this.serverOn = false;
 
         } catch (RemoteException e) {
             System.out.println("Problema com a ligação ao servidor");
+            displayLog.error("Problema com a ligação ao servidor", e);
             this.serverOn = false;
 
         }
@@ -114,6 +117,7 @@ public class DisplayRMI {
             }
             //writer.write(lista.get(i));
         } catch (IOException e) {
+            displayLog.error("Erro ao ler o ficheiro."+e);
         } finally {
             try {
                 if (writer != null) {
@@ -121,6 +125,7 @@ public class DisplayRMI {
                 }
             } catch (IOException e) {
                 System.err.println("Erro ao actualizar o ficheiro.");
+                displayLog.error("Erro ao ler o ficheiro."+e);
             }
         }
     }

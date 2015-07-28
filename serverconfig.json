@@ -3,6 +3,6 @@
     {"department":"Tesouraria", "abbreviation":"A"},
     {"department":"Secretaria", "abbreviation":"B"},
     {"department":"Boss", "abbreviation":"C"}
-    ], "url":"jdbc:mysql://localhost:3306/isenhasdb", "username":"root", "password":"root", "serverIP": "localhost", "closeDay":"22:00",
-    "remoteURL":"localhost:8081/is/?ck=", "remoteForm":"localhost:8081/is/"
+    ], "url":"jdbc:mysql://localhost:3306/isenhasdb", "username":"root", "password":"IloveSql83", "serverIP": "localhost", "closeDay":"22:00",
+    "remoteURL":"localhost:8081/is/", "remoteForm":"localhost:8081/is/"
 }

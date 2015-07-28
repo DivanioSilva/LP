@@ -136,8 +136,8 @@ public class Manager {
 //        System.out.println(response);
             
             String response[] = this.getTicketDAO().autoCreateTicket(dept).split(",");
-            System.out.println(response[0] + "," + getRemoteURL() + response[1] + "," +getRemoteForm());
-            return response[0] + "," + getRemoteURL() + response[1] + "," +getRemoteForm();
+            System.out.println(response[0] + "," + getRemoteURL() + "?ck=" + response[1] + "," +getRemoteForm());
+            return response[0] + "," + getRemoteURL() + "?ck=" + response[1] + "," +getRemoteForm();
         }
 
     }

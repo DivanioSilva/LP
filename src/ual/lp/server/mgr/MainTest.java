@@ -20,11 +20,11 @@ import ual.lp.server.objects.Ticket;
 public class MainTest {
 
     public static void main(String[] args) {
-        Config config = new Config();
+//        Config config = new Config();
         Employee employee;
         Manager mgr = new Manager(true);
         Department d = new Department();
-        mgr.closeDay();
+//        mgr.closeDay();
         
 //        Ticket t = new Ticket();
 //        Department dept = new Department("Secretaria", "S");
@@ -60,15 +60,15 @@ public class MainTest {
 ////        mgr.transferTicket(t);
 
 //                        mgr.autoCreateTicket("Boss");
-////                employee = config.getEmployee();
-        try {
-            for (int i = 0; i < 4; i++) {
-                mgr.autoCreateTicket("Secretaria");
-                Thread.sleep(1000);
-            }
-            System.out.println("Ufa!!! Acabei de inserir todos os tickets.");
-        } catch (Exception e) {
-
-        }
+//////                employee = config.getEmployee();
+//        try {
+//            for (int i = 0; i < 4; i++) {
+//                mgr.autoCreateTicket("Secretaria");
+//                Thread.sleep(1000);
+//            }
+//            System.out.println("Ufa!!! Acabei de inserir todos os tickets.");
+//        } catch (Exception e) {
+//
+//        }
     }
 }

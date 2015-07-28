@@ -16,6 +16,22 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuIResetQueuActionPerformed"/>
           </Events>
         </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="jMenuIHardReset">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Hard reset"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+          </Properties>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="jMenuIPause">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Pause"/>
+          </Properties>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="jMenuIResume">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Resume"/>
+          </Properties>
+        </MenuItem>
       </SubComponents>
     </Container>
   </NonVisualComponents>
