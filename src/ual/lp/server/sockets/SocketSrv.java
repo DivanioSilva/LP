@@ -75,6 +75,7 @@ public class SocketSrv extends Thread {
             
             
             ProtocolProcessing pp = new ProtocolProcessing(out, manager);
+            
             //E finalmente comunicamos
             while (running) {
                 try {
@@ -85,6 +86,11 @@ public class SocketSrv extends Thread {
                         System.out.println("#SocketSrv# - Recebido: " + data);
 
                         pp.inMessage(data);
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(SocketSrv.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         
                     }
 

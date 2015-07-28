@@ -70,8 +70,9 @@ public class ProtocolProcessing {
                     System.out.println("#ProtocolProcessing# - Pedido tickets - " + splitedProtocol[1]);
                     String msg = manager.autoCreateTicket(splitedProtocol[1]);
                     sktOut.println("TICKET;" + msg);
-                    System.out.println("#ProtocolProcessing# - Enviar - " + "TICKET;" + msg);
                  
+                    System.out.println("#ProtocolProcessing# - Enviar - " + "TICKET;" + msg);
+                   
                     //sktOut.println("INACTIVE");
                     break;
 
